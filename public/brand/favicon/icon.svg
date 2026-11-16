@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <title>Chateaux Rouge icon</title>
+  <rect x="0" y="0" width="64" height="64" rx="12" fill="#B01430"/>
+  <path fill="#F6F3EE" d="M 19 14.75 A 1.25 1.25 0 0 1 20.25 13.5 H 23.75 A 1.25 1.25 0 0 1 25 14.75 V 18 H 29 V 14.75 A 1.25 1.25 0 0 1 30.25 13.5 H 33.75 A 1.25 1.25 0 0 1 35 14.75 V 18 H 39 V 14.75 A 1.25 1.25 0 0 1 40.25 13.5 H 43.75 A 1.25 1.25 0 0 1 45 14.75 V 22 L 42 25 V 48.75 A 1.75 1.75 0 0 1 40.25 50.5 H 35.75 V 43.15 A 3.75 3.75 0 0 0 28.25 43.15 V 50.5 H 23.75 A 1.75 1.75 0 0 1 22 48.75 V 25 L 19 22 V 14.75 Z"/>
+</svg>

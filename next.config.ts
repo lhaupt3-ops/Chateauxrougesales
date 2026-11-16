@@ -10,8 +10,7 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
     localPatterns: [
       { pathname: '/api/media/file/**' },
-      { pathname: '/logo-mark.png' },
-      { pathname: '/logo-mark.svg' },
+      { pathname: '/brand/**' },
     ],
     remotePatterns: [
       { protocol: 'https', hostname: '**.public.blob.vercel-storage.com' },

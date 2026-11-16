@@ -12,13 +12,14 @@ test('the shared layout uses the site palette, logo, serif heading, and a text p
     paragraphs: ['Open the result when you have a minute.'],
     cta: { label: 'See my result', href: 'https://chateaux.example/apply/book?id=1' },
   })
-  assert.match(html, /#f7f3ee/)
-  assert.match(html, /#b3122e/)
-  assert.match(html, /#111114/)
-  assert.match(html, /Georgia/)
+  assert.match(html, /#F6F3EE/)
+  assert.match(html, /#B01430/)
+  assert.match(html, /#1C1C1C/)
+  assert.match(html, /Inter/)
   assert.match(html, /Arial/)
   assert.match(html, /border-radius:24px/)
-  assert.match(html, /logo-mark\.png/)
+  assert.match(html, /lockup-horizontal-light\.png/)
+  assert.match(html, /alt="Chateaux Rouge"/)
   assert.match(html, /prefers-color-scheme: dark/)
   assert.match(html, /Chateaux Rouge/)
   assert.match(html, /See my result/)
@@ -35,7 +36,7 @@ test('client-facing subjects do not lead with a bracket tag', () => {
   for (const kind of ['complete', 'booked', 'partial', 'unbooked', 'waitlist', 'magnet'] as const) {
     const message = applicantEmail(doc, kind)
     assert.equal(message.subject.startsWith('['), false, message.subject)
-    assert.match(message.html, /logo-mark\.png/)
+    assert.match(message.html, /lockup-horizontal-light\.png/)
     assert.match(message.text, /Chateaux Rouge/)
   }
 })

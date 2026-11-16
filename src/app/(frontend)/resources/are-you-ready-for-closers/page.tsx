@@ -5,6 +5,7 @@ import { Breadcrumbs } from '@/components/site/ui'
 import { SCORECARD_PATH, SCORECARD_QUESTIONS } from '@/content/scorecard'
 import { pageMetadata } from '@/lib/metadata'
 import { SEO } from '@/lib/seo-titles'
+import { BRAND_ICON_URL } from '@/lib/brand'
 import { absoluteUrl, SITE_NAME } from '@/lib/site'
 
 export const metadata = pageMetadata({
@@ -25,7 +26,7 @@ export default function ReadyForClosersPage() {
           description: SEO.guide.description,
           mainEntityOfPage: absoluteUrl('/resources/are-you-ready-for-closers'),
           author: { '@type': 'Organization', name: SITE_NAME },
-          publisher: { '@type': 'Organization', name: SITE_NAME, logo: { '@type': 'ImageObject', url: absoluteUrl('/logo-mark.png') } },
+          publisher: { '@type': 'Organization', name: SITE_NAME, logo: { '@type': 'ImageObject', url: BRAND_ICON_URL } },
         }}
       />
       <Breadcrumbs

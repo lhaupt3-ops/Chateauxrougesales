@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getPayloadClient } from '@/lib/payload'
 import { contentDesk, type DeskPost } from '@/lib/content-health'
 import { loadContentAttention } from '@/lib/posthog-funnel'
+import { AdminBrand } from './Logo'
 
 export async function EditorOverview() {
   const payload = await getPayloadClient()
@@ -19,6 +20,7 @@ export async function EditorOverview() {
     <section className="cr-dash">
       <header className="cr-dash-head">
         <div>
+          <AdminBrand />
           <p className="cr-dash-kicker">Journal</p>
           <h2>What still needs a pass.</h2>
         </div>
