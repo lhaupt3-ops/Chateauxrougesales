@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       email?: string
       uri?: string
       tracking?: { utm_content?: string }
-      scheduled_event?: { uri?: string; start_time?: string; name?: string }
+      scheduled_event?: { uri?: string; start_time?: string; end_time?: string; name?: string }
     }
   }
   const payload = body.payload
@@ -54,7 +54,8 @@ export async function POST(request: Request) {
           bookingStatus: 'scheduled',
           calendlyEventUri: payload.scheduled_event?.uri || '',
           calendlyInviteeUri: payload.uri || '',
-          meetingStartAt: payload.scheduled_event?.start_time,
+          ...(payload.scheduled_event?.start_time ? { meetingStartAt: payload.scheduled_event.start_time } : {}),
+          ...(payload.scheduled_event?.end_time ? { meetingEndAt: payload.scheduled_event.end_time } : {}),
           bookedAt: new Date().toISOString(),
           priorityCall: false,
         },

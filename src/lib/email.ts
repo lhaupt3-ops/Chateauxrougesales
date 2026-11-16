@@ -7,6 +7,7 @@ type EmailInput = {
   text: string
   html: string
   from?: string
+  replyTo?: string
 }
 
 export async function sendEmail(input: EmailInput): Promise<{ sent: boolean; skipped?: boolean }> {
@@ -29,24 +30,22 @@ export async function sendEmail(input: EmailInput): Promise<{ sent: boolean; ski
 
   try {
     const resend = new Resend(key)
-    await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from,
       to: recipients,
       subject: input.subject,
       text: input.text,
       html: input.html,
+      replyTo: input.replyTo || undefined,
     })
+    if (error || !data?.id) {
+      console.error('[email] send failed', error)
+      return { sent: false }
+    }
+    console.info(`[email] sent ${data.id}`)
     return { sent: true }
   } catch (error) {
     console.error('[email] send failed', error)
     return { sent: false }
   }
-}
-
-export function emailShell(body: string): string {
-  return `<!doctype html><html><body style="margin:0;background:#f7f3ee;color:#111114;font-family:Georgia,serif;">
-  <div style="max-width:560px;margin:0 auto;padding:32px 24px;">
-    <p style="letter-spacing:0.14em;text-transform:uppercase;font-size:12px;font-family:Arial,sans-serif;color:#b3122e;">Chateaux Rouge</p>
-    ${body}
-  </div></body></html>`
 }

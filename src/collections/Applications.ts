@@ -87,6 +87,7 @@ export const Applications: CollectionConfig = {
     { name: 'bookingStatus', type: 'select', defaultValue: 'none', options: ['none', 'scheduled', 'canceled'] },
     { name: 'bookedAt', type: 'date' },
     { name: 'meetingStartAt', type: 'date' },
+    { name: 'meetingEndAt', type: 'date' },
     { name: 'consentSms', type: 'checkbox', defaultValue: false },
     { name: 'consentMarketing', type: 'checkbox', defaultValue: false },
     { name: 'analyticsConsent', type: 'checkbox', defaultValue: false },

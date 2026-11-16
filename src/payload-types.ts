@@ -455,6 +455,10 @@ export interface CaseStudy {
    * Required before publish. Confirms the client allowed their name and numbers.
    */
   permission?: boolean | null;
+  /**
+   * Tick when these numbers are an example, not a client result. The public card shows an Illustrative example label.
+   */
+  illustrative?: boolean | null;
   vertical?: ('coaches' | 'courses' | 'agencies' | 'other') | null;
   offerPriceBand?: string | null;
   challenge: string;
@@ -582,6 +586,7 @@ export interface Application {
   bookingStatus?: ('none' | 'scheduled' | 'canceled') | null;
   bookedAt?: string | null;
   meetingStartAt?: string | null;
+  meetingEndAt?: string | null;
   consentSms?: boolean | null;
   consentMarketing?: boolean | null;
   analyticsConsent?: boolean | null;
@@ -1024,6 +1029,7 @@ export interface CaseStudiesSelect<T extends boolean = true> {
   slug?: T;
   logo?: T;
   permission?: T;
+  illustrative?: T;
   vertical?: T;
   offerPriceBand?: T;
   challenge?: T;
@@ -1136,6 +1142,7 @@ export interface ApplicationsSelect<T extends boolean = true> {
   bookingStatus?: T;
   bookedAt?: T;
   meetingStartAt?: T;
+  meetingEndAt?: T;
   consentSms?: T;
   consentMarketing?: T;
   analyticsConsent?: T;
@@ -1278,6 +1285,7 @@ export interface SiteSetting {
   bandLowLabel: string;
   bandMidLabel: string;
   bandHighLabel: string;
+  bandTopLabel: string;
   /**
    * Keep this on until the bands are the real commercial ranges.
    */
@@ -1316,6 +1324,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   bandLowLabel?: T;
   bandMidLabel?: T;
   bandHighLabel?: T;
+  bandTopLabel?: T;
   bandsArePlaceholder?: T;
   startingFrom?: T;
   capacityPerMonth?: T;

@@ -10,7 +10,7 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/lib/scoring.test.ts",
+    "test": "tsx --test src/lib/*.test.ts",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.93.0",
+    "@payloadcms/email-resend": "3.93.0",
     "@payloadcms/next": "3.93.0",
     "@payloadcms/plugin-redirects": "3.93.0",
     "@payloadcms/plugin-seo": "3.93.0",

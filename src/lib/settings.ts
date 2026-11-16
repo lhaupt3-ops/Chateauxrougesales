@@ -4,6 +4,7 @@ export type InvestmentBands = {
   low: string
   mid: string
   high: string
+  top: string
   placeholder: boolean
 }
 
@@ -18,6 +19,7 @@ export type SiteSettings = {
   bandLowLabel: string
   bandMidLabel: string
   bandHighLabel: string
+  bandTopLabel: string
   bandsArePlaceholder: boolean
   startingFrom: string
   capacityPerMonth: string
@@ -41,9 +43,10 @@ export const defaultSettings: SiteSettings = {
   noticeText:
     'Placeholder: an initial term, then month to month with written notice. Confirm the real terms in Site settings and in the agreement.',
   timelineText: 'About 14 days to first covered calls, once operations confirms that number.',
-  bandLowLabel: 'Under $5,000/mo',
+  bandLowLabel: '$3,000–$5,000/mo',
   bandMidLabel: '$5,000–$10,000/mo',
-  bandHighLabel: '$10,000/mo or more',
+  bandHighLabel: '$10,000–$20,000/mo',
+  bandTopLabel: '$20,000+/mo',
   bandsArePlaceholder: true,
   startingFrom: '',
   capacityPerMonth: '',
@@ -80,6 +83,7 @@ export async function getSettings(): Promise<SiteSettings> {
       bandLowLabel: text(global.bandLowLabel, defaultSettings.bandLowLabel),
       bandMidLabel: text(global.bandMidLabel, defaultSettings.bandMidLabel),
       bandHighLabel: text(global.bandHighLabel, defaultSettings.bandHighLabel),
+      bandTopLabel: text(global.bandTopLabel, defaultSettings.bandTopLabel),
       bandsArePlaceholder: global.bandsArePlaceholder !== false,
       startingFrom: text(global.startingFrom, ''),
       capacityPerMonth: text(global.capacityPerMonth, ''),
@@ -103,6 +107,32 @@ export function bandsFromSettings(settings: SiteSettings): InvestmentBands {
     low: settings.bandLowLabel,
     mid: settings.bandMidLabel,
     high: settings.bandHighLabel,
+    top: settings.bandTopLabel,
     placeholder: settings.bandsArePlaceholder,
   }
+}
+
+const DEFAULT_STRATEGIST_NAME = 'Your strategist'
+
+export function configuredStrategistName(settings: SiteSettings): string {
+  const name = settings.closerName.trim()
+  if (!name || name === DEFAULT_STRATEGIST_NAME) return ''
+  return name
+}
+
+export function smsSendingConfigured(): boolean {
+  return Boolean(process.env.SMS_FROM_NUMBER || process.env.TWILIO_ACCOUNT_SID || process.env.SMS_PROVIDER)
+}
+
+export function calendarConfirmationCopy(settings: SiteSettings): string {
+  const name = configuredStrategistName(settings)
+  if (name && smsSendingConfigured()) {
+    return `Add the hold to your calendar. Reply YES to the text from ${name} so we know the number is right.`
+  }
+  return 'Add the call to your calendar. Calendly has emailed you a confirmation.'
+}
+
+export function isOperatorPlaceholder(value: string | null | undefined): boolean {
+  if (!value || !value.trim()) return true
+  return /^\s*placeholder\b/i.test(value)
 }

@@ -6,6 +6,7 @@ import { track } from '@/components/analytics/track'
 import {
   CONVERSATION_OPTIONS,
   DIAL_CODES,
+  INVESTMENT_VALUES,
   NEED_OPTIONS,
   OFFER_OPTIONS,
   PRICE_OPTIONS,
@@ -47,11 +48,13 @@ export function ApplyWizard({
   const viewed = useRef(false)
 
   const investmentOptions: Option[] = [
-    { value: 'under_low', label: bands.low },
-    { value: 'mid', label: bands.mid },
-    { value: 'high', label: bands.high },
-    { value: 'performance_only', label: 'Performance only (commission only)' },
-    { value: 'not_sure', label: 'Not sure yet. Show me the options.' },
+    { value: INVESTMENT_VALUES.under3k, label: 'Under $3,000/mo' },
+    { value: INVESTMENT_VALUES.band1, label: bands.low },
+    { value: INVESTMENT_VALUES.band2, label: bands.mid },
+    { value: INVESTMENT_VALUES.band3, label: bands.high },
+    { value: INVESTMENT_VALUES.band4, label: bands.top },
+    { value: INVESTMENT_VALUES.performance, label: 'Performance only (commission only)' },
+    { value: INVESTMENT_VALUES.unsure, label: 'Not sure yet. Show me the options.' },
   ]
 
   useEffect(() => {
@@ -347,11 +350,8 @@ export function ApplyWizard({
         <div>
           <h1 className="font-serif text-4xl tracking-[-0.04em]">Which range fits your plan?</h1>
           <p className="mt-3 max-w-xl leading-7 text-muted">
-            Our engagements combine a setup and a monthly management fee with commission on cash collected.
+            Our engagements combine a setup and a monthly management fee with commission on cash collected. The minimum management fee is $3,000 a month.
           </p>
-          {bands.placeholder && (
-            <p className="mt-3 text-sm text-wine">These bands are placeholders. Replace them in Site settings before you send traffic.</p>
-          )}
           <OptionList options={investmentOptions} selected={String(answers.investment || '')} onChoose={choose} />
         </div>
       )}

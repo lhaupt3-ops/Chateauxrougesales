@@ -25,7 +25,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
       <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Results', path: '/results' }, { name: study.clientName, path: `/results/${slug}` }]} />
-      <h1 className="mt-8 font-serif text-5xl">{study.clientName}</h1>
+      {study.illustrative && <p className="mt-8 text-[11px] font-medium uppercase tracking-[0.14em] text-wine">Illustrative example</p>}
+      <h1 className={`${study.illustrative ? 'mt-2' : 'mt-8'} font-serif text-5xl`}>{study.clientName}</h1>
       <p className="mt-4 text-muted">{study.offerPriceBand}</p>
       <h2 className="mt-8 font-serif text-3xl">The problem</h2>
       <p className="mt-2 leading-7 text-muted">{study.challenge}</p>

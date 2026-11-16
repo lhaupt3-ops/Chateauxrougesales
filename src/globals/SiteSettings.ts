@@ -30,9 +30,10 @@ export const SiteSettings: GlobalConfig = {
     { name: 'guaranteeText', type: 'textarea', required: true },
     { name: 'noticeText', type: 'textarea', required: true },
     { name: 'timelineText', type: 'textarea', required: true },
-    { name: 'bandLowLabel', type: 'text', required: true },
-    { name: 'bandMidLabel', type: 'text', required: true },
-    { name: 'bandHighLabel', type: 'text', required: true },
+    { name: 'bandLowLabel', type: 'text', required: true, defaultValue: '$3,000–$5,000/mo' },
+    { name: 'bandMidLabel', type: 'text', required: true, defaultValue: '$5,000–$10,000/mo' },
+    { name: 'bandHighLabel', type: 'text', required: true, defaultValue: '$10,000–$20,000/mo' },
+    { name: 'bandTopLabel', type: 'text', required: true, defaultValue: '$20,000+/mo' },
     {
       name: 'bandsArePlaceholder',
       type: 'checkbox',

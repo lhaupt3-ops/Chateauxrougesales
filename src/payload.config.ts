@@ -1,4 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { resendAdapter, type ResendAdapterArgs } from '@payloadcms/email-resend'
+import type { EmailAdapter } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
@@ -19,12 +21,32 @@ import { Tags } from './collections/Tags'
 import { Users } from './collections/Users'
 import { SiteSettings } from './globals/SiteSettings'
 import { migrations } from './migrations'
+import { plainTextFromHtml } from './lib/email-layout'
+import { resendFromIdentity } from './lib/resend-from'
 import { getSiteUrl } from './lib/site'
 import { skipSeedOnThisCommand } from './lib/payload'
 import { seed } from './seed'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 const siteUrl = getSiteUrl()
+const resendKey = process.env.RESEND_API_KEY?.trim() || ''
+const resendFrom = resendFromIdentity(process.env.RESEND_FROM)
+
+function resendWithPlainText(args: ResendAdapterArgs): EmailAdapter {
+  const factory = resendAdapter(args)
+  return (options) => {
+    const adapter = factory(options)
+    return {
+      ...adapter,
+      sendEmail: (message) => {
+        const existing = typeof message.text === 'string' ? message.text.trim() : ''
+        const text = existing || plainTextFromHtml(String(message.html || ''))
+        const replyTo = message.replyTo || process.env.NOTIFY_EMAIL || args.defaultFromAddress
+        return adapter.sendEmail({ ...message, text, replyTo })
+      },
+    }
+  }
+}
 
 export default buildConfig({
   admin: {
@@ -76,6 +98,13 @@ export default buildConfig({
     prodMigrations: migrations,
   }),
   sharp,
+  email: resendKey
+    ? resendWithPlainText({
+        defaultFromAddress: resendFrom.address,
+        defaultFromName: resendFrom.name,
+        apiKey: resendKey,
+      })
+    : undefined,
   serverURL: siteUrl,
   cors: [siteUrl],
   csrf: [siteUrl],

@@ -6,17 +6,20 @@ import { track } from '@/components/analytics/track'
 export function ConfirmationActions({
   applicationId,
   start = '',
+  end = '',
   videoUrl = '',
   videoOnly = false,
 }: {
   applicationId: string
   start?: string
+  end?: string
   videoUrl?: string
   videoOnly?: boolean
 }) {
   const [playing, setPlaying] = useState(false)
 
   if (videoOnly) {
+    if (!videoUrl) return null
     return (
       <div className="mt-4">
         {!playing && (
@@ -31,35 +34,27 @@ export function ConfirmationActions({
             Play the intro
           </button>
         )}
-        {playing && videoUrl && <Video url={videoUrl} />}
-        {playing && !videoUrl && (
-          <p className="mt-3 rounded-2xl border border-dashed border-gold p-4 text-sm text-muted">
-            Placeholder. Add the intro video URL in Site settings. The play event is already wired.
-          </p>
-        )}
+        {playing && <Video url={videoUrl} />}
       </div>
     )
   }
 
-  const google = start
-    ? `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Chateaux Rouge sales call')}&dates=${toGoogle(start)}/${toGoogle(addMinutes(start, 30))}`
-    : ''
-  const outlook = start
-    ? `https://outlook.live.com/calendar/0/action/compose?subject=${encodeURIComponent('Chateaux Rouge sales call')}&startdt=${encodeURIComponent(start)}`
-    : ''
+  if (!start) {
+    return <p className="mt-4 text-sm text-muted">Calendar invite is in your Calendly confirmation email.</p>
+  }
+
+  const endAt = end || addMinutes(start, 30)
+  const google = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Chateaux Rouge sales call')}&dates=${toGoogle(start)}/${toGoogle(endAt)}`
+  const outlook = `https://outlook.live.com/calendar/0/action/compose?subject=${encodeURIComponent('Chateaux Rouge sales call')}&startdt=${encodeURIComponent(start)}&enddt=${encodeURIComponent(endAt)}`
 
   return (
     <div className="mt-4 flex flex-wrap gap-2">
-      {google && (
-        <a className="rounded-full border border-stone px-4 py-2 text-sm" href={google} onClick={() => track('calendar_added', { provider: 'google' })}>
-          Google
-        </a>
-      )}
-      {outlook && (
-        <a className="rounded-full border border-stone px-4 py-2 text-sm" href={outlook} onClick={() => track('calendar_added', { provider: 'outlook' })}>
-          Outlook
-        </a>
-      )}
+      <a className="rounded-full border border-stone px-4 py-2 text-sm" href={google} onClick={() => track('calendar_added', { provider: 'google' })}>
+        Google
+      </a>
+      <a className="rounded-full border border-stone px-4 py-2 text-sm" href={outlook} onClick={() => track('calendar_added', { provider: 'outlook' })}>
+        Outlook
+      </a>
       <a className="rounded-full border border-stone px-4 py-2 text-sm" href={`/api/apply/ics?id=${applicationId}`} onClick={() => track('calendar_added', { provider: 'ics' })}>
         .ics file
       </a>

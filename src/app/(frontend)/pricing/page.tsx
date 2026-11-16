@@ -7,7 +7,7 @@ import { getSettings } from '@/lib/settings'
 
 export const metadata = pageMetadata({
   title: 'How we charge · Chateaux Rouge',
-  description: 'Setup, a monthly management fee, and commission on cash collected. Bands stay marked as placeholders until they are real.',
+  description: 'Setup, a monthly management fee starting at $3,000, and commission on cash collected.',
   path: '/pricing',
 })
 
@@ -21,21 +21,17 @@ export default async function PricingPage() {
       <p className="mt-4 text-lg leading-8 text-muted">
         Three parts: a setup fee, a monthly management fee, and a commission on cash collected. You see the model before you book. The exact numbers are confirmed on the call and in the agreement.
       </p>
-      {settings.startingFrom ? (
-        <p className="mt-6 font-serif text-3xl">From {settings.startingFrom}</p>
-      ) : (
-        <p className="mt-6 rounded-2xl border border-dashed border-gold p-4 text-sm text-wine">
-          Placeholder. A starting figure will appear here only after it is set in Site settings. We will not invent one.
-        </p>
-      )}
+      {settings.startingFrom ? <p className="mt-6 font-serif text-3xl">From {settings.startingFrom}</p> : null}
       <h2 className="mt-10 font-serif text-3xl">The bands on the application</h2>
       <ul className="mt-4 list-disc space-y-2 pl-5 text-muted">
+        <li>Under $3,000/mo</li>
         <li>{settings.bandLowLabel}</li>
         <li>{settings.bandMidLabel}</li>
         <li>{settings.bandHighLabel}</li>
-        <li>Performance only, or not sure yet</li>
+        <li>{settings.bandTopLabel}</li>
+        <li>Performance only</li>
+        <li>Not sure yet</li>
       </ul>
-      {settings.bandsArePlaceholder && <p className="mt-3 text-sm text-wine">These labels are placeholders. Replace them before you send traffic.</p>}
       <h2 className="mt-10 font-serif text-3xl">What the fee is for</h2>
       <p className="mt-3 leading-7 text-muted">
         Management, call review, and replacement. Commission alone does not pay for a lead who will pull a bad closer. If you want only a freelancer, that is a different product, and we are not it.

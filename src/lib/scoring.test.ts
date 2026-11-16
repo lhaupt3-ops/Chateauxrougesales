@@ -141,5 +141,46 @@ test('missing answers score zero and land in not yet', () => {
   const result = scoreApplication({})
   assert.equal(result.score, 0)
   assert.equal(result.tier, 'not_yet')
-  assert.equal(result.scoringVersion, '1')
+  assert.equal(result.scoringVersion, '2')
+})
+
+test('an investment under $3,000 a month is always not yet', () => {
+  const result = scoreApplication({
+    offerType: 'coaching',
+    pricePoint: '25000_plus',
+    monthlyRevenue: '250k_plus',
+    monthlyConversations: '80_plus',
+    timeline: 'asap',
+    investment: 'under_3k',
+  })
+  assert.equal(result.score, 17)
+  assert.equal(result.tier, 'not_yet')
+  assert.ok(result.reasons.includes('hard:investment_under_3000'))
+})
+
+test('the $3,000–$5,000 band can still qualify', () => {
+  const result = scoreApplication({
+    offerType: 'coaching',
+    pricePoint: '10000_24999',
+    monthlyRevenue: '100k_250k',
+    monthlyConversations: '31_80',
+    timeline: 'asap',
+    investment: '3k_5k',
+    needs: ['closing'],
+  })
+  assert.equal(result.score, 19)
+  assert.equal(result.tier, 'qualified')
+})
+
+test('the $3,000–$5,000 band can still land in review', () => {
+  const result = scoreApplication({
+    offerType: 'course',
+    pricePoint: '3000_9999',
+    monthlyRevenue: '10k_30k',
+    monthlyConversations: '1_10',
+    timeline: '1_3_months',
+    investment: '3k_5k',
+  })
+  assert.equal(result.score, 11)
+  assert.equal(result.tier, 'review')
 })

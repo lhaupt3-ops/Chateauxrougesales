@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import { CalendlyEmbed } from '@/components/apply/CalendlyEmbed'
 import { answerSummary, findByPublicId, isCalendlyUrl } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
-import { getSettings } from '@/lib/settings'
+import { configuredStrategistName, getSettings } from '@/lib/settings'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,6 +30,7 @@ export default async function BookPage({
   if (doc.tier === 'not_yet' && !allowFitOverride) redirect(`/apply/next-steps?id=${doc.publicId}`)
 
   const settings = await getSettings()
+  const strategist = configuredStrategistName(settings)
   const eventType = doc.tier === 'qualified' && !allowFitOverride ? 'strategy' : 'fit'
   const url = eventType === 'strategy' ? settings.calendlyStrategyUrl : settings.calendlyFitUrl
   const name = [doc.firstName, doc.lastName].filter(Boolean).join(' ')
@@ -46,7 +47,7 @@ export default async function BookPage({
         <ul className="mt-6 list-disc space-y-2 pl-5 text-muted">
           <li>We look at the funnel and, if you have them, the call recordings.</li>
           <li>We map the team, the numbers and the next 14 days.</li>
-          <li>You meet {settings.closerName}, {settings.closerRole}. No deck.</li>
+          <li>{strategist ? `You meet ${strategist}${settings.closerRole ? `, ${settings.closerRole}` : ''}. No deck.` : 'You meet the person running the call. No deck.'}</li>
         </ul>
         <p className="mt-6 text-sm text-muted">Can&apos;t find a time? Reply to your email and we will fit you in.</p>
       </div>

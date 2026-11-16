@@ -75,10 +75,19 @@ export async function setApplicationCookie(publicId: string) {
   })
 }
 
-export function investmentLabel(value: string, bands: { low: string; mid: string; high: string }): string {
-  if (value === INVESTMENT_VALUES.underLow) return bands.low
+export function investmentLabel(
+  value: string,
+  bands: { low: string; mid: string; high: string; top: string },
+): string {
+  if (value === INVESTMENT_VALUES.under3k) return 'Under $3,000/mo'
+  if (value === INVESTMENT_VALUES.band1) return bands.low
+  if (value === INVESTMENT_VALUES.band2) return bands.mid
+  if (value === INVESTMENT_VALUES.band3) return bands.high
+  if (value === INVESTMENT_VALUES.band4) return bands.top
+  // Legacy values keep the labels they were saved under, not the shifted bands.
+  if (value === INVESTMENT_VALUES.underLow) return 'Under $5,000/mo'
   if (value === INVESTMENT_VALUES.mid) return bands.mid
-  if (value === INVESTMENT_VALUES.high) return bands.high
+  if (value === INVESTMENT_VALUES.high) return '$10,000/mo or more'
   if (value === INVESTMENT_VALUES.performance) return 'Performance only (commission only)'
   if (value === INVESTMENT_VALUES.unsure) return 'Not sure yet'
   return value
@@ -100,6 +109,7 @@ export async function answerSummary(doc: ApplicationDoc): Promise<string> {
       low: settings.bandLowLabel,
       mid: settings.bandMidLabel,
       high: settings.bandHighLabel,
+      top: settings.bandTopLabel,
     }),
   ]
     .filter((part) => typeof part === 'string' && part.trim())
