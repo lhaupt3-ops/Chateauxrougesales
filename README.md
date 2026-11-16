@@ -33,7 +33,7 @@ Editors can manage the journal, resources, and case studies. Sales can read and 
 
 1. Create a Postgres database (Neon via the Vercel Marketplace, or Vercel Postgres) and a Blob store.
 2. Set the environment variables below on the project.
-3. Deploy. The build command is `npm run build`, which applies migrations before `next build`. In production, Payload also runs `prodMigrations` when the server connects.
+3. Deploy. `npm run build` runs `payload migrate` only when `DATABASE_URL` or `POSTGRES_URL` is set, then builds Next.js. If neither is set, migrate is skipped so a Hobby deploy is not blocked on a missing database. In production, Payload still applies `prodMigrations` the first time the server connects to Postgres.
 
 Preview deployments are `noindex` and `robots.txt` disallows everything. Production (`VERCEL_ENV=production`) allows crawling except `/admin` and `/api/`. Set `ALLOW_INDEXING=false` if a production deployment should stay out of search until the custom domain is ready.
 
