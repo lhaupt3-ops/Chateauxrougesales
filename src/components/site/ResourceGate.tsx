@@ -9,11 +9,13 @@ export function ResourceGate({
   slug,
   title,
   scorecard,
+  unlocked = false,
   children,
 }: {
   slug: string
   title: string
   scorecard: boolean
+  unlocked?: boolean
   children: React.ReactNode
 }) {
   const [submitted, setSubmitted] = useState(false)
@@ -24,7 +26,7 @@ export function ResourceGate({
     () => window.localStorage.getItem(`cr_guide_${slug}`) === '1',
     () => false,
   )
-  const open = remembered || submitted
+  const open = unlocked || remembered || submitted
 
   useEffect(() => {
     track('lead_magnet_view', { resource: slug, page: window.location.pathname })

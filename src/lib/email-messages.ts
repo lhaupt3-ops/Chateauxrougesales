@@ -1,5 +1,6 @@
 import type { ApplicationDoc } from './apply-server'
 import { renderEmail, type EmailRow } from './email-layout'
+import { FLAGSHIP_TITLE, SCORECARD_SLUG, guideTarget, type RequestedGuide } from './guide-link'
 import { explainReasons } from './reason-labels'
 import { absoluteUrl } from './site'
 import {
@@ -35,11 +36,13 @@ const TIER_LABELS: Record<string, string> = {
   not_yet: 'Not yet',
 }
 
-export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind): BuiltEmail {
+export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind, requested?: RequestedGuide): BuiltEmail {
   const first = String(doc.firstName || 'there')
   const id = String(doc.publicId || '')
   const when = formatWhen(doc.meetingStartAt)
-  const resource = String(doc.resourceSlug || '')
+  const guide = requested?.slug
+    ? guideTarget(requested.slug, [{ slug: requested.slug, title: requested.title }], id)
+    : guideTarget(String(doc.resourceSlug || ''), [], id)
   const link =
     kind === 'partial'
       ? absoluteUrl(`/apply?id=${id}`)
@@ -48,7 +51,7 @@ export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind): BuiltE
         : kind === 'waitlist'
           ? absoluteUrl('/pricing')
           : kind === 'magnet'
-            ? absoluteUrl(resource === 'closer-readiness-scorecard' ? `/resources/closer-readiness-scorecard?id=${id}` : resource ? `/resources/${resource}` : '/resources')
+            ? absoluteUrl(guide.path)
             : absoluteUrl(doc.tier === 'not_yet' ? `/apply/next-steps?id=${id}` : `/apply/book?id=${id}`)
 
   const copy = {
@@ -96,7 +99,7 @@ export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind): BuiltE
       paragraphs: ['We will write when the offer, the revenue, or the lead flow has moved. You can ignore the note. We will not chase.'],
       cta: 'Read how we charge',
     },
-    magnet: resource === 'closer-readiness-scorecard'
+    magnet: guide.slug === SCORECARD_SLUG
       ? {
           subject: 'Your closer readiness scorecard',
           preheader: 'One page. Eight yes or no checks. Print it or keep the PDF.',
@@ -107,11 +110,11 @@ export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind): BuiltE
         }
       : {
           subject: 'Your Chateaux Rouge guide',
-          preheader: 'The page is open whenever you want to read it.',
+          preheader: 'The guide is linked below.',
           eyebrow: 'Guide',
           heading: 'Your guide is ready.',
-          paragraphs: ['The guide is on the site and does not need an email. This note is for the shorter piece you asked for.'],
-          cta: 'Open it',
+          paragraphs: [`${guide.title || FLAGSHIP_TITLE} is linked below.`],
+          cta: 'Open the guide',
         },
   }[kind]
 
@@ -125,7 +128,7 @@ export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind): BuiltE
   return { subject: copy.subject, ...rendered }
 }
 
-export function ownerEmail(doc: ApplicationDoc, kind: OwnerKind): BuiltEmail {
+export function ownerEmail(doc: ApplicationDoc, kind: OwnerKind, requested?: RequestedGuide): BuiltEmail {
   const name = [doc.firstName, doc.lastName].filter(Boolean).join(' ') || String(doc.email || 'Lead')
   const offer = labelFor(OFFER_OPTIONS, String(doc.offerType || ''))
   const price = labelFor(PRICE_OPTIONS, String(doc.pricePoint || ''))
@@ -133,14 +136,14 @@ export function ownerEmail(doc: ApplicationDoc, kind: OwnerKind): BuiltEmail {
     kind === 'booked'
       ? `Call booked with ${name}`
       : kind === 'magnet'
-        ? doc.resourceSlug === 'closer-readiness-scorecard'
+        ? (requested?.slug || doc.resourceSlug) === SCORECARD_SLUG
           ? `Scorecard request from ${doc.email || name}`
           : `Guide request from ${doc.email || name}`
         : kind === 'careers'
           ? `Careers enquiry from ${name}`
           : `New application from ${name}`
   const heading =
-    kind === 'booked' ? `${name} booked a call` : kind === 'magnet' ? (doc.resourceSlug === 'closer-readiness-scorecard' ? 'A scorecard was requested' : 'A guide was requested') : kind === 'careers' ? 'A careers enquiry arrived' : `New application from ${name}`
+    kind === 'booked' ? `${name} booked a call` : kind === 'magnet' ? ((requested?.slug || doc.resourceSlug) === SCORECARD_SLUG ? 'A scorecard was requested' : 'A guide was requested') : kind === 'careers' ? 'A careers enquiry arrived' : `New application from ${name}`
   const rows = compactRows([
     ['Email', doc.email],
     ['Phone', doc.phone],
