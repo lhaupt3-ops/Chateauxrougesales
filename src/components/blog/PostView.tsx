@@ -91,7 +91,7 @@ export function PostView({ post, related }: { post: Post; related: { title?: str
       </div>
       <p className="mt-8 text-sm">
         <ApplyLink location="post_inline" className="underline">
-          Apply for a sales team
+          See if we are a fit
         </ApplyLink>
       </p>
       {cta.heading && (

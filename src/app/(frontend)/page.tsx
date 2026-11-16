@@ -5,7 +5,7 @@ import { getSettings } from '@/lib/settings'
 
 export const metadata = pageMetadata({
   title: 'Chateaux Rouge · Sales team, installed and run',
-  description: 'Setters, closers and a sales lead for high-ticket offers. A done-for-you sales team, from first reply to cash collected.',
+  description: 'A managed high-ticket sales team: setters, closers and a sales lead. The calls look for the truth. A no is an acceptable answer.',
   path: '/',
 })
 

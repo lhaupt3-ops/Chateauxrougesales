@@ -164,7 +164,7 @@ function Cta({ fields }: { fields: Record<string, unknown> }) {
   const slug = resource && typeof resource === 'object' ? resource.slug : undefined
   return (
     <div className="mt-6 rounded-2xl bg-wine p-5 text-ivory">
-      <h3 className="font-serif text-2xl">{String(fields.heading || 'Apply for a sales team')}</h3>
+      <h3 className="font-serif text-2xl">{String(fields.heading || 'See if we are a fit')}</h3>
       {fields.body ? <p className="mt-2 text-ivory/80">{String(fields.body)}</p> : null}
       {slug ? (
         <Link href={`/resources/${slug}`} className="mt-4 inline-block rounded-full bg-ivory px-4 py-2 text-sm text-ink">

@@ -1,6 +1,7 @@
 import type { Payload } from 'payload'
 import { richText } from '@/lib/lexical'
 import { defaultSettings } from '@/lib/settings'
+import { refreshMethodologyCopy } from './methodology'
 
 const PLACEHOLDER_BIO =
   'This is a placeholder byline so the journal template can be reviewed. It is not a person. Do not publish essays under this name. Add a real author, with a biography, headshot and profile links, then reassign the drafts.'
@@ -19,6 +20,8 @@ export async function seed(payload: Payload) {
     })
     payload.logger.info(`Created admin user ${process.env.PAYLOAD_ADMIN_EMAIL}`)
   }
+
+  await refreshMethodologyCopy(payload)
 
   const settings = await payload.findGlobal({ slug: 'site-settings' })
   if (!settings.guaranteeText) {

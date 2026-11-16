@@ -46,7 +46,7 @@ export function rootMetadata(): Metadata {
     metadataBase: new URL(getSiteUrl()),
     title: { absolute: 'Chateaux Rouge · Your sales team, installed and run' },
     description:
-      'Setters, closers and a sales lead who own your high-ticket pipeline, from the first reply to cash collected.',
+      'A managed sales team for founders who have outgrown taking every call. Setters, closers and a sales lead. Honest calls. You keep the data.',
     applicationName: SITE_NAME,
     authors: [{ name: SITE_NAME, url: getSiteUrl() }],
     openGraph: { siteName: SITE_NAME, type: 'website' },

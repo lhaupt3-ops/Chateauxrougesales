@@ -46,7 +46,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
             name: SITE_NAME,
             url: absoluteUrl('/'),
             logo: absoluteUrl('/logo-mark.png'),
-            description: 'Setters, closers and a sales lead for high-ticket offers.',
+            description: 'A managed sales team for high-ticket offers. The client keeps the CRM, the data and the recordings.',
             email: settings.contactEmail || undefined,
             sameAs,
           }}

@@ -40,10 +40,10 @@ export const defaultSettings: SiteSettings = {
   calendlyFitUrl: process.env.CALENDLY_FIT_URL || '',
   resendFrom: process.env.RESEND_FROM || 'Chateaux Rouge <notifications@example.com>',
   guaranteeText:
-    'Placeholder: we replace a closer who is not a fit, you keep your CRM, your data and your recordings, and the engagement moves month to month after the initial term. Replace this in Admin → Site settings before launch.',
+    'Placeholder: unconfirmed. Do not publish a guarantee until the agreement can keep it. A kept promise might be a written replacement standard or a fee condition. It will not be a close rate or a revenue number.',
   noticeText:
-    'Placeholder: an initial term, then month to month with written notice. Confirm the real terms in Site settings and in the agreement.',
-  timelineText: 'About 14 days to first covered calls, once operations confirms that number.',
+    'Placeholder: unconfirmed. The working shape is an initial term, then month to month. The notice period belongs in the agreement, not on the site, until it is real.',
+  timelineText: 'Working target, not confirmed: first covered calls once operations locks a date. This sentence is a draft.',
   bandLowLabel: '$3,000–$5,000/mo',
   bandMidLabel: '$5,000–$10,000/mo',
   bandHighLabel: '$10,000–$20,000/mo',

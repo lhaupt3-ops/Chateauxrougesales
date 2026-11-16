@@ -28,8 +28,8 @@ export const services: Guide[] = [
     metaTitle: 'Done-for-you sales team',
     metaDescription: 'A sales team as a service: setters, closers and a sales lead who run your high-ticket pipeline. You keep the offer, the data and the recordings.',
     eyebrow: 'Sales team as a service',
-    h1: 'A done-for-you sales team for offers of $3k and up.',
-    dek: 'Sales team as a service means a setter, a closer and a sales lead who own the pipeline from the first reply to cash collected. You keep the offer, the clients and the data. We run the selling.',
+    h1: 'A done-for-you sales team, for founders who are still the closer.',
+    dek: 'A setter, a closer and a sales lead run the pipeline from the first reply to cash collected. You keep the offer, the clients and the data. The calls look for an honest decision, including a no.',
     sections: [
       {
         heading: 'What is a sales team as a service?',
@@ -51,13 +51,13 @@ export const services: Guide[] = [
       {
         heading: 'Who it is for',
         paragraphs: [
-          'Coaches, consultants, course creators and B2B service firms with an offer at $3,000 or more, already sold at least once, and enough delivery capacity to take the work. If the leads are not there yet, the team can include setters. If nothing has sold, the honest next step is not a sales team.',
+          'A working picture, not a confirmed client list: coaches, consultants, course creators and B2B firms who have already sold the offer, can deliver if more people say yes, and will share recordings. If nothing has sold, a team is the wrong next step. The application asks the price instead of pretending one number fits every firm.',
         ],
       },
       {
         heading: 'How the first weeks run',
         paragraphs: [
-          'We audit the offer and a handful of real calls. We install the script, the calendar routing and the follow-up inside your CRM. Then we staff the seats and review calls in the open. The timeline on the site is the working target in Site settings. It is not a slogan.',
+          'We read the offer and a handful of real calls. We put the call shape, the routing and the follow-up inside your CRM. Then we staff the seats and review calls in the open. Any start date on the site is a draft until operations confirms it.',
         ],
       },
     ],
@@ -72,7 +72,7 @@ export const services: Guide[] = [
       },
       {
         question: 'Do you promise a close rate?',
-        answer: 'No. We publish the process and, later, named results with permission. A promised percentage on a homepage is not a plan.',
+        answer: 'No. We publish the process. Named results appear only with the client’s permission, a metric, and a time window. A percentage on a homepage is not a plan.',
       },
     ],
     related: [
@@ -118,7 +118,7 @@ export const services: Guide[] = [
       {
         heading: 'When a closer is the wrong hire',
         paragraphs: [
-          'If the offer has never sold, a closer cannot invent the proof. If the price is under $1,000, the economics usually do not carry a professional. If there are no conversations, you need lead flow before you need another person on the phone. The application says this out loud and routes those answers away from a strategy call.',
+          'If the offer has never sold, a closer cannot invent the proof. If the price is too small to carry a professional, the application says so and does not book a strategy call. If there are no conversations, you need lead flow before you need another person on the phone. Those thresholds are working rules, confirmed in the product, not a published rate card.',
         ],
       },
     ],
@@ -277,7 +277,7 @@ export const verticals: Guide[] = [
       {
         heading: 'What has to be true first',
         paragraphs: [
-          'You have sold the program yourself. The price can carry a professional, usually $3,000 and up. You can deliver if more people say yes. If enrollment is still a theory, we will tell you to wait.',
+          'You have sold the program yourself, and you can deliver if more people say yes. Whether the price can carry a team is a question on the application, not a number we pretend is universal. If enrollment is still a theory, we will tell you to wait.',
         ],
       },
     ],
@@ -302,10 +302,10 @@ export const verticals: Guide[] = [
     path: '/who-we-help/course-creators-and-info-products',
     kind: 'vertical',
     metaTitle: 'Closers for course creators',
-    metaDescription: 'Closers and setters for course creators and info-product businesses selling programs from $3k to $25k. The call structure has to match the promise.',
+    metaDescription: 'Closers and setters for course creators selling a high-ticket program. The call has to match the promise, and a no has to be allowed.',
     eyebrow: 'Who we help',
     h1: 'Closers for course creators and info products.',
-    dek: 'Course creators lose deals in the gap between a warm lead and a clear conversation. A closer on a $5k to $25k program has one job: help the right buyer decide, and let the wrong buyer leave, without a circus.',
+    dek: 'Course creators lose deals between a warm lead and a clear conversation. The closer’s job is to help the right buyer decide, and to let the wrong buyer leave, without theatre.',
     sections: [
       {
         heading: 'The call is the product’s front door',
@@ -508,7 +508,7 @@ export const comparisons: Guide[] = [
       {
         heading: 'What the agency is actually selling',
         paragraphs: [
-          'Not a heroic closer. A bench, a standard, and someone whose job is the Monday report. You pay more than a pure commission seat because management is not free. If a closer is wrong, replacement is the agency’s work, not a new hiring project for you.',
+          'Not a heroic closer. A standard, and someone whose job is the Monday report. You pay more than a pure commission seat because management is not free. Who replaces a closer that does not fit belongs in the agreement. We will not advertise a promise we have not locked.',
         ],
       },
       {

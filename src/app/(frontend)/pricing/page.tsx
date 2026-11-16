@@ -7,7 +7,7 @@ import { getSettings } from '@/lib/settings'
 
 export const metadata = pageMetadata({
   title: 'How we charge · Chateaux Rouge',
-  description: 'Setup, a monthly management fee starting at $3,000, and commission on cash collected.',
+  description: 'A setup fee, a monthly management fee, and commission on cash collected. The bands are a working draft until the agreement confirms them.',
   path: '/pricing',
 })
 
@@ -23,6 +23,11 @@ export default async function PricingPage() {
       </p>
       {settings.startingFrom ? <p className="mt-6 font-serif text-3xl">From {settings.startingFrom}</p> : null}
       <h2 className="mt-10 font-serif text-3xl">The bands on the application</h2>
+      <p className="mt-3 leading-7 text-muted">
+        {settings.bandsArePlaceholder
+          ? 'Working draft. These labels are editable in the back office and are not a quote. The call and the agreement set the figures.'
+          : 'These are the ranges we are willing to publish. The agreement still sets the exact fee.'}
+      </p>
       <ul className="mt-4 list-disc space-y-2 pl-5 text-muted">
         <li>Under $3,000/mo</li>
         <li>{settings.bandLowLabel}</li>
@@ -34,7 +39,7 @@ export default async function PricingPage() {
       </ul>
       <h2 className="mt-10 font-serif text-3xl">What the fee is for</h2>
       <p className="mt-3 leading-7 text-muted">
-        Management, call review, and replacement. Commission alone does not pay for a lead who will pull a bad closer. If you want only a freelancer, that is a different product, and we are not it.
+        Management and call review. Commission alone does not pay for someone who will pull a closer that does not fit. A guarantee, if we offer one, will be written so it can be kept. We do not promise revenue. If you want only a freelancer, that is a different product.
       </p>
       <p className="mt-6">
         <ApplyLink location="pricing" className="underline">

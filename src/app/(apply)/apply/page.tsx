@@ -7,8 +7,8 @@ import { bandsFromSettings, getSettings } from '@/lib/settings'
 export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
-  title: 'Apply for a sales team · Chateaux Rouge',
-  description: 'A two-minute application. We score the fit and, if it is there, you book a call without retyping a thing.',
+  title: 'See if we are a fit · Chateaux Rouge',
+  description: 'A short application. We look for an honest fit. A no is a useful answer, and you can book only if the fit is there.',
   path: '/apply',
 })
 

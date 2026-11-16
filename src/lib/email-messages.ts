@@ -51,7 +51,7 @@ export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind): BuiltE
       preheader: 'Your result is ready. Open it when you have a minute.',
       eyebrow: 'Application',
       heading: `Your result is ready, ${first}.`,
-      paragraphs: ['The questions are scored. Open the result to see the next step, and book a time if the fit is there.'],
+      paragraphs: ['The questions are scored. Open the result for the next step. If the fit is there, you can book. If it is not, the page says so plainly.'],
       cta: 'See my result',
     },
     booked: {
@@ -61,8 +61,8 @@ export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind): BuiltE
       heading: `You are booked, ${first}.`,
       paragraphs: [
         when
-          ? `The call is set for ${when}. Add it to your calendar from the confirmation page. Calendly has also emailed you.`
-          : 'The time is confirmed in your Calendly email. The confirmation page has the two steps that lock it in.',
+          ? `The call is set for ${when}. The point of it is clarity, and not a fit is a fine outcome. Add it from the confirmation page. Bring whoever else decides with you.`
+          : 'The time is in your Calendly email. The confirmation page explains what to bring. Bring whoever else decides with you.',
       ],
       cta: 'Open the confirmation',
     },
@@ -87,7 +87,7 @@ export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind): BuiltE
       preheader: 'We will write when the fit is closer.',
       eyebrow: 'Waitlist',
       heading: `You are on the list, ${first}.`,
-      paragraphs: ['We will check in when the offer, the revenue, or the lead flow has moved. Nothing else is required today.'],
+      paragraphs: ['We will write when the offer, the revenue, or the lead flow has moved. You can ignore the note. We will not chase.'],
       cta: 'Read how we charge',
     },
     magnet: {
