@@ -18,6 +18,7 @@ import { emailDomainType, isDisposableEmail, isValidEmail, normalizeWebsite } fr
 import { getPayloadClient } from '@/lib/payload'
 import { fetchCalendlyEventTimes } from '@/lib/calendly'
 import { getSettings } from '@/lib/settings'
+import { guideTarget, resolveGuideRequest } from '@/lib/guide-link'
 import { notifyApplicant, notifyApplication } from '@/lib/notify'
 
 type Body = Record<string, unknown>
@@ -314,42 +315,52 @@ async function magnet(body: Body) {
     limit: 1,
     overrideAccess: true,
   })
-  const resource = String(body.resource || '')
+  const requested = String(body.resource || '')
+  const resolved = await resolveGuideRequest(payload, requested, '')
   let doc = existing.docs[0]
+  const publicId = doc?.publicId ? String(doc.publicId) : randomUUID()
+  const guide = guideTarget(resolved.slug, [{ slug: resolved.slug, title: resolved.title }], publicId)
   if (!doc) {
     doc = await payload.create({
       collection: 'applications',
       overrideAccess: true,
       data: {
-        publicId: randomUUID(),
+        publicId,
         email,
         status: 'nurture',
         source: 'lead_magnet',
         sequenceKind: 'nurture',
         nurtureEnrolledAt: new Date().toISOString(),
         marketingConsent: true,
-        resourceSlug: resource,
+        resourceSlug: guide.slug,
         landingPage: String(body.page || ''),
         analyticsConsent: Boolean(body.analyticsConsent),
       },
     })
-  } else if (doc.status !== 'booked' && doc.sequenceKind !== 'qualified') {
+  } else {
+    const keepPipeline = doc.status === 'booked' || doc.sequenceKind === 'qualified'
     doc = await payload.update({
       collection: 'applications',
       id: doc.id,
       overrideAccess: true,
       data: {
-        resourceSlug: doc.resourceSlug || resource,
-        source: doc.source || 'lead_magnet',
-        marketingConsent: true,
-        sequenceKind: 'nurture',
-        nurtureEnrolledAt: doc.sequenceKind === 'nurture' && typeof doc.nurtureEnrolledAt === 'string' ? doc.nurtureEnrolledAt : new Date().toISOString(),
+        resourceSlug: guide.slug,
+        ...(keepPipeline
+          ? {}
+          : {
+              source: doc.source || 'lead_magnet',
+              marketingConsent: true,
+              sequenceKind: 'nurture',
+              nurtureEnrolledAt:
+                doc.sequenceKind === 'nurture' && typeof doc.nurtureEnrolledAt === 'string' ? doc.nurtureEnrolledAt : new Date().toISOString(),
+            }),
       },
     })
   }
-  await notifyApplication(doc as never, 'magnet')
-  await notifyApplicant(doc as never, 'magnet')
-  await captureServer(String(doc.publicId || doc.id), 'lead_magnet_optin', { resource, page: body.page }, Boolean(body.analyticsConsent))
+  const mailed = { ...(doc as object), resourceSlug: guide.slug, publicId }
+  await notifyApplication(mailed as never, 'magnet', guide)
+  await notifyApplicant(mailed as never, 'magnet', guide)
+  await captureServer(String(doc.publicId || doc.id), 'lead_magnet_optin', { resource: guide.slug, page: body.page }, Boolean(body.analyticsConsent))
   return NextResponse.json({ ok: true, id: doc.publicId })
 }
 
