@@ -1,11 +1,10 @@
+import { authorizeCron } from '@/lib/cron-auth'
 import { getPayloadClient } from '@/lib/payload'
 import { notifyApplicant } from '@/lib/notify'
 
 export async function GET(request: Request) {
-  const secret = process.env.CRON_SECRET
-  if (!secret || request.headers.get('authorization') !== `Bearer ${secret}`) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  const denied = authorizeCron(request)
+  if (denied) return denied
   const payload = await getPayloadClient()
   const now = Date.now()
   const partials = await payload.find({
