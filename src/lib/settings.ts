@@ -24,6 +24,17 @@ export type SiteSettings = {
   bandHighLabel: string
   bandTopLabel: string
   bandsArePlaceholder: boolean
+  setupFeeLabel: string
+  setupFeeIsPlaceholder: boolean
+  commissionLabel: string
+  commissionIsPlaceholder: boolean
+  discoveryCallEnabled: boolean
+  nurtureEnabled: boolean
+  legalName: string
+  legalEmail: string
+  legalCountry: string
+  governingLaw: string
+  governingLawIsPlaceholder: boolean
   startingFrom: string
   capacityPerMonth: string
   closerName: string
@@ -53,6 +64,17 @@ export const defaultSettings: SiteSettings = {
   bandHighLabel: '$10,000–$20,000/mo',
   bandTopLabel: '$20,000+/mo',
   bandsArePlaceholder: true,
+  setupFeeLabel: '',
+  setupFeeIsPlaceholder: true,
+  commissionLabel: '',
+  commissionIsPlaceholder: true,
+  discoveryCallEnabled: false,
+  nurtureEnabled: false,
+  legalName: 'Lasse Haupt',
+  legalEmail: 'lhaupt3@gmail.com',
+  legalCountry: 'Australia',
+  governingLaw: '',
+  governingLawIsPlaceholder: true,
   startingFrom: '',
   capacityPerMonth: '',
   closerName: 'Your strategist',
@@ -92,6 +114,17 @@ export async function getSettings(): Promise<SiteSettings> {
       bandHighLabel: text(global.bandHighLabel, defaultSettings.bandHighLabel),
       bandTopLabel: text(global.bandTopLabel, defaultSettings.bandTopLabel),
       bandsArePlaceholder: global.bandsArePlaceholder !== false,
+      setupFeeLabel: text(global.setupFeeLabel, ''),
+      setupFeeIsPlaceholder: global.setupFeeIsPlaceholder !== false,
+      commissionLabel: text(global.commissionLabel, ''),
+      commissionIsPlaceholder: global.commissionIsPlaceholder !== false,
+      discoveryCallEnabled: global.discoveryCallEnabled === true,
+      nurtureEnabled: global.nurtureEnabled === true,
+      legalName: text(global.legalName, defaultSettings.legalName),
+      legalEmail: text(global.legalEmail, defaultSettings.legalEmail),
+      legalCountry: text(global.legalCountry, defaultSettings.legalCountry),
+      governingLaw: text(global.governingLaw, ''),
+      governingLawIsPlaceholder: global.governingLawIsPlaceholder !== false,
       startingFrom: text(global.startingFrom, ''),
       capacityPerMonth: text(global.capacityPerMonth, ''),
       closerName: text(global.closerName, defaultSettings.closerName),
@@ -107,6 +140,12 @@ export async function getSettings(): Promise<SiteSettings> {
     console.error('[settings] using defaults', error)
     return defaultSettings
   }
+}
+
+export function confirmedOrPending(value: string, isPlaceholder: boolean): string {
+  const trimmed = value.trim()
+  if (isPlaceholder || !trimmed || isOperatorPlaceholder(trimmed)) return 'To be confirmed'
+  return trimmed
 }
 
 export function bandsFromSettings(settings: SiteSettings): InvestmentBands {

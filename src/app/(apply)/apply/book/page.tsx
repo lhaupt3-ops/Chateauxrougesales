@@ -27,10 +27,12 @@ export default async function BookPage({
   if (!doc) redirect('/apply')
   if (doc.status === 'booked') redirect(`/apply/confirmed?id=${doc.publicId}`)
   if (doc.status !== 'complete' && doc.status !== 'nurture') redirect(`/apply?id=${doc.publicId}`)
+  const settings = await getSettings()
   const allowFitOverride = params.override === '1' && doc.tier === 'not_yet'
   if (doc.tier === 'not_yet' && !allowFitOverride) redirect(`/apply/next-steps?id=${doc.publicId}`)
-
-  const settings = await getSettings()
+  if (doc.tier === 'review' && !settings.discoveryCallEnabled && !allowFitOverride) {
+    redirect(`/apply/next-steps?id=${doc.publicId}&path=guide`)
+  }
   const strategist = configuredStrategistName(settings)
   const eventType = doc.tier === 'qualified' && !allowFitOverride ? 'strategy' : 'fit'
   const url = eventType === 'strategy' ? settings.calendlyStrategyUrl : settings.calendlyFitUrl

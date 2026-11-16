@@ -57,7 +57,7 @@ test('the owner note names the score in words and links to admin', () => {
   assert.equal(message.subject.startsWith('['), false)
   assert.match(message.html, /Open in admin/)
   assert.match(message.html, /Price: \$3,000–\$9,999 \(\+4\)/)
-  assert.match(message.text, /Hard rule: the budget is under \$3,000 a month/)
+  assert.match(message.text, /Hard rule: an older application was under \$3,000 a month/)
   assert.match(message.html, /\/admin\/collections\/applications\/42/)
   assert.equal(message.replyTo, 'ada@example.com')
   assert.equal(explainReason('price:3000_9999:+4'), 'Price: $3,000–$9,999 (+4)')

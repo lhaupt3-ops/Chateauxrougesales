@@ -93,6 +93,10 @@ export function PostView({ post, related }: { post: Post; related: { title?: str
         <ApplyLink location="post_inline" className="underline">
           See if we are a fit
         </ApplyLink>
+        <span className="text-muted"> · </span>
+        <Link href="/resources/are-you-ready-for-closers" className="underline">
+          Free guide: are you ready for closers?
+        </Link>
       </p>
       {cta.heading && (
         <div className="mt-10 rounded-2xl border border-stone p-5">

@@ -8,6 +8,7 @@ type EmailInput = {
   html: string
   from?: string
   replyTo?: string
+  headers?: Record<string, string>
 }
 
 export async function sendEmail(input: EmailInput): Promise<{ sent: boolean; skipped?: boolean }> {
@@ -37,6 +38,7 @@ export async function sendEmail(input: EmailInput): Promise<{ sent: boolean; ski
       text: input.text,
       html: input.html,
       replyTo: input.replyTo || undefined,
+      headers: input.headers,
     })
     if (error || !data?.id) {
       console.error('[email] send failed', error)

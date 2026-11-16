@@ -1,6 +1,5 @@
 import type { CollectionConfig, Where } from 'payload'
-import { isAdmin, isAdminOrSales } from '@/access/roles'
-import { roleOf } from '@/access/roles'
+import { hideFromEditor, isAdmin, isAdminOrSales, roleOf } from '@/access/roles'
 
 const select = (options: { value: string; label: string }[]) => options
 
@@ -9,6 +8,7 @@ export const Applications: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
     group: 'Sales',
+    hidden: hideFromEditor,
     defaultColumns: ['email', 'status', 'tier', 'score', 'offerType', 'createdAt'],
     description: 'Every application is stored here. Signed-in admins and sales can download CSV at /api/applications/export.',
     listSearchableFields: ['email', 'firstName', 'lastName', 'website', 'company'],
@@ -64,8 +64,15 @@ export const Applications: CollectionConfig = {
     { name: 'salesSetup', type: 'text' },
     { name: 'needs', type: 'json' },
     { name: 'timeline', type: 'text' },
-    { name: 'investment', type: 'text' },
+    { name: 'investment', type: 'text', admin: { description: 'Legacy monthly band. Older applications only.' } },
     { name: 'investmentLabel', type: 'text' },
+    { name: 'setupFee', type: 'text' },
+    { name: 'emailUnsubscribed', type: 'checkbox', defaultValue: false },
+    { name: 'marketingConsent', type: 'checkbox', defaultValue: false },
+    { name: 'unsubscribeToken', type: 'text' },
+    { name: 'nurtureEnrolledAt', type: 'date' },
+    { name: 'sequenceKind', type: 'select', options: ['none', 'nurture', 'partial', 'qualified'] },
+    { name: 'sequenceLog', type: 'json' },
     { name: 'notes', type: 'textarea' },
     { name: 'utmSource', type: 'text' },
     { name: 'utmMedium', type: 'text' },
@@ -144,6 +151,7 @@ export const Applications: CollectionConfig = {
           'salesSetup',
           'timeline',
           'investment',
+          'setupFee',
           'landingPage',
           'lastBlogPost',
           'utmSource',

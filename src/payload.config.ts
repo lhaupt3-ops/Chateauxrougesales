@@ -8,7 +8,8 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
-import { hideFromSales, isAdmin, isAdminOrEditor } from './access/roles'
+import { blockDeleteUntilPassword, blockGlobalWritesUntilPassword, blockWritesUntilPassword } from './access/password-gate'
+import { adminOnly, isAdmin, isAdminOrEditor } from './access/roles'
 import { Applications } from './collections/Applications'
 import { Authors } from './collections/Authors'
 import { CaseStudies } from './collections/CaseStudies'
@@ -19,6 +20,7 @@ import { Posts } from './collections/Posts'
 import { Resources } from './collections/Resources'
 import { Tags } from './collections/Tags'
 import { Users } from './collections/Users'
+import { EmailSequences } from './globals/EmailSequences'
 import { SiteSettings } from './globals/SiteSettings'
 import { migrations } from './migrations'
 import { plainTextFromHtml } from './lib/email-layout'
@@ -28,6 +30,21 @@ import { skipSeedOnThisCommand } from './lib/payload'
 import { seed } from './seed'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
+
+const collections = [Users, Media, Authors, Categories, Tags, Posts, CaseStudies, Resources, Faqs, Applications]
+for (const collection of collections) {
+  collection.hooks = {
+    ...collection.hooks,
+    beforeChange: [...(collection.hooks?.beforeChange || []), blockWritesUntilPassword],
+    beforeDelete: [...(collection.hooks?.beforeDelete || []), blockDeleteUntilPassword],
+  }
+}
+for (const global of [SiteSettings, EmailSequences]) {
+  global.hooks = {
+    ...global.hooks,
+    beforeChange: [...(global.hooks?.beforeChange || []), blockGlobalWritesUntilPassword],
+  }
+}
 const siteUrl = getSiteUrl()
 const resendKey = process.env.RESEND_API_KEY?.trim() || ''
 const resendFrom = resendFromIdentity(process.env.RESEND_FROM)
@@ -64,6 +81,13 @@ export default buildConfig({
       },
       beforeLogin: ['@/components/admin/BeforeLogin'],
       beforeDashboard: ['@/components/admin/Overview'],
+      providers: ['@/components/admin/PasswordGate'],
+      views: {
+        setPassword: {
+          Component: '@/components/admin/SetPassword',
+          path: '/set-password',
+        },
+      },
     },
     livePreview: {
       breakpoints: [
@@ -72,19 +96,8 @@ export default buildConfig({
       ],
     },
   },
-  collections: [
-    Users,
-    Media,
-    Authors,
-    Categories,
-    Tags,
-    Posts,
-    CaseStudies,
-    Resources,
-    Faqs,
-    Applications,
-  ],
-  globals: [SiteSettings],
+  collections,
+  globals: [SiteSettings, EmailSequences],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'dev-only-secret-replace-in-every-environment',
   typescript: {
@@ -116,7 +129,7 @@ export default buildConfig({
       overrides: {
         admin: {
           group: 'System',
-          hidden: hideFromSales,
+          hidden: adminOnly,
         },
         access: {
           create: isAdminOrEditor,

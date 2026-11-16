@@ -67,7 +67,7 @@ Both routes are safe to call more often than their schedule. A partial-lead remi
 | `NEXT_PUBLIC_POSTHOG_HOST` | No | Defaults to `https://us.i.posthog.com`. |
 | `POSTHOG_API_KEY` | No | Server events. Falls back to the public key. |
 
-Site settings in the admin (guarantee, notice, timeline, investment bands, Calendly URLs, notification email) override the matching env values when filled in. Bands stay labeled as placeholders until you turn that checkbox off.
+Site settings in the admin (guarantee, notice, timeline, setup fee, commission, Calendly URLs, notification email) override the matching env values when filled in. The setup fee and commission stay “to be confirmed” until you turn those checkboxes off. Nurture email stays off until `nurtureEnabled` is on. See `docs/sequences.md`.
 
 ## What is intentionally not invented
 

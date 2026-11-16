@@ -264,7 +264,7 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
               {[
                 ['Who manages', 'You', 'You', 'A sales lead'],
                 ['Who owns the data', 'You', 'Often unclear', 'You'],
-                ['How you pay', 'Salary and commission', 'Mostly commission', 'Setup, management, commission'],
+                ['How you pay', 'Salary and commission', 'Mostly commission', 'Setup fee, then commission'],
                 ['Best when', 'Sales is the company', 'You can coach', 'You want the function run'],
               ].map((row) => (
                 <tr key={row[0]} className="border-b border-stone">
@@ -285,7 +285,7 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
 
       <section className={`mx-auto grid max-w-6xl gap-8 px-4 pb-16 ${guarantee || notice || termsAreDraft ? 'md:grid-cols-2' : ''}`}>
         <div>
-          <SectionHeading title="How we charge" body="A setup fee, a monthly management fee, and a commission on cash collected. You see the shape before you book. The ranges on the application are a working draft until they are confirmed in the agreement." />
+          <SectionHeading title="How we charge" body="A one-off setup fee, then commission on cash collected. There is no monthly retainer. The setup amount and the commission percentage are to be confirmed in the agreement." />
           <Link href="/pricing" className="mt-4 inline-block text-sm underline">
             Read the pricing page
           </Link>
@@ -311,6 +311,19 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
         )}
       </section>
 
+      <section className="mx-auto max-w-6xl px-4 pb-16">
+        <div className="rounded-3xl bg-ink px-8 py-10 text-ivory md:px-12">
+          <p className="text-xs uppercase tracking-[0.16em] text-gold">Free guide</p>
+          <h2 className="mt-3 max-w-2xl font-serif text-4xl tracking-[-0.03em]">Are you actually ready for closers?</h2>
+          <p className="mt-4 max-w-2xl leading-7 text-ivory/80">
+            A self-audit for founders of coaching, consulting, course and high-ticket offers. Two conversations, setter versus closer, a call shape, working KPI targets, and the red flags that show up when a hire is early.
+          </p>
+          <Link href="/resources/are-you-ready-for-closers" className="mt-6 inline-block rounded-full bg-ivory px-5 py-3 text-sm font-medium text-ink">
+            Read the guide
+          </Link>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 pb-8">
         <SectionHeading title="The people, when we can show them." />
         <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -329,12 +342,12 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="rounded-3xl border border-stone bg-white/80 p-8 md:p-12">
           <h2 className="font-serif text-4xl tracking-[-0.03em]">See if we are a fit.</h2>
-          <p className="mt-3 max-w-xl text-muted">Same two minutes as the top of the page. If you would rather read first, take the scorecard. It asks the same questions.</p>
+          <p className="mt-3 max-w-xl text-muted">Same two minutes as the top of the page. If you would rather read first, the free guide is a scorecard of the sales process you already have.</p>
           <div className="mt-6 max-w-xl">
             <EmailCapture location="footer" entry="footer_inline" />
           </div>
-          <Link href="/resources/sales-team-readiness-scorecard" className="mt-4 inline-block text-sm underline">
-            Prefer to read first? Get the Sales Team Readiness Scorecard
+          <Link href="/resources/are-you-ready-for-closers" className="mt-4 inline-block text-sm underline">
+            Prefer to read first? Are you actually ready for closers?
           </Link>
         </div>
       </section>

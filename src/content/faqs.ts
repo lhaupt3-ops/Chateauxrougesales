@@ -25,7 +25,7 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'What does it cost?',
       answer:
-        'A setup fee, a monthly management fee, and a commission on cash collected. The bands on the pricing page are a working draft until the agreement confirms them.',
+        'A one-off setup fee, then commission on cash collected. There is no monthly retainer. The setup amount and the commission percentage are to be confirmed in the written agreement.',
     },
     {
       question: 'What do I need in place?',

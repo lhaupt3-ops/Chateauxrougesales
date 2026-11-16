@@ -1,6 +1,7 @@
 import type { Payload } from 'payload'
 import { richText } from '@/lib/lexical'
 import { defaultSettings } from '@/lib/settings'
+import { SEQUENCE_STEPS } from '@/lib/sequences'
 import { refreshMethodologyCopy } from './methodology'
 
 const PLACEHOLDER_BIO =
@@ -35,6 +36,23 @@ export async function seed(payload: Payload) {
         notifyEmail: process.env.NOTIFY_EMAIL || undefined,
         calendlyStrategyUrl: process.env.CALENDLY_STRATEGY_URL || undefined,
         calendlyFitUrl: process.env.CALENDLY_FIT_URL || undefined,
+      },
+    })
+  }
+
+  const sequences = await payload.findGlobal({ slug: 'email-sequences', overrideAccess: true }).catch(() => null)
+  if (sequences && (!Array.isArray(sequences.steps) || sequences.steps.length === 0)) {
+    await payload.updateGlobal({
+      slug: 'email-sequences',
+      overrideAccess: true,
+      data: {
+        steps: SEQUENCE_STEPS.map((step) => ({
+          key: step.key,
+          delayHours: step.delayHours,
+          subject: step.subject,
+          heading: step.heading,
+          body: step.paragraphs.join('\n\n'),
+        })),
       },
     })
   }
@@ -139,7 +157,7 @@ export async function seed(payload: Payload) {
         { kind: 'h2' as const, text: 'When does it beat hiring?' },
         { kind: 'p' as const, text: 'Hiring wins if you want a long-term culture and you have a manager who can coach. A managed team wins if you are the one taking the calls, you have already sold the offer, and you would rather buy the function than build the management layer. If you are pre-revenue, neither is the next step. Validate the offer first.' },
         { kind: 'h2' as const, text: 'What should you expect to pay?' },
-        { kind: 'p' as const, text: 'Serious teams combine a setup fee, a monthly management fee and a commission on cash collected. The bands on our pricing page are placeholders until the commercial model is locked. Treat any round number you see in a competitor ad as a claim, not a fact, unless they show the contract.' },
+        { kind: 'p' as const, text: 'A serious engagement is a one-off setup fee, then commission on cash collected. There is no monthly retainer. Our setup amount and commission percentage stay unpublished until they are written into an agreement. Treat any round number you see in a competitor ad as a claim, not a fact, unless they show the contract.' },
       ],
       faq: [
         { question: 'Is this the same as an outsourced SDR team?', answer: 'No. An SDR team books meetings and hands them back. A sales team as a service also closes, follows up, and has a lead who owns the number.' },
@@ -167,11 +185,11 @@ export async function seed(payload: Payload) {
         { kind: 'h2' as const, text: 'Base plus commission' },
         { kind: 'p' as const, text: 'A base keeps someone who will follow up on a quiet Tuesday. It also means you carry payroll before the first deal. This is usually the right shape once you have steady lead flow and a manager. It is a painful shape if lead flow is still a hope.' },
         { kind: 'h2' as const, text: 'Agency model' },
-        { kind: 'p' as const, text: 'You pay a setup, a monthly management fee and a commission. In return the agency recruits, replaces and reviews. Ask who owns the CRM, the recordings and the data if you leave. If the answer is unclear, do not sign. Our own bands are still placeholders in Site settings. Use the application if you want them walked through against your numbers.' },
+        { kind: 'p' as const, text: 'You pay a one-off setup fee, then commission on cash collected. There is no monthly retainer. In return the agency recruits, replaces and reviews. Ask who owns the CRM, the recordings and the data if you leave. If the answer is unclear, do not sign. Our setup amount and commission percentage are still to be confirmed.' },
       ],
       faq: [
         { question: 'Should I hire commission only to reduce risk?', answer: 'It reduces payroll risk and increases management risk. If you cannot review calls, commission only does not protect you.' },
-        { question: 'Where do I see Chateaux Rouge pricing?', answer: 'The model is on the pricing page. The exact bands are confirmed on a call and in the agreement, and the on-site figures stay marked as placeholders until they are real.' },
+        { question: 'Where do I see Chateaux Rouge pricing?', answer: 'The model is on the pricing page: a one-off setup fee, then commission, and no monthly retainer. The setup amount and the commission percentage stay marked as to be confirmed until they are in the agreement.' },
       ],
     },
     {

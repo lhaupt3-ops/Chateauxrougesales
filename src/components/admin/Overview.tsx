@@ -1,5 +1,10 @@
 import { getPayloadClient } from '@/lib/payload'
-import { groupConversions, recentLeads, windowsFor, funnelFromCounts, type LeadDoc } from '@/lib/admin-metrics'
+import { headers } from 'next/headers'
+import { groupConversions, recentLeads, windowsFor, funnelFromCounts, funnelIsThin, type LeadDoc } from '@/lib/admin-metrics'
+import { roleOf } from '@/access/roles'
+import { getSettings } from '@/lib/settings'
+import { EditorOverview } from './EditorOverview'
+import { SalesOverview } from './SalesOverview'
 import { loadPostHogFunnel } from '@/lib/posthog-funnel'
 
 const LINKS = [
@@ -13,6 +18,15 @@ const LINKS = [
 ]
 
 export default async function Overview() {
+  const payload = await getPayloadClient()
+  const { user } = await payload.auth({ headers: await headers() })
+  const role = roleOf(user)
+  if (role === 'editor') return <EditorOverview />
+  if (role === 'sales') return <SalesOverview previousLoginAt={(user as { previousLoginAt?: string | null } | null)?.previousLoginAt} />
+  return <AdminOverview />
+}
+
+async function AdminOverview() {
   const now = new Date()
   const since = new Date(now.getTime() - 60 * 86400000)
   let docs: LeadDoc[] = []
@@ -77,19 +91,23 @@ export default async function Overview() {
 
       <article className="cr-dash-card">
         <h3>Visit to booked, last 30 days</h3>
-        {posthog.available ? (
+        {!posthog.available ? (
+          <p className="cr-dash-note">PostHog is off ({posthog.reason}) The cards above still come from the application database.</p>
+        ) : funnelIsThin(funnel) ? (
+          <p className="cr-dash-note">
+            Not enough data yet. {funnel[0]?.people ?? 0} visits in the last 30 days. Drop-off shows once there are about 20.
+          </p>
+        ) : (
           <ol className="cr-funnel">
             {funnel.map((step) => (
               <li key={step.label}>
                 <span>{step.label}</span>
                 <strong>{step.people}</strong>
-                <em>{step.dropOff == null ? '' : `${Math.round(step.dropOff * 100)}% drop`}</em>
+                <em>{step.dropOff == null || step.people === 0 ? '' : `${Math.round(step.dropOff * 100)}% drop`}</em>
                 <i style={{ width: `${bar(step.people, funnel[0].people)}%` }} />
               </li>
             ))}
           </ol>
-        ) : (
-          <p className="cr-dash-note">PostHog is off ({posthog.reason}) The cards above still come from the application database.</p>
         )}
       </article>
 
@@ -127,6 +145,11 @@ export default async function Overview() {
             ))}
           </tbody>
         </table>
+      </article>
+
+      <article className="cr-dash-card">
+        <h3>Email</h3>
+        <EmailHealth />
       </article>
 
       <nav className="cr-dash-links" aria-label="Collections">
@@ -192,6 +215,31 @@ function pct(value: number): string {
 function bar(value: number, max: number): number {
   if (!max) return 0
   return Math.max(4, Math.round((value / max) * 100))
+}
+
+async function EmailHealth() {
+  const settings = await getSettings()
+  const payload = await getPayloadClient()
+  const result = await payload.find({
+    collection: 'applications',
+    where: { sequenceKind: { in: ['nurture', 'partial', 'qualified'] } },
+    limit: 200,
+    depth: 0,
+    overrideAccess: true,
+  })
+  let sent = 0
+  let unsubscribed = 0
+  for (const doc of result.docs) {
+    if (doc.emailUnsubscribed) unsubscribed += 1
+    if (Array.isArray(doc.sequenceLog)) sent += doc.sequenceLog.length
+  }
+  return (
+    <p className="cr-dash-note">
+      {settings.nurtureEnabled
+        ? `Nurture is on. ${sent} sequence emails are logged, and ${unsubscribed} of these addresses are unsubscribed.`
+        : `Nurture is off, so nothing is going to real leads. ${sent} earlier sends are logged. Turn it on in Site settings after you have read the copy.`}
+    </p>
+  )
 }
 
 function labelTier(tier: string): string {

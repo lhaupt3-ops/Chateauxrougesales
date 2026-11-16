@@ -95,13 +95,13 @@ These three are not interchangeable. Counting `call_booked` is the embed click. 
 
 ### `apply_step_completed.answer`
 
-Only option keys are sent: `offerType`, `pricePoint`, `monthlyRevenue`, `monthlyConversations`, `salesSetup`, `needs`, `timeline`, `investment`.
+Only option keys are sent: `offerType`, `pricePoint`, `monthlyRevenue`, `monthlyConversations`, `salesSetup`, `needs`, `timeline`, `setupFee`. Older applications may still have `investment`.
 
 These are removed even if a caller passed them: `email`, `phone`, `firstName`, `lastName`, `website`, `notes`. Free text such as `offerOther` and `company` is removed too. `needs` stays a list of option values.
 
 ### Wizard steps
 
-`email`, `offer`, `price`, `revenue`, `conversations`, `setup`, `needs`, `timeline`, `investment`, `contact`.
+`email`, `offer`, `price`, `revenue`, `conversations`, `setup`, `needs`, `timeline`, `setupFee`, `contact`.
 
 `step_index` is zero-based.
 
@@ -114,7 +114,9 @@ These are removed even if a caller passed them: `email`, `phone`, `firstName`, `
 | Event | Other properties |
 | --- | --- |
 | `lead_partial_saved` | `applicationId`, `emailDomainType` |
-| `application_submitted` | `score`, `tier`, `offerType`, `pricePoint`, `revenue`, `conversations`, `timeline`, `investment` |
+| `application_submitted` | `score`, `tier`, `offerType`, `pricePoint`, `revenue`, `conversations`, `timeline`, `setupFee` |
+| `lead_magnet_view` | `resource`, `page` |
+| `lead_magnet_optin` | `resource`, `page` |
 | `route_assigned` | `tier`, `reasons` |
 | `apply_abandoned` | `last_step` from the beacon body, or the stored step |
 | `call_booked_server` | See the booking table |
