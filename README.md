@@ -37,7 +37,11 @@ Editors can manage the journal, resources, and case studies. Sales can read and 
 
 Preview deployments are `noindex` and `robots.txt` disallows everything. Production (`VERCEL_ENV=production`) allows crawling except `/admin` and `/api/`. Set `ALLOW_INDEXING=false` if a production deployment should stay out of search until the custom domain is ready.
 
-Scheduled publish and the reminder emails run from the cron in `vercel.json` (`/api/cron/abandonment`, every 15 minutes). That schedule needs a Vercel plan that allows it. The route requires `Authorization: Bearer $CRON_SECRET`.
+Hobby plans only allow a Vercel cron that runs once a day, so `vercel.json` calls `/api/cron/abandonment` and `/api/cron/publish` at 01:00 UTC. That daily run is a backup. The 15-minute cadence lives in GitHub Actions (`.github/workflows/cron.yml`), which GETs both routes with `Authorization: Bearer ${{ secrets.CRON_SECRET }}`.
+
+If the `CRON_SECRET` repository secret is missing, the workflow exits successfully and does nothing. If the `SITE_URL` repository variable is missing, it uses `https://chateaux-rouge.vercel.app`. Set `CRON_SECRET` in GitHub to the same value as the Vercel env var. No function duration, memory, or region overrides are set, so the deploy stays inside Hobby defaults.
+
+Both routes are safe to call more often than their schedule. A partial-lead reminder is sent once (`partialReminderSentAt`). An unbooked reminder is sent once (`unbookedReminderSentAt`). `/api/cron/publish` runs the Payload jobs queue, which only publishes posts whose scheduled time has arrived. `/api/cron/abandonment` sends the reminders and runs that same queue.
 
 ## Environment variables
 
@@ -57,7 +61,7 @@ Scheduled publish and the reminder emails run from the cron in `vercel.json` (`/
 | `CALENDLY_STRATEGY_URL` | No | 30–45 minute strategy call. Also editable in Site settings. |
 | `CALENDLY_FIT_URL` | No | 15 minute fit call. |
 | `CALENDLY_WEBHOOK_SIGNING_KEY` | No | Verifies `POST /api/webhooks/calendly`. Production without the key returns 503. Local dev accepts unsigned payloads. |
-| `CRON_SECRET` | Yes, for cron | Bearer token for the reminder and scheduled-publish route. |
+| `CRON_SECRET` | Yes, for cron | Bearer token for `/api/cron/abandonment` and `/api/cron/publish`. Use the same value as the GitHub Actions secret. |
 | `NEXT_PUBLIC_POSTHOG_KEY` | No | Browser analytics. Loaded only after the consent banner. |
 | `NEXT_PUBLIC_POSTHOG_HOST` | No | Defaults to `https://us.i.posthog.com`. |
 | `POSTHOG_API_KEY` | No | Server events. Falls back to the public key. |

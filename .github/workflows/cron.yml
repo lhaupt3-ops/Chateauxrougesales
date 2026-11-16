@@ -1,0 +1,38 @@
+name: Site cron
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reminders and scheduled publish
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CRON_SECRET}" ]; then
+            echo "CRON_SECRET is not set. Skipping cron calls."
+            exit 0
+          fi
+          if [ -z "${SITE_URL}" ]; then
+            echo "SITE_URL is not set. Using https://chateaux-rouge.vercel.app."
+            SITE_URL="https://chateaux-rouge.vercel.app"
+          fi
+          SITE_URL="${SITE_URL%/}"
+          for path in /api/cron/abandonment /api/cron/publish; do
+            code="$(curl -sS -o /tmp/cron-body -w "%{http_code}" \
+              -H "Authorization: Bearer ${CRON_SECRET}" \
+              "${SITE_URL}${path}")"
+            echo "${path} -> ${code}"
+            cat /tmp/cron-body
+            echo
+            if [ "${code}" -lt 200 ] || [ "${code}" -ge 300 ]; then
+              echo "Cron call failed: ${path}"
+              exit 1
+            fi
+          done

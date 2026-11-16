@@ -2,7 +2,11 @@
   "crons": [
     {
       "path": "/api/cron/abandonment",
-      "schedule": "*/15 * * * *"
+      "schedule": "0 1 * * *"
+    },
+    {
+      "path": "/api/cron/publish",
+      "schedule": "0 1 * * *"
     }
   ]
 }
