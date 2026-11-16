@@ -1,4 +1,17 @@
 {
+  "redirects": [
+    {
+      "source": "/:path((?!api/cron)(?!api/webhooks).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "^chateaux-rouge\\.vercel\\.app$"
+        }
+      ],
+      "destination": "https://chateauxrouge.com/:path*",
+      "permanent": true
+    }
+  ],
   "crons": [
     {
       "path": "/api/cron/abandonment",
