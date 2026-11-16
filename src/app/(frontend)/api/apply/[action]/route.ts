@@ -12,7 +12,8 @@ import {
   resultPath,
   setApplicationCookie,
 } from '@/lib/apply-server'
-import { captureServer } from '@/lib/analytics-server'
+import { captureServer, withApplicationContext } from '@/lib/analytics-server'
+import { leadTimeHours } from '@/lib/funnel-analytics'
 import { emailDomainType, isDisposableEmail, isValidEmail, normalizeWebsite } from '@/lib/site'
 import { getPayloadClient } from '@/lib/payload'
 import { fetchCalendlyEventTimes } from '@/lib/calendly'
@@ -98,7 +99,7 @@ async function start(request: Request, body: Body) {
   await captureServer(
     publicId,
     'lead_partial_saved',
-    { applicationId: publicId, emailDomainType: emailDomainType(email) },
+    withApplicationContext(doc, { applicationId: publicId, emailDomainType: emailDomainType(email) }),
     Boolean(body.analyticsConsent),
   )
   const wantsJson = (request.headers.get('content-type') || '').includes('application/json')
@@ -183,17 +184,27 @@ async function complete(body: Body) {
   await notifyApplication(updated as never, 'complete')
   await notifyApplicant(updated as never, 'complete')
   const consent = Boolean(data.analyticsConsent || doc.analyticsConsent)
-  await captureServer(String(doc.publicId), 'application_submitted', {
-    score: scored.score,
-    tier: scored.tier,
-    offerType: answers.offerType,
-    pricePoint: answers.pricePoint,
-    revenue: answers.monthlyRevenue,
-    conversations: answers.monthlyConversations,
-    timeline: answers.timeline,
-    investment: answers.investment,
-  }, consent)
-  await captureServer(String(doc.publicId), 'route_assigned', { tier: scored.tier, reasons: scored.reasons }, consent)
+  await captureServer(
+    String(doc.publicId),
+    'application_submitted',
+    withApplicationContext(doc, {
+      score: scored.score,
+      tier: scored.tier,
+      offerType: answers.offerType,
+      pricePoint: answers.pricePoint,
+      revenue: answers.monthlyRevenue,
+      conversations: answers.monthlyConversations,
+      timeline: answers.timeline,
+      investment: answers.investment,
+    }),
+    consent,
+  )
+  await captureServer(
+    String(doc.publicId),
+    'route_assigned',
+    withApplicationContext(doc, { tier: scored.tier, reasons: scored.reasons }),
+    consent,
+  )
   return NextResponse.json({ ok: true, tier: scored.tier, score: scored.score, next })
 }
 
@@ -234,11 +245,14 @@ async function booked(body: Body) {
   })
   await notifyApplication(updated as never, 'booked')
   await notifyApplicant(updated as never, 'booked')
-  const leadTime = startAt ? (new Date(startAt).getTime() - Date.now()) / 36e5 : undefined
   await captureServer(
     String(doc.publicId),
-    'call_booked',
-    { event_type: eventType, lead_time_hours: leadTime, source: body.preview ? 'preview' : 'embed' },
+    'call_booked_server',
+    {
+      event_type: eventType,
+      lead_time_hours: leadTimeHours(startAt),
+      source: body.preview ? 'preview' : 'embed',
+    },
     Boolean(doc.analyticsConsent),
   )
   return NextResponse.json({ ok: true, next: `/apply/confirmed?id=${doc.publicId}` })

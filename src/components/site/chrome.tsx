@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ApplyLink } from './ApplyLink'
 import { Logo } from './Logo'
 
 export const NAV = [
@@ -22,13 +23,13 @@ export function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
-          <Link
-            href="/apply"
+          <ApplyLink
+            location="header"
+            dataCta="nav"
             className="rounded-full bg-rouge px-4 py-2 text-sm font-medium text-white hover:bg-wine"
-            data-cta="nav"
           >
             Apply for a sales team
-          </Link>
+          </ApplyLink>
           <details className="relative md:hidden">
             <summary className="cursor-pointer rounded-full border border-stone px-3 py-2 text-sm">Menu</summary>
             <div className="absolute right-0 mt-2 w-56 rounded-2xl border border-stone bg-ivory p-3 shadow-sm">
@@ -38,6 +39,9 @@ export function Header() {
                     {item.label}
                   </Link>
                 ))}
+                <ApplyLink location="mobile_nav" className="rounded-xl bg-rouge px-2 py-2 text-center text-sm font-medium text-white">
+                  Apply for a sales team
+                </ApplyLink>
               </nav>
             </div>
           </details>

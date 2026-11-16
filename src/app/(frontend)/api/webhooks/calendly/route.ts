@@ -1,6 +1,7 @@
 import { createHmac, timingSafeEqual } from 'crypto'
 import { findByPublicId } from '@/lib/apply-server'
 import { captureServer } from '@/lib/analytics-server'
+import { leadTimeHours } from '@/lib/funnel-analytics'
 import { getPayloadClient } from '@/lib/payload'
 import { notifyApplicant, notifyApplication } from '@/lib/notify'
 
@@ -60,10 +61,23 @@ export async function POST(request: Request) {
           priorityCall: false,
         },
   })
-  if (!canceled) {
+  const eventType = doc.eventType || 'strategy'
+  if (canceled) {
+    await captureServer(String(doc.publicId), 'call_canceled', { event_type: eventType }, Boolean(doc.analyticsConsent))
+  } else {
+    const meetingStartAt = payload.scheduled_event?.start_time
     await notifyApplication(updated as never, 'booked')
     await notifyApplicant(updated as never, 'booked')
-    await captureServer(String(doc.publicId), 'call_booked', { source: 'webhook', event_type: doc.eventType || 'strategy' }, Boolean(doc.analyticsConsent))
+    await captureServer(
+      String(doc.publicId),
+      'call_booking_confirmed',
+      {
+        event_type: eventType,
+        meeting_start_at: meetingStartAt,
+        lead_time_hours: leadTimeHours(meetingStartAt),
+      },
+      Boolean(doc.analyticsConsent),
+    )
   }
   return Response.json({ ok: true, matched: true })
 }

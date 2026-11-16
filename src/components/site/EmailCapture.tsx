@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { track } from '@/components/analytics/track'
+import { identifyApplication, readPostSlug, track } from '@/components/analytics/track'
+import { emailDomainType } from '@/lib/site'
 
 export function EmailCapture({
   location,
@@ -24,7 +25,12 @@ export function EmailCapture({
     event.preventDefault()
     setError('')
     setPending(true)
-    track('cta_clicked', { location, page: window.location.pathname, variant: 'email' })
+    track('cta_clicked', {
+      location,
+      page: window.location.pathname,
+      variant: 'email',
+      post_slug: readPostSlug(),
+    })
     const response = await fetch('/api/apply/start', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -43,6 +49,8 @@ export function EmailCapture({
       return
     }
     window.localStorage.setItem('cr_application_id', data.id)
+    identifyApplication(data.id, email)
+    track('apply_email_submitted', { entry, email_domain_type: emailDomainType(email) })
     router.push(`/apply?step=2&id=${data.id}&entry=${entry}`)
   }
 

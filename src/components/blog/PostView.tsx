@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ApplyLink } from '@/components/site/ApplyLink'
 import { RichText, TableOfContents } from './RichText'
 import { EmailCapture } from '@/components/site/EmailCapture'
 import { FaqList, Breadcrumbs } from '@/components/site/ui'
@@ -88,6 +89,11 @@ export function PostView({ post, related }: { post: Post; related: { title?: str
       <div className="mt-6">
         <RichText data={post.body} />
       </div>
+      <p className="mt-8 text-sm">
+        <ApplyLink location="post_inline" className="underline">
+          Apply for a sales team
+        </ApplyLink>
+      </p>
       {cta.heading && (
         <div className="mt-10 rounded-2xl border border-stone p-5">
           <h2 className="font-serif text-3xl">{cta.heading}</h2>

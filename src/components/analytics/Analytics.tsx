@@ -2,24 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import posthog from 'posthog-js'
-
-const KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY
-const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com'
+import { capturePageview } from '@/components/analytics/track'
 
 export function Analytics() {
   const pathname = usePathname()
 
   useEffect(() => {
-    if (!KEY || !document.cookie.includes('cr_consent=granted')) return
-    if (!posthog.__loaded) {
-      posthog.init(KEY, {
-        api_host: HOST,
-        capture_pageview: false,
-        persistence: 'localStorage+cookie',
-      })
-    }
-    posthog.capture('$pageview', { path: pathname })
+    capturePageview(pathname)
+    if (!document.cookie.includes('cr_consent=granted') || !process.env.NEXT_PUBLIC_POSTHOG_KEY) return
     if (pathname.startsWith('/blog/') && pathname.split('/').length === 3) {
       const slug = pathname.split('/')[2]
       if (slug && !['category', 'tag', 'page', 'rss.xml'].includes(slug)) {

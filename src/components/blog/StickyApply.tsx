@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { track } from '@/components/analytics/track'
+import { readPostSlug, track } from '@/components/analytics/track'
 
 export function StickyApply() {
   const [show, setShow] = useState(false)
@@ -21,7 +21,15 @@ export function StickyApply() {
     <div className="fixed inset-x-0 bottom-0 z-30 border-t border-stone bg-ivory/95 p-3 md:hidden">
       <Link
         href="/apply"
-        onClick={() => track('cta_clicked', { location: 'sticky', page: window.location.pathname, variant: 'button' })}
+        onClick={() =>
+          track('cta_clicked', {
+            location: 'sticky',
+            page: window.location.pathname,
+            variant: 'button',
+            target: '/apply',
+            post_slug: readPostSlug(),
+          })
+        }
         className="block rounded-full bg-rouge py-3 text-center text-sm font-medium text-white"
       >
         Apply for a sales team

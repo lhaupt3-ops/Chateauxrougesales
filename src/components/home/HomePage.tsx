@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ApplyLink } from '@/components/site/ApplyLink'
 import { EmailCapture } from '@/components/site/EmailCapture'
 import { FaqList, Placeholder, SectionHeading } from '@/components/site/ui'
 import type { Faq } from '@/content/faqs'
@@ -45,7 +46,12 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
           </p>
           <div className="mt-8 max-w-xl">
             <EmailCapture location="hero" entry="hero_inline" />
-            <p className="mt-3 text-sm text-muted">2-minute application. No pitch deck. You keep the recordings.</p>
+            <p className="mt-3 text-sm text-muted">
+              2-minute application. No pitch deck. You keep the recordings.{' '}
+              <ApplyLink location="hero" className="underline">
+                Apply for a sales team
+              </ApplyLink>
+            </p>
           </div>
         </div>
         <div className="rounded-3xl border border-stone bg-white/80 p-5 shadow-sm" aria-hidden="true">
@@ -260,6 +266,9 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
           <Link href="/pricing" className="mt-4 inline-block text-sm underline">
             Read the pricing page
           </Link>
+          <ApplyLink location="pricing" className="mt-4 ml-4 inline-block text-sm underline">
+            Apply
+          </ApplyLink>
         </div>
         {(guarantee || notice) && (
         <div className="rounded-2xl bg-wine p-6 text-ivory">
