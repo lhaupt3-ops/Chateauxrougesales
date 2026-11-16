@@ -8,10 +8,23 @@ export const revalidate = 3600
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
+  const payload = await getPayloadClient()
+  const result = await payload.find({
+    collection: 'resources',
+    where: { slug: { equals: slug } },
+    limit: 1,
+    overrideAccess: true,
+  })
+  const resource = result.docs[0]
+  const title = resource?.title ? `${resource.title} · Chateaux Rouge` : 'Resource · Chateaux Rouge'
+  const description = resource?.description
+    ? String(resource.description).slice(0, 155)
+    : 'A short guide from Chateaux Rouge. Leave an email and read it.'
   return pageMetadata({
-    title: 'Resource · Chateaux Rouge',
-    description: 'A short guide from Chateaux Rouge. Leave an email and read it.',
+    title,
+    description,
     path: `/resources/${slug}`,
+    noindex: true,
   })
 }
 

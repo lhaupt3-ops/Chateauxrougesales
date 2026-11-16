@@ -1,5 +1,6 @@
 'use client'
 
+import { DECISION_OPTIONS, labelFor } from '@/lib/options'
 import { explainReasons } from '@/lib/reason-labels'
 import { nextAction, scoreBandLabel } from '@/lib/lead-desk'
 import { useFormData } from './useFormData'
@@ -32,6 +33,8 @@ export default function LeadSummary() {
           <p className="cr-dash-kicker">Lead summary</p>
           <h2>{name}</h2>
           <p className="cr-dash-note">{text(data.company) || 'No company'}</p>
+          <p className="cr-dash-note">Who decides: {data.decisionMakers ? labelFor(DECISION_OPTIONS, text(data.decisionMakers)) : 'Not answered'}</p>
+          <p className="cr-dash-note">Why now: {text(data.notes) || 'Not answered'}</p>
         </div>
         <p>
           {band} · score {score}

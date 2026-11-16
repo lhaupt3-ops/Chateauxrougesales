@@ -30,6 +30,7 @@ export type SiteSettings = {
   commissionIsPlaceholder: boolean
   discoveryCallEnabled: boolean
   nurtureEnabled: boolean
+  careersIsPlaceholder: boolean
   legalName: string
   legalEmail: string
   legalCountry: string
@@ -56,9 +57,9 @@ export const defaultSettings: SiteSettings = {
     'Placeholder: unconfirmed. Do not publish a guarantee until the agreement can keep it. A kept promise might be a written replacement standard or a fee condition. It will not be a close rate or a revenue number.',
   guaranteeIsPlaceholder: true,
   noticeText:
-    'Placeholder: unconfirmed. The working shape is an initial term, then month to month. The notice period belongs in the agreement, not on the site, until it is real.',
+    'To be confirmed. The term and the notice period are set in the written agreement.',
   noticeIsPlaceholder: true,
-  timelineText: 'Working target, not confirmed: first covered calls once operations locks a date. This sentence is a draft.',
+  timelineText: 'To be confirmed.',
   bandLowLabel: '$3,000–$5,000/mo',
   bandMidLabel: '$5,000–$10,000/mo',
   bandHighLabel: '$10,000–$20,000/mo',
@@ -70,6 +71,7 @@ export const defaultSettings: SiteSettings = {
   commissionIsPlaceholder: true,
   discoveryCallEnabled: false,
   nurtureEnabled: false,
+  careersIsPlaceholder: true,
   legalName: 'Lasse Haupt',
   legalEmail: 'lhaupt3@gmail.com',
   legalCountry: 'Australia',
@@ -120,6 +122,7 @@ export async function getSettings(): Promise<SiteSettings> {
       commissionIsPlaceholder: global.commissionIsPlaceholder !== false,
       discoveryCallEnabled: global.discoveryCallEnabled === true,
       nurtureEnabled: global.nurtureEnabled === true,
+      careersIsPlaceholder: global.careersIsPlaceholder !== false,
       legalName: text(global.legalName, defaultSettings.legalName),
       legalEmail: text(global.legalEmail, defaultSettings.legalEmail),
       legalCountry: text(global.legalCountry, defaultSettings.legalCountry),

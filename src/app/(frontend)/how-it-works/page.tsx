@@ -1,5 +1,7 @@
 import Link from 'next/link'
+import { CallOutline } from '@/components/site/CallOutline'
 import { Breadcrumbs, FaqList } from '@/components/site/ui'
+import { publicCopy } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
 import { isOperatorPlaceholder, getSettings } from '@/lib/settings'
 
@@ -31,7 +33,7 @@ export default async function HowItWorksPage() {
       <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'How it works', path: '/how-it-works' }]} />
       <h1 className="mt-8 font-serif text-5xl tracking-[-0.04em]">How the work actually runs.</h1>
       <p className="mt-4 text-lg leading-8 text-muted">
-        First we install a team around your offer. Then that team runs your buyers’ calls to a written standard. {timeline || 'A start date appears here only after it is confirmed.'}
+        First we install a team around your offer. Then that team runs your buyers’ calls to a written standard. {publicCopy(timeline) || 'A start date appears here only after it is confirmed.'}
       </p>
       <h2 className="mt-10 font-serif text-3xl">What we do with you</h2>
       {INSTALL.map(([title, body]) => (
@@ -40,6 +42,7 @@ export default async function HowItWorksPage() {
           <p className="mt-2 leading-7 text-muted">{body}</p>
         </section>
       ))}
+      <CallOutline />
       <h2 className="mt-12 font-serif text-3xl">What the closer does with a buyer</h2>
       <p className="mt-3 leading-7 text-muted">
         This is the method on your calls. It is not a script to recite, and it is not a promise of a close rate.
@@ -54,7 +57,7 @@ export default async function HowItWorksPage() {
         If the buyer is not ready, the closer books a specific next conversation or lets them go. Follow-up is a recap and one useful thing, then it stops when asked.
       </p>
       <p className="mt-8 text-sm">
-        <Link className="underline" href="/apply">See if we are a fit</Link>. Or start with the <Link className="underline" href="/services/sales-audit">sales audit</Link>.
+        <Link className="underline" href="/apply">See if we&apos;re a fit</Link>. Or start with the <Link className="underline" href="/services/sales-audit">sales audit</Link>.
       </p>
       <FaqList faqs={[{ question: 'What do I need to send?', answer: 'The offer in one page, recent numbers, and any call recordings you have. The person who can say yes should be on the first call.' }]} />
     </article>

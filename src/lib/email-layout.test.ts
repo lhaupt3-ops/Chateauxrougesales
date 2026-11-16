@@ -40,6 +40,15 @@ test('client-facing subjects do not lead with a bracket tag', () => {
   }
 })
 
+test('the booking email asks them to bring someone else only when they said so', () => {
+  const alone = applicantEmail({ id: 1, publicId: 'abc', email: 'ada@example.com', firstName: 'Ada', decisionMakers: 'just_me' }, 'booked')
+  const shared = applicantEmail({ id: 1, publicId: 'abc', email: 'ada@example.com', firstName: 'Ada', decisionMakers: 'partner' }, 'booked')
+  assert.equal(alone.text.includes('Bring the other person'), false)
+  assert.match(shared.text, /Bring the other person who would decide/)
+  assert.match(shared.text, /30 minutes/)
+  assert.match(shared.text, /Not a fit is a fine outcome|not a fit is a fine outcome/i)
+})
+
 test('the owner note names the score in words and links to admin', () => {
   const message = ownerEmail(
     {

@@ -8,6 +8,7 @@ const OPTION_KEYS = new Set([
   'timeline',
   'investment',
   'setupFee',
+  'decisionMakers',
 ])
 
 const PII_KEYS = new Set(['email', 'phone', 'firstName', 'lastName', 'website', 'notes'])

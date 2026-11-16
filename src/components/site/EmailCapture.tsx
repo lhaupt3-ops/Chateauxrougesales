@@ -8,7 +8,7 @@ import { emailDomainType } from '@/lib/site'
 export function EmailCapture({
   location,
   entry,
-  button = 'Check if you qualify',
+  button = "See if we're a fit",
   compact = false,
 }: {
   location: string
@@ -45,7 +45,7 @@ export function EmailCapture({
     const data = (await response.json().catch(() => ({}))) as { id?: string; error?: string }
     setPending(false)
     if (!response.ok || !data.id) {
-      setError(data.error || 'Enter a real work email to start.')
+      setError(data.error || 'Enter a real email to start.')
       return
     }
     window.localStorage.setItem('cr_application_id', data.id)
@@ -57,7 +57,7 @@ export function EmailCapture({
   return (
     <form onSubmit={onSubmit} className={compact ? 'flex flex-col gap-3' : 'flex flex-col gap-3 sm:flex-row'}>
       <label className="sr-only" htmlFor={`email-${location}`}>
-        Work email
+        Email
       </label>
       <input
         id={`email-${location}`}
@@ -67,7 +67,7 @@ export function EmailCapture({
         required
         value={email}
         onChange={(event) => setEmail(event.target.value)}
-        placeholder="Work email"
+        placeholder="Email"
         className="h-12 w-full rounded-full border border-stone bg-white px-4 text-base outline-none"
       />
       <button
@@ -84,6 +84,21 @@ export function EmailCapture({
 
 export function readAttribution() {
   if (typeof window === 'undefined') return {}
+  if (!window.localStorage.getItem('cr_first_touch')) {
+    const params = new URLSearchParams(window.location.search)
+    window.localStorage.setItem(
+      'cr_first_touch',
+      JSON.stringify({
+        utmSource: params.get('utm_source') || '',
+        utmMedium: params.get('utm_medium') || '',
+        utmCampaign: params.get('utm_campaign') || '',
+        utmTerm: params.get('utm_term') || '',
+        utmContent: params.get('utm_content') || '',
+        referrer: document.referrer || '',
+        landingPage: `${window.location.pathname}${window.location.search}`,
+      }),
+    )
+  }
   const first = parse(window.localStorage.getItem('cr_first_touch'))
   const last = parse(window.localStorage.getItem('cr_last_touch'))
   return {

@@ -396,6 +396,7 @@ async function resume(id: string) {
     timeline: doc.timeline,
     investment: doc.investment,
     setupFee: doc.setupFee,
+    decisionMakers: doc.decisionMakers,
     next: doc.status === 'partial' ? null : resultPath(doc, { discoveryCallEnabled: (await getSettings()).discoveryCallEnabled }),
   })
 }

@@ -7,7 +7,7 @@ import { dialFromCountry } from '@/lib/options'
 export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
-  title: 'See if we are a fit · Chateaux Rouge',
+  title: "See if we're a fit · Chateaux Rouge",
   description: 'A short application. We look for an honest fit. A no is a useful answer, and you can book only if the fit is there.',
   path: '/apply',
 })

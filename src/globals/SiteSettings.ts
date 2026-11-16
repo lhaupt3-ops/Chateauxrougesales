@@ -46,6 +46,12 @@ export const SiteSettings: GlobalConfig = {
       admin: { description: 'Off: a review result goes to the free guide and nurture, not the 15-minute call. On: the fit call returns. Qualified leads always get the strategy call.' },
     },
     {
+      name: 'careersIsPlaceholder',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: { description: 'On: the careers page is noindex and left out of the sitemap. Turn it off when the hiring page is real.' },
+    },
+    {
       name: 'nurtureEnabled',
       type: 'checkbox',
       defaultValue: false,

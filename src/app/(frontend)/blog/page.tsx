@@ -1,15 +1,20 @@
 import Link from 'next/link'
 import { Breadcrumbs } from '@/components/site/ui'
+import { countPublishedPosts } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
 import { publishedPosts } from '@/lib/posts'
 
 export const revalidate = 3600
 
-export const metadata = pageMetadata({
-  title: 'Journal · Chateaux Rouge',
-  description: 'Essays on sales teams as a service, closer pay, hiring, and show rate. Written for founders, not job seekers.',
-  path: '/blog',
-})
+export async function generateMetadata() {
+  const count = await countPublishedPosts()
+  return pageMetadata({
+    title: 'Journal · Chateaux Rouge',
+    description: 'Essays on sales teams as a service, closer pay, hiring, and show rate. Written for founders, not job seekers.',
+    path: '/blog',
+    noindex: count < 1,
+  })
+}
 
 export default async function BlogIndex() {
   let posts: { docs: Record<string, unknown>[]; totalPages: number } = { docs: [], totalPages: 1 }
@@ -28,7 +33,7 @@ export default async function BlogIndex() {
       </p>
       {posts.docs.length === 0 ? (
         <p className="mt-10 rounded-2xl border border-dashed border-gold p-6 text-muted">
-          No published essays yet. Three draft examples are in the admin, marked as drafts, so the template can be checked before anything goes live.
+          No published essays yet.
         </p>
       ) : (
         <div className="mt-10 grid gap-4 md:grid-cols-3">

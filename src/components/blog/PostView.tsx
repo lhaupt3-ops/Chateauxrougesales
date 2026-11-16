@@ -91,7 +91,7 @@ export function PostView({ post, related }: { post: Post; related: { title?: str
       </div>
       <p className="mt-8 text-sm">
         <ApplyLink location="post_inline" className="underline">
-          See if we are a fit
+          See if we&apos;re a fit
         </ApplyLink>
         <span className="text-muted"> · </span>
         <Link href="/resources/are-you-ready-for-closers" className="underline">

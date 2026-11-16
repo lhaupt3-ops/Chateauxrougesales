@@ -15,12 +15,12 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'Who owns the data and the recordings?',
       answer:
-        'You do. The CRM stays yours, the notes stay yours, and the recordings stay yours if you leave. The exact wording lives in Site settings and then in the agreement.',
+        'You do. The CRM stays yours, the notes stay yours, and the recordings stay yours if you leave. The exact wording is in the written agreement.',
     },
     {
       question: 'How fast can this be live?',
       answer:
-        'The working target is the timeline in Site settings, currently written as about 14 days to first covered calls. We will not print a number we have not confirmed with operations.',
+        'To be confirmed. We will not print a start date until it is a date we can keep.',
     },
     {
       question: 'What does it cost?',
@@ -45,7 +45,7 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'Is this a long contract?',
       answer:
-        'The working shape is an initial term, then month to month. The notice period is the one written into the agreement.',
+        'The term and the notice period are in the written agreement. Until that agreement exists, both are to be confirmed.',
     },
     {
       question: 'Who is this not for?',
@@ -62,12 +62,12 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'Do you work commission only?',
       answer:
-        'Commission is part of the model. It is not the whole model. Management and call review have a cost even in a quiet month.',
+        'Commission on cash collected is part of the model, after a one-off setup fee. The amounts are to be confirmed in the written agreement.',
     },
     {
       question: 'What is the sales audit?',
       answer:
-        'A paid review of the offer, the calls and the follow-up, for founders who want a diagnosis before a team. It is the smaller door in, not a trick into a retainer.',
+        'A paid review of the offer, the calls and the follow-up, for founders who want a diagnosis before a team.',
     },
   ],
 }

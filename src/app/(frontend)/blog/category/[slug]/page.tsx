@@ -10,10 +10,12 @@ export const revalidate = 3600
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
+  const posts = await publishedPosts({ category: slug, limit: 1 }).catch(() => null)
   return pageMetadata({
     title: `${slug.replace(/-/g, ' ')} · Chateaux Rouge`,
     description: `Essays filed under ${slug.replace(/-/g, ' ')}.`,
     path: `/blog/category/${slug}`,
+    noindex: !posts || posts.docs.length < 1,
   })
 }
 

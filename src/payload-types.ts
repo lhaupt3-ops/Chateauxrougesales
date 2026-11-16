@@ -608,6 +608,10 @@ export interface Application {
    */
   setupFee?: string | null;
   /**
+   * Who else would be part of the decision. Not used in the score.
+   */
+  decisionMakers?: ('just_me' | 'partner' | 'team') | null;
+  /**
    * Older monthly budget band. Not asked on new applications.
    */
   investment?: string | null;
@@ -1477,6 +1481,7 @@ export interface ApplicationsSelect<T extends boolean = true> {
   needs?: T;
   timeline?: T;
   setupFee?: T;
+  decisionMakers?: T;
   investment?: T;
   investmentLabel?: T;
   firstName?: T;
@@ -1691,6 +1696,10 @@ export interface SiteSetting {
    */
   discoveryCallEnabled?: boolean | null;
   /**
+   * On: the careers page is noindex and left out of the sitemap. Turn it off when the hiring page is real.
+   */
+  careersIsPlaceholder?: boolean | null;
+  /**
    * Admins only. Off until you have read the sequence copy. Editors can edit that copy, but nothing is sent while this is off.
    */
   nurtureEnabled?: boolean | null;
@@ -1814,6 +1823,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   calendlyStrategyUrl?: T;
   calendlyFitUrl?: T;
   discoveryCallEnabled?: T;
+  careersIsPlaceholder?: T;
   nurtureEnabled?: T;
   introVideoUrl?: T;
   closerName?: T;

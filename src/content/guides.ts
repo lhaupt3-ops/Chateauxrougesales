@@ -137,7 +137,7 @@ export const services: Guide[] = [
       },
     ],
     related: [
-      { href: '/pricing', label: 'Closer pay, in our model', text: 'How commission sits next to a management fee.' },
+      { href: '/pricing', label: 'Closer pay, in our model', text: 'A one-off setup fee, then commission on cash collected.' },
       { href: '/compare/agency-vs-freelance-closer', label: 'Agency vs freelance', text: 'Who actually manages the person.' },
       { href: '/services/appointment-setting', label: 'Setters', text: 'If the calendar is empty, start here.' },
       { href: '/blog', label: 'Hiring essays', text: 'Vetting and cost guides, published when they are ready.' },
@@ -186,7 +186,7 @@ export const services: Guide[] = [
     faqs: [
       {
         question: 'Is this pay per appointment?',
-        answer: 'Not by default. Setters sit inside the managed team, with a management fee and a commission on cash collected. A pure pay-per-meeting offer is a different contract.',
+        answer: 'Not by default. The model is a one-off setup fee, then commission on cash collected. A pure pay-per-meeting offer is a different contract.',
       },
       {
         question: 'Can you set appointments if I have no leads?',
@@ -236,7 +236,7 @@ export const services: Guide[] = [
     faqs: [
       {
         question: 'Is the audit priced?',
-        answer: 'The fee is set in Site settings once it is real. Until then the page will not invent one. Ask on the fit call and you will get the number in writing.',
+        answer: 'The fee is to be confirmed until it is in the agreement. Ask on the call and you will get the number in writing.',
       },
       {
         question: 'Do you need recordings?',
@@ -244,7 +244,7 @@ export const services: Guide[] = [
       },
     ],
     related: [
-      { href: '/apply', label: 'Apply', text: 'Say you want the audit first. The form has that option.' },
+      { href: '/apply', label: "See if we're a fit", text: 'Say you want the audit first. The form has that option.' },
       { href: '/how-it-works', label: 'How a team runs', text: 'So you can see what the audit is comparing you with.' },
       { href: '/pricing', label: 'The commercial model', text: 'What a full engagement costs, in shape if not yet in final numbers.' },
     ],
@@ -530,7 +530,7 @@ export const comparisons: Guide[] = [
     ],
     related: [
       { href: '/services/high-ticket-closers', label: 'Managed closers', text: 'What the agency column looks like here.' },
-      { href: '/pricing', label: 'Why there is a management fee', text: 'The part a freelance seat usually leaves on you.' },
+      { href: '/pricing', label: 'How the fee is set', text: 'A one-off setup fee, then commission. The amounts are to be confirmed.' },
       { href: '/compare/outsourced-vs-in-house-sales-team', label: 'Versus in house', text: 'The wider comparison, if a freelancer is not the alternative.' },
     ],
   },

@@ -26,6 +26,7 @@ const WRITABLE = [
   'timeline',
   'investment',
   'setupFee',
+  'decisionMakers',
   'notes',
   'firstName',
   'lastName',

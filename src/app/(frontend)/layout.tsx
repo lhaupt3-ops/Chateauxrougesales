@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from 'next'
+import dynamic from 'next/dynamic'
 import { Fraunces, Inter } from 'next/font/google'
-import { Analytics as VercelAnalytics } from '@vercel/analytics/next'
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import { Analytics, AttributionCapture, ConsentBanner } from '@/components/analytics/Analytics'
+import { AttributionCapture } from '@/components/analytics/Analytics'
 import { Footer, Header } from '@/components/site/chrome'
 import { JsonLd } from '@/components/site/JsonLd'
 import { getLatestPosts } from '@/lib/content'
@@ -11,8 +10,13 @@ import { getSettings } from '@/lib/settings'
 import { absoluteUrl, SITE_NAME } from '@/lib/site'
 import './globals.css'
 
-const fraunces = Fraunces({ subsets: ['latin'], display: 'swap', variable: '--font-fraunces' })
-const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' })
+const fraunces = Fraunces({ subsets: ['latin'], display: 'optional', preload: true, adjustFontFallback: true, variable: '--font-fraunces' })
+const inter = Inter({ subsets: ['latin'], display: 'swap', preload: false, adjustFontFallback: true, variable: '--font-inter' })
+
+const Analytics = dynamic(() => import('@/components/analytics/Analytics').then((mod) => mod.Analytics))
+const ConsentBanner = dynamic(() => import('@/components/analytics/Analytics').then((mod) => mod.ConsentBanner))
+const VercelAnalytics = dynamic(() => import('@vercel/analytics/next').then((mod) => mod.Analytics))
+const SpeedInsights = dynamic(() => import('@vercel/speed-insights/next').then((mod) => mod.SpeedInsights))
 
 export const metadata: Metadata = rootMetadata()
 

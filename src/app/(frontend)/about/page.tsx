@@ -51,7 +51,7 @@ export default function AboutPage() {
         <li>Job seekers use <Link href="/careers" className="underline">Careers</Link>. Buyer pages stay about buying.</li>
       </ul>
       <p className="mt-6 text-sm leading-6 text-muted">
-        Hiring profiles, KPI targets, the guarantee and the exact fee are not confirmed yet. They stay in Site settings as drafts until they are real. This page describes the standard, not a contract.
+        Hiring profiles, KPI targets, the guarantee and the exact fee are to be confirmed. This page describes the standard, not a contract.
       </p>
       <div className="mt-8 grid gap-4">
         <Placeholder title="Founders" body="Names, portraits and a short history go here when you add them. A fabricated founder is not a brand." />

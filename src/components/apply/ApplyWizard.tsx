@@ -9,6 +9,7 @@ import {
   CONVERSATION_OPTIONS,
   DIAL_CODES,
   NEED_OPTIONS,
+  DECISION_OPTIONS,
   SETUP_FEE_OPTIONS,
   OFFER_OPTIONS,
   PRICE_OPTIONS,
@@ -18,7 +19,7 @@ import {
   type Option,
 } from '@/lib/options'
 
-const STEPS = ['email', 'offer', 'price', 'revenue', 'conversations', 'setup', 'needs', 'timeline', 'setupFee', 'contact'] as const
+const STEPS = ['email', 'offer', 'price', 'revenue', 'conversations', 'setup', 'needs', 'timeline', 'setupFee', 'decisionMakers', 'contact'] as const
 
 type Answers = Record<string, string | string[]>
 
@@ -91,6 +92,7 @@ export function ApplyWizard({
           timeline: data.timeline || '',
           investment: data.investment || '',
           setupFee: data.setupFee || '',
+          decisionMakers: data.decisionMakers || '',
         })
         if (data.offerOther) setOtherText(data.offerOther)
         if (!initialId && data.stepReached) {
@@ -305,10 +307,10 @@ export function ApplyWizard({
 
       {step === 'email' && (
         <form onSubmit={submitEmail} className="space-y-4">
-          <h1 className="font-serif text-4xl tracking-[-0.04em]">See if we are a fit.</h1>
+          <h1 className="font-serif text-4xl tracking-[-0.04em]">See if we&apos;re a fit.</h1>
           <p className="text-lg text-muted">Where should we send the result? A no is a useful answer.</p>
           <label className="block text-sm" htmlFor="email">
-            Work email
+            Email
           </label>
           <input id="email" name="email" type="email" autoComplete="email" required defaultValue={String(answers.email || '')} className="h-12 w-full rounded-2xl border border-stone bg-white px-4" />
           <button className="h-12 rounded-full bg-rouge px-5 text-sm font-medium text-white" disabled={pending}>
@@ -396,6 +398,14 @@ export function ApplyWizard({
           <OptionList options={setupFeeOptions} selected={String(answers.setupFee || '')} onChoose={choose} />
         </div>
       )}
+      {step === 'decisionMakers' && (
+        <Step
+          title="Who else would be part of a decision like this?"
+          options={DECISION_OPTIONS}
+          selected={String(answers.decisionMakers || '')}
+          onChoose={choose}
+        />
+      )}
       {step === 'contact' && (
         <form onSubmit={finish} className="space-y-4">
           <h1 className="font-serif text-4xl tracking-[-0.04em]">How should we reach you?</h1>
@@ -422,7 +432,7 @@ export function ApplyWizard({
           </div>
           <Field label="Company or website" name="website" autoComplete="url" required={false} placeholder="acme.com" />
           <label className="block text-sm">
-            Anything we should know?
+            What made you look at this now? One line is plenty.
             <textarea name="notes" maxLength={300} className="mt-1 min-h-24 w-full rounded-2xl border border-stone px-4 py-3" />
           </label>
           <label className="flex items-start gap-3 text-sm leading-6">
@@ -524,6 +534,7 @@ function keyFor(step: (typeof STEPS)[number]): string {
   if (step === 'setup') return 'salesSetup'
   if (step === 'timeline') return 'timeline'
   if (step === 'setupFee') return 'setupFee'
+  if (step === 'decisionMakers') return 'decisionMakers'
   return step
 }
 
@@ -536,5 +547,6 @@ function optionsFor(step: (typeof STEPS)[number], setupFee: Option[]): Option[] 
   if (step === 'needs') return NEED_OPTIONS
   if (step === 'timeline') return TIMELINE_OPTIONS
   if (step === 'setupFee') return setupFee
+  if (step === 'decisionMakers') return DECISION_OPTIONS
   return null
 }

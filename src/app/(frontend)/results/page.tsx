@@ -1,15 +1,22 @@
 import Link from 'next/link'
 import { Breadcrumbs, Placeholder } from '@/components/site/ui'
+import { countRealResults } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
 import { getPayloadClient } from '@/lib/payload'
 
 export const revalidate = 3600
 
-export const metadata = pageMetadata({
-  title: 'Results · Chateaux Rouge',
-  description: 'No results are published yet. A case appears only after a client approves the name, the metric and the time window.',
-  path: '/results',
-})
+export async function generateMetadata() {
+  const count = await countRealResults()
+  return pageMetadata({
+    title: 'Results · Chateaux Rouge',
+    description: count
+      ? 'Client results published with permission: the name, the metric and the time window.'
+      : 'A case appears here only after a client approves the name, the metric and the time window.',
+    path: '/results',
+    noindex: count < 1,
+  })
+}
 
 export default async function ResultsPage() {
   let studies: { slug?: string | null; clientName: string; offerPriceBand?: string | null; illustrative?: boolean | null }[] = []

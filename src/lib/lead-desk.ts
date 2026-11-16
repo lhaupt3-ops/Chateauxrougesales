@@ -1,5 +1,6 @@
 import {
   CONVERSATION_OPTIONS,
+  DECISION_OPTIONS,
   INVESTMENT_VALUES,
   NEED_OPTIONS,
   OFFER_OPTIONS,
@@ -86,6 +87,8 @@ export function fitGroups(data: Record<string, unknown>): FitGroup[] {
       rows: [
         { question: 'What they want', answer: answerLabel(NEED_OPTIONS, data.needs) },
         { question: 'Timeline', answer: answerLabel(TIMELINE_OPTIONS, data.timeline) },
+        { question: 'Who decides', answer: answerLabel(DECISION_OPTIONS, data.decisionMakers) },
+        { question: 'Why now', answer: text(data.notes) },
       ],
     },
   ]
