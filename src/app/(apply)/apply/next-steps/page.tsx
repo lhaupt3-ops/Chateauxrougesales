@@ -5,48 +5,60 @@ import { OutcomeViewed } from '@/components/apply/OutcomeViewed'
 import { WaitlistForm } from '@/components/apply/WaitlistForm'
 import { findByPublicId } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
+import { getSettings } from '@/lib/settings'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
-  title: 'Not yet · Chateaux Rouge',
-  description: 'Not the moment for a managed team. A plain next step, and a waitlist if you want one.',
+  title: 'Next step · Chateaux Rouge',
+  description: 'A plain next step. The free guide, and a way back when the fit is real.',
   path: '/apply/next-steps',
   noindex: true,
 })
 
-export default async function NextStepsPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
+export default async function NextStepsPage({ searchParams }: { searchParams: Promise<{ id?: string; path?: string }> }) {
   const params = await searchParams
   const jar = await cookies()
   const id = params.id || jar.get('cr_application')?.value || ''
   const doc = await findByPublicId(id)
   if (!doc) redirect('/apply')
+  const settings = await getSettings()
+  const reviewWithoutCall = doc.tier === 'review' && !settings.discoveryCallEnabled
 
-  const advice =
-    doc.pricePoint === 'under_1000'
+  const advice = reviewWithoutCall
+    ? {
+        title: 'Not a strategy call yet',
+        body: 'The answers are close, and they are not a clear yes. The 15-minute discovery call is switched off, so the next step is the free guide. Work through it, then reapply. A strategy call opens once the result is qualified.',
+      }
+    : doc.pricePoint === 'under_1000'
       ? {
           title: 'The price is too small for this team',
-          body: 'The working rule is that a sub-$1,000 offer does not carry setters and closers. Raise the price, or bundle the work so one yes can pay for the seat. Then come back. This threshold is a draft until it is confirmed.',
+          body: 'A sub-$1,000 offer does not carry setters and closers. Raise the price, or bundle the work so one yes can pay for the seat. Then come back. This threshold is a working rule, not a published promise.',
         }
-      : doc.investment === 'under_3k'
+      : doc.setupFee === 'no'
         ? {
-            title: 'The working floor is $3,000 a month',
-            body: 'Below that, a managed team costs more than it returns. The bands on the pricing page are a draft. Come back when an honest range sits inside them.',
+            title: 'Commission only is not enough to start',
+            body: 'The model is a one-off setup fee, then commission. There is no monthly retainer, and there is also no path that starts on commission alone. Reapply when a setup fee is possible. The amount is still to be confirmed in writing.',
           }
-        : doc.monthlyConversations === 'none'
-        ? {
-            title: 'There is nothing to close yet',
-            body: 'A closer cannot invent demand. Get a small, steady set of conversations first. Setters can join a later team. They still need a real offer to talk about.',
-          }
-        : doc.monthlyRevenue === 'pre_revenue'
+        : doc.investment === 'under_3k'
           ? {
-              title: 'Sell it yourself a few times first',
-              body: 'You will learn the objections, the price and the delivery load. Those notes are what a team needs. Without them, we would be guessing on your calls.',
+              title: 'That older budget answer does not fit the current model',
+              body: 'This application was scored against a monthly budget. The model is now a one-off setup fee, then commission, with no monthly retainer. Reapply and answer the setup-fee question.',
             }
-          : {
-              title: 'Not the moment for a full team',
-              body: 'The answers say a managed team would cost more than it returns right now. That is a useful result, not a brush-off. The application is saved if you want to try again.',
-            }
+          : doc.monthlyConversations === 'none'
+            ? {
+                title: 'There is nothing to close yet',
+                body: 'A closer cannot invent demand. Get a small, steady set of conversations first. Setters can join a later team. They still need a real offer to talk about.',
+              }
+            : doc.monthlyRevenue === 'pre_revenue'
+              ? {
+                  title: 'Sell it yourself a few times first',
+                  body: 'You will learn the objections, the price and the delivery load. Those notes are what a team needs. Without them, we would be guessing on your calls.',
+                }
+              : {
+                  title: 'Not the moment for a full team',
+                  body: 'The answers say a managed team would cost more than it returns right now. That is a useful result, not a brush-off. The application is saved if you want to try again.',
+                }
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
@@ -54,20 +66,27 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
       <h1 className="font-serif text-4xl tracking-[-0.04em]">{advice.title}</h1>
       <p className="mt-4 text-lg leading-8 text-muted">{advice.body}</p>
       <div className="mt-8 grid gap-3">
-        <Link className="rounded-2xl border border-stone p-4 hover:border-ink" href="/resources/sales-team-readiness-scorecard">
-          Sales Team Readiness Scorecard
-        </Link>
-        <Link className="rounded-2xl border border-stone p-4 hover:border-ink" href="/resources/show-rate-playbook">
-          Show-Rate Playbook
+        <Link className="rounded-2xl border border-stone p-4 hover:border-ink" href="/resources/are-you-ready-for-closers">
+          <span className="block font-medium">Are you actually ready for closers?</span>
+          <span className="mt-1 block text-sm text-muted">The free guide. A scorecard, the two conversations, and what to fix before you hire.</span>
         </Link>
       </div>
       <WaitlistForm id={String(doc.publicId)} reason={advice.title} />
       <p className="mt-8 text-sm text-muted">
-        Think we got it wrong?{' '}
-        <Link className="underline" href={`/apply/book?id=${doc.publicId}&override=1`}>
-          Book a 15-minute fit call
+        <Link className="underline" href={`/apply?id=${doc.publicId}`}>
+          Reapply when the numbers have moved
         </Link>
         .
+        {settings.discoveryCallEnabled && doc.tier === 'not_yet' && (
+          <>
+            {' '}
+            Think we got it wrong?{' '}
+            <Link className="underline" href={`/apply/book?id=${doc.publicId}&override=1`}>
+              Book a 15-minute fit call
+            </Link>
+            .
+          </>
+        )}
       </p>
     </div>
   )

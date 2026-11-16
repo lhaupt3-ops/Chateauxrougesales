@@ -109,9 +109,11 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     'site-settings': SiteSetting;
+    'email-sequences': EmailSequence;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'email-sequences': EmailSequencesSelect<false> | EmailSequencesSelect<true>;
   };
   locale: null;
   widgets: {
@@ -188,6 +190,7 @@ export interface Media {
    * Required. Describe the image for screen readers and search.
    */
   alt: string;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -563,8 +566,26 @@ export interface Application {
     | boolean
     | null;
   timeline?: string | null;
+  /**
+   * Legacy monthly band. Older applications only.
+   */
   investment?: string | null;
   investmentLabel?: string | null;
+  setupFee?: string | null;
+  emailUnsubscribed?: boolean | null;
+  marketingConsent?: boolean | null;
+  unsubscribeToken?: string | null;
+  nurtureEnrolledAt?: string | null;
+  sequenceKind?: ('none' | 'nurture' | 'partial' | 'qualified') | null;
+  sequenceLog?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   notes?: string | null;
   utmSource?: string | null;
   utmMedium?: string | null;
@@ -865,6 +886,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1121,6 +1143,13 @@ export interface ApplicationsSelect<T extends boolean = true> {
   timeline?: T;
   investment?: T;
   investmentLabel?: T;
+  setupFee?: T;
+  emailUnsubscribed?: T;
+  marketingConsent?: T;
+  unsubscribeToken?: T;
+  nurtureEnrolledAt?: T;
+  sequenceKind?: T;
+  sequenceLog?: T;
   notes?: T;
   utmSource?: T;
   utmMedium?: T;
@@ -1249,7 +1278,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
- * Calendly links, notification email, guarantee copy, and the investment bands shown on the application. Placeholders stay visible until you replace them.
+ * Calendly links, notification email, the setup fee and commission placeholders, and the switches for the discovery call and nurture emails.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings".
@@ -1270,9 +1299,17 @@ export interface SiteSetting {
    */
   calendlyStrategyUrl?: string | null;
   /**
-   * 15 min fit call URL.
+   * 15 min fit call URL. Used only when the discovery call is switched on.
    */
   calendlyFitUrl?: string | null;
+  /**
+   * Off: a review result goes to the free guide and nurture, not the 15-minute call. On: the fit call returns. Qualified leads always get the strategy call.
+   */
+  discoveryCallEnabled?: boolean | null;
+  /**
+   * Off until you have read the sequence copy. Nothing in the nurture or follow-up sequences is sent while this is off.
+   */
+  nurtureEnabled?: boolean | null;
   /**
    * Direct video file or YouTube URL for the confirmation page.
    */
@@ -1293,7 +1330,37 @@ export interface SiteSetting {
   bandLowLabel: string;
   bandMidLabel: string;
   bandHighLabel: string;
+  /**
+   * Legacy monthly bands. Not shown. Kept so older applications still have labels.
+   */
   bandTopLabel: string;
+  /**
+   * Example: $4,000 once. Leave blank while the amount is unconfirmed.
+   */
+  setupFeeLabel?: string | null;
+  /**
+   * Keep on until the setup fee is a number you will honour. The site then says “to be confirmed”.
+   */
+  setupFeeIsPlaceholder?: boolean | null;
+  /**
+   * Example: 10% of cash collected. Leave blank while it is unconfirmed.
+   */
+  commissionLabel?: string | null;
+  /**
+   * Keep on until the commission percentage is confirmed.
+   */
+  commissionIsPlaceholder?: boolean | null;
+  legalName?: string | null;
+  legalEmail?: string | null;
+  legalCountry?: string | null;
+  /**
+   * Leave blank until counsel names the governing law.
+   */
+  governingLaw?: string | null;
+  /**
+   * Keep on until governing law is confirmed.
+   */
+  governingLawIsPlaceholder?: boolean | null;
   /**
    * Keep this on until the bands are the real commercial ranges.
    */
@@ -1314,6 +1381,30 @@ export interface SiteSetting {
   createdAt?: string | null;
 }
 /**
+ * Copy for the nurture and follow-up emails. Nothing is sent until Site settings → nurtureEnabled is on. Send a preview to yourself with POST /api/admin/sequence-preview while logged in as an admin.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-sequences".
+ */
+export interface EmailSequence {
+  id: number;
+  /**
+   * Keys are fixed: nurture-1 to nurture-5, partial-1 to partial-3, qualified-1 to qualified-3. Leave a step out to use the code default. The first boot copies the defaults in when this list is empty.
+   */
+  steps?:
+    | {
+        key: string;
+        delayHours: number;
+        subject: string;
+        heading: string;
+        body: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
@@ -1323,6 +1414,8 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   resendFrom?: T;
   calendlyStrategyUrl?: T;
   calendlyFitUrl?: T;
+  discoveryCallEnabled?: T;
+  nurtureEnabled?: T;
   introVideoUrl?: T;
   closerName?: T;
   closerRole?: T;
@@ -1335,6 +1428,15 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   bandMidLabel?: T;
   bandHighLabel?: T;
   bandTopLabel?: T;
+  setupFeeLabel?: T;
+  setupFeeIsPlaceholder?: T;
+  commissionLabel?: T;
+  commissionIsPlaceholder?: T;
+  legalName?: T;
+  legalEmail?: T;
+  legalCountry?: T;
+  governingLaw?: T;
+  governingLawIsPlaceholder?: T;
   bandsArePlaceholder?: T;
   startingFrom?: T;
   capacityPerMonth?: T;
@@ -1342,6 +1444,25 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   youtube?: T;
   xUrl?: T;
   instagram?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-sequences_select".
+ */
+export interface EmailSequencesSelect<T extends boolean = true> {
+  steps?:
+    | T
+    | {
+        key?: T;
+        delayHours?: T;
+        subject?: T;
+        heading?: T;
+        body?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

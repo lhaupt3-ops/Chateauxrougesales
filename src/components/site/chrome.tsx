@@ -8,6 +8,7 @@ export const NAV = [
   { href: '/results', label: 'Results' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/blog', label: 'Blog' },
+  { href: '/resources/are-you-ready-for-closers', label: 'Guide' },
 ]
 
 export function Header() {
@@ -79,6 +80,8 @@ const FOOTER = [
       ['/about', 'About'],
       ['/careers', 'Careers'],
       ['/blog', 'Journal'],
+      ['/resources', 'Resources'],
+      ['/resources/are-you-ready-for-closers', 'Ready for closers?'],
     ],
   },
 ]

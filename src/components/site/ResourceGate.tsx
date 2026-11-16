@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState, useSyncExternalStore } from 'react'
 import { useRouter } from 'next/navigation'
 import { consentGranted } from './EmailCapture'
 import { track } from '@/components/analytics/track'
@@ -16,31 +16,53 @@ export function ResourceGate({
   scorecard: boolean
   children: React.ReactNode
 }) {
-  const [open, setOpen] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+  const remembered = useSyncExternalStore(
+    () => () => {},
+    () => window.localStorage.getItem(`cr_guide_${slug}`) === '1',
+    () => false,
+  )
+  const open = remembered || submitted
+
+  useEffect(() => {
+    track('lead_magnet_view', { resource: slug, page: window.location.pathname })
+  }, [slug])
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const email = String(new FormData(event.currentTarget).get('email') || '')
+    const form = new FormData(event.currentTarget)
+    const email = String(form.get('email') || '')
+    if (form.get('consent') !== 'yes') {
+      setError('Tick the box so we can email the guide.')
+      return
+    }
     const response = await fetch('/api/apply/magnet', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, resource: slug, page: window.location.pathname, analyticsConsent: consentGranted() }),
+      body: JSON.stringify({
+        email,
+        resource: slug,
+        page: window.location.pathname,
+        analyticsConsent: consentGranted(),
+        marketingConsent: true,
+      }),
     })
     const data = (await response.json()) as { error?: string; id?: string }
     if (!response.ok) {
       setError(data.error || 'Use a real email.')
       return
     }
+    window.localStorage.setItem(`cr_guide_${slug}`, '1')
+    setSubmitted(true)
+    track('lead_magnet_optin', { resource: slug, page: window.location.pathname })
     track('lead_magnet_submitted', { resource: slug, page: window.location.pathname })
     track('nurture_resource_downloaded', { resource: slug })
     if (scorecard && data.id) {
       window.localStorage.setItem('cr_application_id', data.id)
       router.push(`/apply?step=2&id=${data.id}&entry=scorecard`)
-      return
     }
-    setOpen(true)
   }
 
   if (open) return <div className="mt-8">{children}</div>
@@ -50,10 +72,14 @@ export function ResourceGate({
       <p className="text-sm text-muted">
         {scorecard
           ? 'These are the same questions as the application. Leave your email to continue. The result is a next step, not a promise.'
-          : `Leave your email to read ${title}. What follows is a working draft, not a client result.`}
+          : `Leave your email to read ${title}. We will also send the link. Unsubscribe any time.`}
       </p>
       <input name="email" type="email" required autoComplete="email" placeholder="Work email" className="h-12 w-full rounded-full border border-stone px-4" />
-      <button className="h-12 rounded-full bg-rouge px-5 text-sm text-white">{scorecard ? 'Start the scorecard' : 'Read it'}</button>
+      <label className="flex items-start gap-2 text-sm text-muted">
+        <input name="consent" type="checkbox" value="yes" className="mt-1" />
+        <span>Email me this guide. I can unsubscribe in one click. This is separate from analytics cookies.</span>
+      </label>
+      <button className="h-12 rounded-full bg-rouge px-5 text-sm text-white">{scorecard ? 'Start the scorecard' : 'Email me the guide'}</button>
       {error && <p className="text-sm text-wine">{error}</p>}
     </form>
   )

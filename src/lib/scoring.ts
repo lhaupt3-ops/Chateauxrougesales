@@ -1,9 +1,9 @@
 import { INVESTMENT_VALUES } from './options'
 
-// Working qualification rules, not a confirmed commercial policy.
-// Price under $1,000, pre-revenue with no conversations, and investment under $3,000 a month route to not yet.
-// The public site calls these a draft until the ranges are confirmed.
-export const SCORING_VERSION = '2'
+// Version 3. New applications are scored on whether they can pay a setup fee.
+// Older monthly-band answers still score, and under_3k still routes to not yet.
+// Rules: docs/scoring.md
+export const SCORING_VERSION = '3'
 
 export type ApplicationAnswers = {
   offerType?: string | null
@@ -13,6 +13,7 @@ export type ApplicationAnswers = {
   monthlyConversations?: string | null
   timeline?: string | null
   investment?: string | null
+  setupFee?: string | null
   needs?: string[] | null
 }
 
@@ -56,6 +57,13 @@ const TIMELINE_POINTS: Record<string, number> = {
   this_month: 3,
   '1_3_months': 1,
   researching: 0,
+}
+
+const SETUP_FEE_POINTS: Record<string, number> = {
+  yes: 3,
+  not_yet: 1,
+  not_sure: 1,
+  no: 0,
 }
 
 const INVESTMENT_POINTS: Record<string, number> = {
@@ -105,12 +113,15 @@ export function isFlaggedOffer(text: string | null | undefined): boolean {
 export function scoreApplication(answers: ApplicationAnswers): ScoreResult {
   const reasons: string[] = []
   const tags: string[] = []
+  const commercial = answers.setupFee
+    ? points(SETUP_FEE_POINTS, answers.setupFee, reasons, 'setup')
+    : points(INVESTMENT_POINTS, answers.investment, reasons, 'investment')
   const score =
     points(PRICE_POINTS, answers.pricePoint, reasons, 'price') +
     points(REVENUE_POINTS, answers.monthlyRevenue, reasons, 'revenue') +
     points(CONVERSATION_POINTS, answers.monthlyConversations, reasons, 'conversations') +
     points(TIMELINE_POINTS, answers.timeline, reasons, 'timeline') +
-    points(INVESTMENT_POINTS, answers.investment, reasons, 'investment')
+    commercial
 
   let tier: Tier = score >= 13 ? 'qualified' : score >= 8 ? 'review' : 'not_yet'
 
@@ -130,9 +141,14 @@ export function scoreApplication(answers: ApplicationAnswers): ScoreResult {
     reasons.push('hard:pre_revenue_and_no_conversations')
   }
 
-  if (answers.investment === INVESTMENT_VALUES.under3k) {
+  if (!answers.setupFee && answers.investment === INVESTMENT_VALUES.under3k) {
     tier = 'not_yet'
     reasons.push('hard:investment_under_3000')
+  }
+
+  if (answers.setupFee === 'no') {
+    tier = 'not_yet'
+    reasons.push('hard:cannot_pay_setup')
   }
 
   const flagged = answers.offerType === 'other' && isFlaggedOffer(answers.offerOther)

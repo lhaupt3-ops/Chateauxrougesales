@@ -56,6 +56,13 @@ export const TIMELINE_OPTIONS: Option[] = [
   { value: 'researching', label: 'Just researching for now' },
 ]
 
+export const SETUP_FEE_OPTIONS: Option[] = [
+  { value: 'yes', label: 'Yes. I can pay a one-off setup fee.' },
+  { value: 'not_yet', label: 'Not yet, but I could within a month or two.' },
+  { value: 'not_sure', label: 'I need to see the number first.' },
+  { value: 'no', label: 'No. I can only pay from commission.' },
+]
+
 export const INVESTMENT_VALUES = {
   under3k: 'under_3k',
   band1: '3k_5k',

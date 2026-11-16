@@ -141,7 +141,7 @@ test('missing answers score zero and land in not yet', () => {
   const result = scoreApplication({})
   assert.equal(result.score, 0)
   assert.equal(result.tier, 'not_yet')
-  assert.equal(result.scoringVersion, '2')
+  assert.equal(result.scoringVersion, '3')
 })
 
 test('an investment under $3,000 a month is always not yet', () => {
@@ -170,6 +170,45 @@ test('the $3,000–$5,000 band can still qualify', () => {
   })
   assert.equal(result.score, 19)
   assert.equal(result.tier, 'qualified')
+})
+
+test('a lead who cannot pay a setup fee is not yet', () => {
+  const result = scoreApplication({
+    offerType: 'coaching',
+    pricePoint: '10000_24999',
+    monthlyRevenue: '100k_250k',
+    monthlyConversations: '31_80',
+    timeline: 'asap',
+    setupFee: 'no',
+  })
+  assert.equal(result.tier, 'not_yet')
+  assert.ok(result.reasons.includes('hard:cannot_pay_setup'))
+})
+
+test('a lead who can pay a setup fee can still qualify', () => {
+  const result = scoreApplication({
+    offerType: 'coaching',
+    pricePoint: '10000_24999',
+    monthlyRevenue: '100k_250k',
+    monthlyConversations: '31_80',
+    timeline: 'asap',
+    setupFee: 'yes',
+  })
+  assert.equal(result.score, 20)
+  assert.equal(result.tier, 'qualified')
+})
+
+test('not yet on the setup fee can still land in review', () => {
+  const result = scoreApplication({
+    offerType: 'course',
+    pricePoint: '3000_9999',
+    monthlyRevenue: '10k_30k',
+    monthlyConversations: '1_10',
+    timeline: '1_3_months',
+    setupFee: 'not_yet',
+  })
+  assert.equal(result.score, 10)
+  assert.equal(result.tier, 'review')
 })
 
 test('the $3,000–$5,000 band can still land in review', () => {

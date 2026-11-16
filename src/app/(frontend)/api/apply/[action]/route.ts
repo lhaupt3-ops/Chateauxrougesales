@@ -79,6 +79,8 @@ async function start(request: Request, body: Body) {
       entry: String(body.entry || 'apply_page'),
       source: String(body.entry || 'apply_page'),
       stepReached: 'email',
+      sequenceKind: 'partial',
+      nurtureEnrolledAt: new Date().toISOString(),
       analyticsConsent: Boolean(body.analyticsConsent),
       country: await requestCountry(),
       utmSource: attribution.utmSource || '',
@@ -112,7 +114,10 @@ async function start(request: Request, body: Body) {
 async function save(body: Body) {
   const doc = await findByPublicId(String(body.id || ''))
   if (!doc) return NextResponse.json({ error: 'We could not find that application. Start again.' }, { status: 404 })
-  if (doc.status !== 'partial') return NextResponse.json({ id: doc.publicId, status: doc.status, next: resultPath(doc) })
+  if (doc.status !== 'partial') {
+    const settings = await getSettings()
+    return NextResponse.json({ id: doc.publicId, status: doc.status, next: resultPath(doc, { discoveryCallEnabled: settings.discoveryCallEnabled }) })
+  }
   const payload = await getPayloadClient()
   await payload.update({
     collection: 'applications',
@@ -150,6 +155,7 @@ async function complete(body: Body) {
     monthlyConversations: String(data.monthlyConversations || doc.monthlyConversations || ''),
     timeline: String(data.timeline || doc.timeline || ''),
     investment: String(data.investment || doc.investment || ''),
+    setupFee: String(data.setupFee || doc.setupFee || ''),
     needs: (Array.isArray(data.needs) ? data.needs : Array.isArray(doc.needs) ? doc.needs : []) as string[],
   }
   const scored = scoreApplication(answers)
@@ -177,10 +183,12 @@ async function complete(body: Body) {
       scoringVersion: scored.scoringVersion,
       completedAt: new Date().toISOString(),
       stepReached: 'contact',
-      priorityCall: scored.tier !== 'not_yet',
+      priorityCall: scored.tier === 'qualified',
+      sequenceKind: scored.tier === 'qualified' ? 'qualified' : 'nurture',
+      nurtureEnrolledAt: new Date().toISOString(),
     },
   })
-  const next = resultPath(updated as never)
+  const next = resultPath(updated as never, { discoveryCallEnabled: settings.discoveryCallEnabled })
   await notifyApplication(updated as never, 'complete')
   await notifyApplicant(updated as never, 'complete')
   const consent = Boolean(data.analyticsConsent || doc.analyticsConsent)
@@ -266,7 +274,13 @@ async function waitlist(body: Body) {
     collection: 'applications',
     id: doc.id,
     overrideAccess: true,
-    data: { waitlist: true, status: 'nurture', nurtureReason: String(body.reason || doc.tier || 'not_yet') },
+    data: {
+      waitlist: true,
+      status: 'nurture',
+      nurtureReason: String(body.reason || doc.tier || 'not_yet'),
+      sequenceKind: 'nurture',
+      nurtureEnrolledAt: doc.sequenceKind === 'nurture' && typeof doc.nurtureEnrolledAt === 'string' ? doc.nurtureEnrolledAt : new Date().toISOString(),
+    },
   })
   await notifyApplicant(updated as never, 'waitlist')
   await captureServer(String(doc.publicId), 'waitlist_joined', { reason: body.reason || doc.tier }, Boolean(doc.analyticsConsent))
@@ -309,22 +323,31 @@ async function magnet(body: Body) {
         email,
         status: 'nurture',
         source: 'lead_magnet',
+        sequenceKind: 'nurture',
+        nurtureEnrolledAt: new Date().toISOString(),
+        marketingConsent: true,
         resourceSlug: resource,
         landingPage: String(body.page || ''),
         analyticsConsent: Boolean(body.analyticsConsent),
       },
     })
-  } else if (!doc.resourceSlug) {
+  } else if (doc.status !== 'booked' && doc.sequenceKind !== 'qualified') {
     doc = await payload.update({
       collection: 'applications',
       id: doc.id,
       overrideAccess: true,
-      data: { resourceSlug: resource, source: doc.source || 'lead_magnet' },
+      data: {
+        resourceSlug: doc.resourceSlug || resource,
+        source: doc.source || 'lead_magnet',
+        marketingConsent: true,
+        sequenceKind: 'nurture',
+        nurtureEnrolledAt: doc.sequenceKind === 'nurture' && typeof doc.nurtureEnrolledAt === 'string' ? doc.nurtureEnrolledAt : new Date().toISOString(),
+      },
     })
   }
   await notifyApplication(doc as never, 'magnet')
   await notifyApplicant(doc as never, 'magnet')
-  await captureServer(String(doc.publicId || doc.id), 'lead_magnet_submitted', { resource, page: body.page }, Boolean(body.analyticsConsent))
+  await captureServer(String(doc.publicId || doc.id), 'lead_magnet_optin', { resource, page: body.page }, Boolean(body.analyticsConsent))
   return NextResponse.json({ ok: true, id: doc.publicId })
 }
 
@@ -370,7 +393,8 @@ async function resume(id: string) {
     needs: doc.needs || [],
     timeline: doc.timeline,
     investment: doc.investment,
-    next: doc.status === 'partial' ? null : resultPath(doc),
+    setupFee: doc.setupFee,
+    next: doc.status === 'partial' ? null : resultPath(doc, { discoveryCallEnabled: (await getSettings()).discoveryCallEnabled }),
   })
 }
 

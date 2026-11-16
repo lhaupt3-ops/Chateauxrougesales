@@ -157,7 +157,7 @@ export const FUNNEL_STEPS = [
   'setup',
   'needs',
   'timeline',
-  'investment',
+  'setupFee',
   'contact',
 ] as const
 

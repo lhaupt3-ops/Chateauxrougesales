@@ -8,8 +8,8 @@ import { emailDomainType } from '@/lib/site'
 import {
   CONVERSATION_OPTIONS,
   DIAL_CODES,
-  INVESTMENT_VALUES,
   NEED_OPTIONS,
+  SETUP_FEE_OPTIONS,
   OFFER_OPTIONS,
   PRICE_OPTIONS,
   REVENUE_OPTIONS,
@@ -17,9 +17,8 @@ import {
   TIMELINE_OPTIONS,
   type Option,
 } from '@/lib/options'
-import type { InvestmentBands } from '@/lib/settings'
 
-const STEPS = ['email', 'offer', 'price', 'revenue', 'conversations', 'setup', 'needs', 'timeline', 'investment', 'contact'] as const
+const STEPS = ['email', 'offer', 'price', 'revenue', 'conversations', 'setup', 'needs', 'timeline', 'setupFee', 'contact'] as const
 
 type Answers = Record<string, string | string[]>
 
@@ -27,13 +26,11 @@ export function ApplyWizard({
   initialId = '',
   initialStep = '1',
   entry = 'apply_page',
-  bands,
   defaultDial,
 }: {
   initialId?: string
   initialStep?: string
   entry?: string
-  bands: InvestmentBands
   defaultDial: string
 }) {
   const [index, setIndex] = useState(initialStep === '2' && initialId ? 1 : 0)
@@ -59,15 +56,7 @@ export function ApplyWizard({
     if (identifyApplication(applicationId, email)) identified.current = true
   }, [])
 
-  const investmentOptions: Option[] = [
-    { value: INVESTMENT_VALUES.under3k, label: 'Under $3,000/mo' },
-    { value: INVESTMENT_VALUES.band1, label: bands.low },
-    { value: INVESTMENT_VALUES.band2, label: bands.mid },
-    { value: INVESTMENT_VALUES.band3, label: bands.high },
-    { value: INVESTMENT_VALUES.band4, label: bands.top },
-    { value: INVESTMENT_VALUES.performance, label: 'Performance only (commission only)' },
-    { value: INVESTMENT_VALUES.unsure, label: 'Not sure yet. Show me the options.' },
-  ]
+  const setupFeeOptions: Option[] = SETUP_FEE_OPTIONS
 
   useEffect(() => {
     if (viewed.current) return
@@ -101,6 +90,7 @@ export function ApplyWizard({
           needs: data.needs || [],
           timeline: data.timeline || '',
           investment: data.investment || '',
+          setupFee: data.setupFee || '',
         })
         if (data.offerOther) setOtherText(data.offerOther)
         if (!initialId && data.stepReached) {
@@ -140,7 +130,7 @@ export function ApplyWizard({
     function onKey(event: KeyboardEvent) {
       const target = event.target as HTMLElement | null
       if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return
-      const options = optionsFor(STEPS[index], investmentOptions)
+      const options = optionsFor(STEPS[index], setupFeeOptions)
       const number = Number(event.key)
       if (!options || number < 1 || number > options.length) return
       event.preventDefault()
@@ -277,7 +267,7 @@ export function ApplyWizard({
   }
 
   const step = STEPS[index]
-  const options = optionsFor(step, investmentOptions)
+  const options = optionsFor(step, setupFeeOptions)
 
   return (
     <div>
@@ -397,13 +387,13 @@ export function ApplyWizard({
         </div>
       )}
       {step === 'timeline' && <Step title="When would you want this in place?" hint="Researching is an honest answer. It changes the route, not the respect." options={TIMELINE_OPTIONS} selected={String(answers.timeline || '')} onChoose={choose} />}
-      {step === 'investment' && (
+      {step === 'setupFee' && (
         <div>
-          <h1 className="font-serif text-4xl tracking-[-0.04em]">Which monthly range is honest?</h1>
+          <h1 className="font-serif text-4xl tracking-[-0.04em]">Can you pay a one-off setup fee?</h1>
           <p className="mt-3 max-w-xl leading-7 text-muted">
-            The shape is a setup fee, a monthly management fee, and commission on cash collected. These bands are a working draft, not a quote. The agreement is the price. Under $3,000 a month is below the working floor.
+            After that, the model is commission on cash collected. There is no monthly retainer. The setup amount and the commission percentage are still to be confirmed, in writing, before you pay.
           </p>
-          <OptionList options={investmentOptions} selected={String(answers.investment || '')} onChoose={choose} />
+          <OptionList options={setupFeeOptions} selected={String(answers.setupFee || '')} onChoose={choose} />
         </div>
       )}
       {step === 'contact' && (
@@ -456,7 +446,7 @@ export function ApplyWizard({
         </form>
       )}
 
-      {options && step !== 'offer' && step !== 'needs' && step !== 'investment' ? null : null}
+      {options && step !== 'offer' && step !== 'needs' && step !== 'setupFee' ? null : null}
       {error && <p className="mt-4 text-sm text-wine">{error}</p>}
       <p className="mt-10 text-xs leading-5 text-muted">Your answers are private. No spam. Takes about 90 seconds.</p>
     </div>
@@ -533,11 +523,11 @@ function keyFor(step: (typeof STEPS)[number]): string {
   if (step === 'conversations') return 'monthlyConversations'
   if (step === 'setup') return 'salesSetup'
   if (step === 'timeline') return 'timeline'
-  if (step === 'investment') return 'investment'
+  if (step === 'setupFee') return 'setupFee'
   return step
 }
 
-function optionsFor(step: (typeof STEPS)[number], investment: Option[]): Option[] | null {
+function optionsFor(step: (typeof STEPS)[number], setupFee: Option[]): Option[] | null {
   if (step === 'offer') return OFFER_OPTIONS
   if (step === 'price') return PRICE_OPTIONS
   if (step === 'revenue') return REVENUE_OPTIONS
@@ -545,6 +535,6 @@ function optionsFor(step: (typeof STEPS)[number], investment: Option[]): Option[
   if (step === 'setup') return SETUP_OPTIONS
   if (step === 'needs') return NEED_OPTIONS
   if (step === 'timeline') return TIMELINE_OPTIONS
-  if (step === 'investment') return investment
+  if (step === 'setupFee') return setupFee
   return null
 }

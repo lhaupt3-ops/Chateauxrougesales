@@ -1,8 +1,8 @@
 import { headers } from 'next/headers'
+import Link from 'next/link'
 import { ApplyWizard } from '@/components/apply/ApplyWizard'
 import { pageMetadata } from '@/lib/metadata'
 import { dialFromCountry } from '@/lib/options'
-import { bandsFromSettings, getSettings } from '@/lib/settings'
 
 export const dynamic = 'force-dynamic'
 
@@ -18,7 +18,6 @@ export default async function ApplyPage({
   searchParams: Promise<{ step?: string; id?: string; entry?: string }>
 }) {
   const params = await searchParams
-  const settings = await getSettings()
   const country = (await headers()).get('x-vercel-ip-country')
   return (
     <div className="mx-auto max-w-xl px-4 py-10">
@@ -26,9 +25,15 @@ export default async function ApplyPage({
         initialId={params.id || ''}
         initialStep={params.step || '1'}
         entry={params.entry || 'apply_page'}
-        bands={bandsFromSettings(settings)}
         defaultDial={dialFromCountry(country)}
       />
+      <p className="mt-8 text-sm text-muted">
+        Not ready to apply?{' '}
+        <Link href="/resources/are-you-ready-for-closers" className="underline">
+          Read the free guide first
+        </Link>
+        .
+      </p>
     </div>
   )
 }

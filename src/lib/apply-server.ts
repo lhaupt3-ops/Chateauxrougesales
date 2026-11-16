@@ -25,6 +25,7 @@ const WRITABLE = [
   'needs',
   'timeline',
   'investment',
+  'setupFee',
   'notes',
   'firstName',
   'lastName',
@@ -116,11 +117,13 @@ export async function answerSummary(doc: ApplicationDoc): Promise<string> {
     .join(' | ')
 }
 
-export function resultPath(doc: ApplicationDoc): string {
+export function resultPath(doc: ApplicationDoc, options?: { discoveryCallEnabled?: boolean }): string {
   const id = String(doc.publicId || '')
   if (doc.status === 'booked') return `/apply/confirmed?id=${id}`
   if (doc.tier === 'not_yet' || doc.status === 'nurture') return `/apply/next-steps?id=${id}`
-  if (doc.tier === 'review') return `/apply/book?id=${id}&type=fit`
+  if (doc.tier === 'review') {
+    return options?.discoveryCallEnabled ? `/apply/book?id=${id}&type=fit` : `/apply/next-steps?id=${id}&path=guide`
+  }
   if (doc.tier === 'qualified') return `/apply/book?id=${id}`
   return `/apply?id=${id}`
 }

@@ -19,7 +19,7 @@ export const metadata = pageMetadata({
 const CARDS = [
   ['What the call is for', 'Clarity. We look at the offer, the calls and the numbers. You leave with a yes, a no, or a smaller first step. Not a fit is a fine result.'],
   ['Who should be there', 'The person who can say yes. If someone else decides with you, ask them to join. We will not ask you to go around them.'],
-  ['How we charge', 'Setup, a monthly management fee, and commission on cash collected. You see the terms in writing before anything starts. The bands on the site are a working draft.'],
+  ['How we charge', 'A one-off setup fee, then commission on cash collected. There is no monthly retainer. You see the terms in writing before anything starts. The amounts are still to be confirmed.'],
   ['What to bring', 'The offer in one page, recent numbers, and one or two recordings if you have them.'],
   ['After the call', 'If we work together, the next step is an agreement you can read before you pay. If we do not, you leave with a plain recommendation.'],
   ['A client story', 'A named story will sit here only after a client has approved the numbers and their name. Until then, this card stays empty of proof.'],

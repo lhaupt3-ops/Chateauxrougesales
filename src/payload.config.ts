@@ -19,6 +19,7 @@ import { Posts } from './collections/Posts'
 import { Resources } from './collections/Resources'
 import { Tags } from './collections/Tags'
 import { Users } from './collections/Users'
+import { EmailSequences } from './globals/EmailSequences'
 import { SiteSettings } from './globals/SiteSettings'
 import { migrations } from './migrations'
 import { plainTextFromHtml } from './lib/email-layout'
@@ -84,7 +85,7 @@ export default buildConfig({
     Faqs,
     Applications,
   ],
-  globals: [SiteSettings],
+  globals: [SiteSettings, EmailSequences],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'dev-only-secret-replace-in-every-environment',
   typescript: {

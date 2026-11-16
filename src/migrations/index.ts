@@ -5,6 +5,8 @@ import * as migration_20261116_060000_owner_admin_sender_and_test_leads from './
 import * as migration_20261116_051838_placeholder_flags from './20261116_051838_placeholder_flags';
 import * as migration_20261116_120000_methodology_copy from './20261116_120000_methodology_copy';
 import * as migration_20261116_130000_rewrite_drafts from './20261116_130000_rewrite_drafts';
+import * as migration_20261116_055921_commission_model from './20261116_055921_commission_model';
+import * as migration_20261116_140000_commission_copy from './20261116_140000_commission_copy';
 
 export const migrations = [
   {
@@ -41,5 +43,15 @@ export const migrations = [
     up: migration_20261116_130000_rewrite_drafts.up,
     down: migration_20261116_130000_rewrite_drafts.down,
     name: '20261116_130000_rewrite_drafts',
+  },
+  {
+    up: migration_20261116_055921_commission_model.up,
+    down: migration_20261116_055921_commission_model.down,
+    name: '20261116_055921_commission_model',
+  },
+  {
+    up: migration_20261116_140000_commission_copy.up,
+    down: migration_20261116_140000_commission_copy.down,
+    name: '20261116_140000_commission_copy',
   },
 ];

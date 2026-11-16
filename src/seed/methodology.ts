@@ -6,25 +6,25 @@ import { defaultSettings } from '@/lib/settings'
 const OLD_GUARANTEE_START = 'Placeholder: we replace a closer'
 const OLD_NOTICE_START = 'Placeholder: an initial term, then month to month with written notice'
 const OLD_TIMELINE = 'About 14 days to first covered calls, once operations confirms that number.'
-const MARKER = 'Method draft.'
+const MARKER = 'Commission draft.'
 
 type Block = { kind: 'p' | 'h2'; text: string }
 
 const drafts: { slug: string; excerpt: string; body: Block[] }[] = [
   {
     slug: 'what-is-sales-team-as-a-service',
-    excerpt: 'Method draft. A managed team is setters, closers and a lead. Not a promised close rate.',
+    excerpt: 'Commission draft. A managed team is setters, closers and a lead. Not a promised close rate.',
     body: [
       { kind: 'p', text: 'A sales team as a service is a setter, a closer and a sales lead who run the pipeline from the first reply to cash collected. You keep the offer, the clients and the data. On your buyers’ calls, the closer’s job is to find what is true and help them decide: yes, not yet, or no.' },
       { kind: 'h2', text: 'Two conversations' },
       { kind: 'p', text: 'We sell the managed team to founders. The team then sells the founder’s offer to the founder’s buyers. The standard is the same. The meetings are not. Listen first. Qualify before price. No invented urgency. A no is allowed.' },
       { kind: 'h2', text: 'What you pay' },
-      { kind: 'p', text: 'The working shape is a setup fee, a monthly management fee and a commission on cash collected. Monthly management starts at $3,000. The bands on the pricing page are still a draft. The agreement is the price.' },
+      { kind: 'p', text: 'The shape is a one-off setup fee, then commission on cash collected. There is no monthly retainer. The setup amount and the commission percentage are still to be confirmed. The agreement is the price.' },
     ],
   },
   {
     slug: 'cost-to-hire-a-high-ticket-closer',
-    excerpt: 'Method draft. Commission, base, or a managed seat. None of these figures are our rate.',
+    excerpt: 'Commission draft. Commission, base, or a managed seat. None of these figures are our rate.',
     body: [
       { kind: 'p', text: 'What a closer costs is the cash, the management time, and the deals that stall while they learn the offer. Three shapes are common: commission only, a base plus commission, and a managed team. Any percentage you read elsewhere is a market observation, not our fee.' },
       { kind: 'h2', text: 'Commission only' },
@@ -35,7 +35,7 @@ const drafts: { slug: string; excerpt: string; body: Block[] }[] = [
   },
   {
     slug: 'how-to-hire-a-high-ticket-closer',
-    excerpt: 'Method draft. Hear them sell your offer. Listening matters more than a loud style.',
+    excerpt: 'Commission draft. Hear them sell your offer. Listening matters more than a loud style.',
     body: [
       { kind: 'p', text: 'Hiring a closer is a buying decision. The question is whether they can run your call without pressure your buyers would resent. Published research on sales performance points more to knowledge and adaptiveness than to personality. That is research, not a result of ours.' },
       { kind: 'h2', text: 'A short pass' },
@@ -46,7 +46,7 @@ const drafts: { slug: string; excerpt: string; body: Block[] }[] = [
   },
   {
     slug: 'outsourced-vs-in-house-sales-team',
-    excerpt: 'Method draft. In house you manage the people. Outsourced, you still own the data.',
+    excerpt: 'Commission draft. In house you manage the people. Outsourced, you still own the data.',
     body: [
       { kind: 'p', text: 'An in-house team is employees you recruit and coach. An outsourced team is a function you buy. Neither is cheaper in every case, and this draft does not invent a savings figure.' },
       { kind: 'h2', text: 'What actually changes' },
@@ -57,7 +57,7 @@ const drafts: { slug: string; excerpt: string; body: Block[] }[] = [
   },
   {
     slug: 'appointment-setter-vs-closer',
-    excerpt: 'Method draft. A setter books. A closer runs the call. Empty calendars and full calendars need different help.',
+    excerpt: 'Commission draft. A setter books. A closer runs the call. Empty calendars and full calendars need different help.',
     body: [
       { kind: 'p', text: 'A setter replies, qualifies and confirms. A closer runs the conversation and the days after it. Judging one by the other’s number is how both jobs get done badly.' },
       { kind: 'h2', text: 'Which one first' },
@@ -68,7 +68,7 @@ const drafts: { slug: string; excerpt: string; body: Block[] }[] = [
   },
   {
     slug: 'commission-only-closers',
-    excerpt: 'Method draft. Commission-only cuts payroll and leaves the management on you.',
+    excerpt: 'Commission draft. Commission-only cuts payroll and leaves the management on you.',
     body: [
       { kind: 'p', text: 'A commission-only closer is paid when cash arrives. That lowers payroll. It does not lower the need for a script, call review and follow-up. If those stay with you, you bought a person and kept the job.' },
       { kind: 'h2', text: 'When it can work' },
@@ -79,7 +79,7 @@ const drafts: { slug: string; excerpt: string; body: Block[] }[] = [
   },
   {
     slug: 'outsourced-sales-team-for-coaches',
-    excerpt: 'Method draft. Coaches stay the voice of the offer. The team should not perform a personality.',
+    excerpt: 'Commission draft. Coaches stay the voice of the offer. The team should not perform a personality.',
     body: [
       { kind: 'p', text: 'The person who is best at the work is often the only one the market trusts. That does not scale, and a loud closer usually makes it worse. The useful version starts from your own calls, strikes lines you would never say, and strikes claims you cannot prove.' },
       { kind: 'h2', text: 'What has to be true' },
@@ -90,13 +90,13 @@ const drafts: { slug: string; excerpt: string; body: Block[] }[] = [
   },
   {
     slug: 'questions-to-ask-a-sales-agency',
-    excerpt: 'Method draft. Ask who owns the data, what a no sounds like, and where the price is written.',
+    excerpt: 'Commission draft. Ask who owns the data, what a no sounds like, and where the price is written.',
     body: [
       { kind: 'p', text: 'An agency pitch should survive plain questions. If the answers are slogans, you are buying theatre.' },
       { kind: 'h2', text: 'Questions worth asking' },
       { kind: 'p', text: 'Who owns the CRM, the recordings and the notes if you leave? What does a closer do when a buyer says no? Where is the price written, and do you see the agreement before you pay? Do they promise a close rate? A promise of a rate is a reason to walk.' },
       { kind: 'h2', text: 'What we will not pretend' },
-      { kind: 'p', text: 'Our own fee bands, guarantee and notice period are still drafts. A start date is not confirmed. Named results are not published. Those gaps are on purpose until the wording can be kept.' },
+      { kind: 'p', text: 'Our setup fee, commission percentage, guarantee and notice period are still drafts. A start date is not confirmed. Named results are not published. Those gaps are on purpose until the wording can be kept.' },
     ],
   },
 ]

@@ -1,10 +1,11 @@
-import { labelFor, CONVERSATION_OPTIONS, INVESTMENT_VALUES, PRICE_OPTIONS, REVENUE_OPTIONS, TIMELINE_OPTIONS, type Option } from './options'
+import { labelFor, CONVERSATION_OPTIONS, INVESTMENT_VALUES, PRICE_OPTIONS, REVENUE_OPTIONS, SETUP_FEE_OPTIONS, TIMELINE_OPTIONS, type Option } from './options'
 
 const FACTS: Record<string, { title: string; options?: Option[] }> = {
   price: { title: 'Price', options: PRICE_OPTIONS },
   revenue: { title: 'Monthly revenue', options: REVENUE_OPTIONS },
   conversations: { title: 'Sales conversations', options: CONVERSATION_OPTIONS },
   timeline: { title: 'Timeline', options: TIMELINE_OPTIONS },
+  setup: { title: 'Setup fee', options: SETUP_FEE_OPTIONS },
   investment: {
     title: 'Investment',
     options: [
@@ -26,7 +27,8 @@ const NOTES: Record<string, string> = {
   'hard:price_under_1000': 'Hard rule: the offer is under $1,000',
   'hard:b2b_low_price_review': 'Hard rule: a B2B offer under $1,000 is held for review',
   'hard:pre_revenue_and_no_conversations': 'Hard rule: pre-revenue, with no sales conversations',
-  'hard:investment_under_3000': 'Hard rule: the budget is under $3,000 a month',
+  'hard:investment_under_3000': 'Hard rule: an older application was under $3,000 a month',
+  'hard:cannot_pay_setup': 'Hard rule: they cannot pay a setup fee',
   'hard:flagged_offer_review': 'Hard rule: the offer needs a person to review it',
   'note:flagged_offer_already_not_yet': 'The offer was flagged, and the score was already not yet',
   'modifier:researching_demoted': 'The timeline is research only, so a qualified score moved to review',

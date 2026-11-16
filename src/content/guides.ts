@@ -102,7 +102,7 @@ export const services: Guide[] = [
       {
         heading: 'Commission only is not the same as free',
         paragraphs: [
-          'A commission-only closer lowers payroll and raises the management load. Someone still writes the script, still checks the calls, and still follows the maybes. If that someone is you, you did not buy back your calendar. Our model includes management on purpose. The pricing page says how the money is split, with the bands marked until they are final.',
+          'A commission-only closer lowers payroll and raises the management load. Someone still writes the script, still checks the calls, and still follows the maybes. If that someone is you, you did not buy back your calendar. Our model is a one-off setup fee, then commission, with no monthly retainer. The amounts stay unpublished until the agreement.',
         ],
       },
       {
