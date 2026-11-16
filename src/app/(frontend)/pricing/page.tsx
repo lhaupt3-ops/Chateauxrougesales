@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { ApplyLink } from '@/components/site/ApplyLink'
 import { Breadcrumbs, FaqList } from '@/components/site/ui'
 import { pricingFaqs } from '@/content/faqs'
 import { pageMetadata } from '@/lib/metadata'
@@ -41,7 +41,10 @@ export default async function PricingPage() {
         Management, call review, and replacement. Commission alone does not pay for a lead who will pull a bad closer. If you want only a freelancer, that is a different product, and we are not it.
       </p>
       <p className="mt-6">
-        <Link className="underline" href="/apply">Apply</Link> and the investment question uses these bands.
+        <ApplyLink location="pricing" className="underline">
+          Apply
+        </ApplyLink>{' '}
+        and the investment question uses these bands.
       </p>
       <FaqList faqs={questions} />
     </article>

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { OutcomeViewed } from '@/components/apply/OutcomeViewed'
 import { WaitlistForm } from '@/components/apply/WaitlistForm'
 import { findByPublicId } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
@@ -44,6 +45,7 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
+      <OutcomeViewed tier={typeof doc.tier === 'string' ? doc.tier : ''} page="next-steps" />
       <h1 className="font-serif text-4xl tracking-[-0.04em]">{advice.title}</h1>
       <p className="mt-4 text-lg leading-8 text-muted">{advice.body}</p>
       <div className="mt-8 grid gap-3">
