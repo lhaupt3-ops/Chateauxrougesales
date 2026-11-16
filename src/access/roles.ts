@@ -9,9 +9,32 @@ export function roleOf(user: PayloadRequest['user']): Role | undefined {
   return undefined
 }
 
-export const isAdmin: Access = ({ req }) => roleOf(req.user) === 'admin'
+/**
+ * Admin when the role says so. A user with no role is an admin only while they
+ * are the only account, which covers the original owner created before `role` existed.
+ */
+export function hasAdminAccess(user: PayloadRequest['user'], userCount: number): boolean {
+  const role = roleOf(user)
+  if (role === 'admin') return true
+  if (role || !user) return false
+  return userCount === 1
+}
 
-export const isAdminField: FieldAccess = ({ req }) => roleOf(req.user) === 'admin'
+async function userIsAdmin(req: PayloadRequest): Promise<boolean> {
+  const role = roleOf(req.user)
+  if (role === 'admin') return true
+  if (role || !req.user) return false
+  const { totalDocs } = await req.payload.count({
+    collection: 'users',
+    overrideAccess: true,
+    req,
+  })
+  return hasAdminAccess(req.user, totalDocs)
+}
+
+export const isAdmin: Access = ({ req }) => userIsAdmin(req)
+
+export const isAdminField: FieldAccess = ({ req }) => userIsAdmin(req)
 
 export const isAdminOrEditor: Access = ({ req }) => {
   const role = roleOf(req.user)

@@ -10,7 +10,7 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/lib/*.test.ts",
+    "test": "tsx --test src/lib/*.test.ts src/access/*.test.ts",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",

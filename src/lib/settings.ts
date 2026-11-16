@@ -1,4 +1,5 @@
 import { getPayloadClient } from './payload'
+import { usableResendFrom } from './resend-from'
 
 export type InvestmentBands = {
   low: string
@@ -76,7 +77,7 @@ export async function getSettings(): Promise<SiteSettings> {
       notifyEmail: text(global.notifyEmail, process.env.NOTIFY_EMAIL || ''),
       calendlyStrategyUrl: text(global.calendlyStrategyUrl, process.env.CALENDLY_STRATEGY_URL || ''),
       calendlyFitUrl: text(global.calendlyFitUrl, process.env.CALENDLY_FIT_URL || ''),
-      resendFrom: text(global.resendFrom, process.env.RESEND_FROM || defaultSettings.resendFrom),
+      resendFrom: usableResendFrom(global.resendFrom, process.env.RESEND_FROM || defaultSettings.resendFrom),
       guaranteeText: text(global.guaranteeText, defaultSettings.guaranteeText),
       noticeText: text(global.noticeText, defaultSettings.noticeText),
       timelineText: text(global.timelineText, defaultSettings.timelineText),
