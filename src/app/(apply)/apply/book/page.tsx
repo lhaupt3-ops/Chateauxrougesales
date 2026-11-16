@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { CalendlyEmbed } from '@/components/apply/CalendlyEmbed'
+import { OutcomeViewed } from '@/components/apply/OutcomeViewed'
 import { answerSummary, findByPublicId, isCalendlyUrl } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
 import { getSettings } from '@/lib/settings'
@@ -37,6 +38,7 @@ export default async function BookPage({
 
   return (
     <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-[0.8fr_1.2fr]">
+      <OutcomeViewed tier={typeof doc.tier === 'string' ? doc.tier : ''} page="book" />
       <div>
         <h1 className="font-serif text-4xl tracking-[-0.04em]">
           {eventType === 'strategy'

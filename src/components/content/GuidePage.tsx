@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Guide } from '@/content/guides'
+import { ApplyLink } from '@/components/site/ApplyLink'
 import { EmailCapture } from '@/components/site/EmailCapture'
 import { JsonLd } from '@/components/site/JsonLd'
 import { Breadcrumbs, FaqList } from '@/components/site/ui'
@@ -59,15 +60,32 @@ export function GuidePage({ guide }: { guide: Guide }) {
       <section className="mt-14">
         <h2 className="font-serif text-3xl tracking-[-0.03em]">Go deeper</h2>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
-          {guide.related.map((item) => (
-            <Link key={item.href} href={item.href} className="rounded-2xl border border-stone bg-white/70 p-5 hover:border-ink">
-              <p className="font-medium">{item.label}</p>
-              <p className="mt-2 text-sm leading-6 text-muted">{item.text}</p>
-            </Link>
-          ))}
+          {guide.related.map((item) =>
+            item.href === '/apply' ? (
+              <ApplyLink key={item.href} location="guide_footer" className="rounded-2xl border border-stone bg-white/70 p-5 hover:border-ink">
+                <p className="font-medium">{item.label}</p>
+                <p className="mt-2 text-sm leading-6 text-muted">{item.text}</p>
+              </ApplyLink>
+            ) : (
+              <Link key={item.href} href={item.href} className="rounded-2xl border border-stone bg-white/70 p-5 hover:border-ink">
+                <p className="font-medium">{item.label}</p>
+                <p className="mt-2 text-sm leading-6 text-muted">{item.text}</p>
+              </Link>
+            ),
+          )}
         </div>
       </section>
       <FaqList faqs={guide.faqs} />
+      <div className="mt-14 max-w-xl">
+        <h2 className="font-serif text-3xl tracking-[-0.03em]">See if we are a fit.</h2>
+        <p className="mt-3 text-muted">About 90 seconds. No pitch deck. You keep the recordings.</p>
+        <ApplyLink
+          location="guide_footer"
+          className="mt-6 inline-flex h-12 items-center rounded-full bg-rouge px-5 text-sm font-medium text-white hover:bg-wine"
+        >
+          Apply for a sales team
+        </ApplyLink>
+      </div>
     </article>
   )
 }

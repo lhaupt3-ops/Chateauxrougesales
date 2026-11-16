@@ -1,8 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { consentGranted, readAttribution } from '@/components/site/EmailCapture'
-import { track } from '@/components/analytics/track'
+import { identifyApplication, readPostSlug, setPersonProperties, track } from '@/components/analytics/track'
+import { sanitizeStepAnswer } from '@/lib/funnel-analytics'
+import { emailDomainType } from '@/lib/site'
 import {
   CONVERSATION_OPTIONS,
   DIAL_CODES,
@@ -45,6 +47,16 @@ export function ApplyWizard({
   const [marketing, setMarketing] = useState(false)
   const started = useRef(Date.now())
   const viewed = useRef(false)
+  const completed = useRef(false)
+  const identified = useRef(false)
+  const emailSubmitted = useRef(false)
+  const idRef = useRef(initialId)
+  const indexRef = useRef(initialStep === '2' && initialId ? 1 : 0)
+
+  const stitch = useCallback((applicationId: string, email?: string) => {
+    idRef.current = applicationId
+    if (identifyApplication(applicationId, email)) identified.current = true
+  }, [])
 
   const investmentOptions: Option[] = [
     { value: 'under_low', label: bands.low },
@@ -57,18 +69,21 @@ export function ApplyWizard({
   useEffect(() => {
     if (viewed.current) return
     viewed.current = true
-    track('apply_started', { entry, variant: 'email_first' })
+    track('apply_started', { entry, variant: 'email_first', post_slug: readPostSlug() })
     track('apply_step_viewed', { step_id: STEPS[index], step_index: index })
     const stored = window.localStorage.getItem('cr_application_id')
     const resumeId = initialId || stored || ''
+    if (resumeId) stitch(resumeId)
     if (!resumeId) return
     void fetch(`/api/apply/resume?id=${resumeId}`)
       .then((response) => (response.ok ? response.json() : null))
       .then((data) => {
         if (!data?.id) return
         setId(data.id)
+        stitch(data.id, typeof data.email === 'string' ? data.email : undefined)
         window.localStorage.setItem('cr_application_id', data.id)
         if (data.next) {
+          completed.current = true
           window.location.href = data.next
           return
         }
@@ -87,22 +102,36 @@ export function ApplyWizard({
         if (data.offerOther) setOtherText(data.offerOther)
         if (!initialId && data.stepReached) {
           const found = STEPS.indexOf(data.stepReached)
-          if (found >= 0) setIndex(Math.min(found + 1, STEPS.length - 1))
+          if (found >= 0) {
+            const next = Math.min(found + 1, STEPS.length - 1)
+            indexRef.current = next
+            setIndex(next)
+          }
         }
       })
       .catch(() => undefined)
-  }, [entry, index, initialId])
+  }, [entry, index, initialId, stitch])
 
   useEffect(() => {
-    function onHide() {
-      if (document.visibilityState === 'hidden' && id) {
-        const payload = JSON.stringify({ id, step: STEPS[index] })
-        if (navigator.sendBeacon) navigator.sendBeacon('/api/apply/abandon', new Blob([payload], { type: 'application/json' }))
-      }
+    if (id) idRef.current = id
+  }, [id])
+
+  useEffect(() => {
+    indexRef.current = index
+  }, [index])
+
+  useEffect(() => {
+    function onPageHide() {
+      const applicationId = idRef.current
+      if (completed.current || !applicationId) return
+      const step = STEPS[indexRef.current]
+      const payload = JSON.stringify({ id: applicationId, step })
+      if (navigator.sendBeacon) navigator.sendBeacon('/api/apply/abandon', new Blob([payload], { type: 'application/json' }))
+      if (identified.current) track('apply_abandoned', { last_step: step }, { transport: 'sendBeacon' })
     }
-    document.addEventListener('visibilitychange', onHide)
-    return () => document.removeEventListener('visibilitychange', onHide)
-  }, [id, index])
+    window.addEventListener('pagehide', onPageHide)
+    return () => window.removeEventListener('pagehide', onPageHide)
+  }, [])
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
@@ -120,6 +149,7 @@ export function ApplyWizard({
 
   function go(next: number) {
     setError('')
+    indexRef.current = next
     setIndex(next)
     started.current = Date.now()
     track('apply_step_viewed', { step_id: STEPS[next], step_index: next })
@@ -148,17 +178,26 @@ export function ApplyWizard({
       setError(data.error || 'We could not save that. Try again.')
       return
     }
+    const email = typeof partial.email === 'string' ? partial.email : undefined
     if (data.id && !id) {
       setId(data.id)
       window.localStorage.setItem('cr_application_id', data.id)
+      stitch(data.id, email)
       track('lead_partial_saved', { applicationId: data.id })
+    } else if (email && id) {
+      stitch(id, email)
+    }
+    if (STEPS[index] === 'email' && !data.next && email && !emailSubmitted.current) {
+      emailSubmitted.current = true
+      track('apply_email_submitted', { entry, email_domain_type: emailDomainType(email) })
     }
     track('apply_step_completed', {
       step_id: STEPS[index],
-      answer: partial,
+      answer: sanitizeStepAnswer(partial),
       time_on_step_ms: Date.now() - started.current,
     })
     if (data.next) {
+      completed.current = true
       window.location.href = data.next
       return
     }
@@ -213,12 +252,24 @@ export function ApplyWizard({
         company_fax: form.get('company_fax') || '',
       }),
     })
-    const data = (await response.json().catch(() => ({}))) as { error?: string; next?: string }
+    const data = (await response.json().catch(() => ({}))) as {
+      error?: string
+      next?: string
+      tier?: string
+      score?: number
+    }
     setPending(false)
     if (!response.ok || !data.next) {
       setError(data.error || 'We could not score that yet.')
       return
     }
+    completed.current = true
+    track('application_submitted', { tier: data.tier, score: data.score, next: data.next })
+    setPersonProperties({
+      tier: data.tier,
+      score: data.score,
+      offer_type: typeof answers.offerType === 'string' ? answers.offerType : '',
+    })
     window.location.href = data.next
   }
 

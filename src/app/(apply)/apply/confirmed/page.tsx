@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { ConfirmationActions } from '@/components/apply/ConfirmationActions'
+import { OutcomeViewed } from '@/components/apply/OutcomeViewed'
 import { findByPublicId } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
 import { getSettings } from '@/lib/settings'
@@ -36,6 +37,7 @@ export default async function ConfirmedPage({ searchParams }: { searchParams: Pr
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
+      <OutcomeViewed tier={typeof doc.tier === 'string' ? doc.tier : ''} page="confirmed" />
       <p className="text-xs uppercase tracking-[0.16em] text-wine">Tentatively scheduled</p>
       <h1 className="mt-3 font-serif text-4xl tracking-[-0.04em] md:text-5xl">
         You are booked, {String(doc.firstName || 'there')}. Two quick steps to lock it in.

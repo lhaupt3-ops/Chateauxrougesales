@@ -1,4 +1,5 @@
 import { PostHog } from 'posthog-node'
+import { applicationEventProperties } from '@/lib/funnel-analytics'
 
 let client: PostHog | null = null
 
@@ -26,4 +27,8 @@ export async function captureServer(
   if (!posthog) return
   posthog.capture({ distinctId, event, properties })
   await posthog.flush()
+}
+
+export function withApplicationContext(doc: object, properties: Record<string, unknown>): Record<string, unknown> {
+  return { ...properties, ...applicationEventProperties(doc) }
 }
