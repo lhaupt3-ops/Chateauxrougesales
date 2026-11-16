@@ -16,6 +16,7 @@ import { captureServer, withApplicationContext } from '@/lib/analytics-server'
 import { leadTimeHours } from '@/lib/funnel-analytics'
 import { emailDomainType, isDisposableEmail, isValidEmail, normalizeWebsite } from '@/lib/site'
 import { getPayloadClient } from '@/lib/payload'
+import { fetchCalendlyEventTimes } from '@/lib/calendly'
 import { getSettings } from '@/lib/settings'
 import { notifyApplicant, notifyApplication } from '@/lib/notify'
 
@@ -166,6 +167,7 @@ async function complete(body: Body) {
         low: settings.bandLowLabel,
         mid: settings.bandMidLabel,
         high: settings.bandHighLabel,
+        top: settings.bandTopLabel,
       }),
       status: 'complete',
       score: scored.score,
@@ -218,11 +220,12 @@ async function booked(body: Body) {
   if (body.preview && isCalendlyUrl(liveUrl)) {
     return NextResponse.json({ error: 'The live calendar is connected. Book there.' }, { status: 400 })
   }
-  const startAt = body.preview
-    ? new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString()
-    : typeof body.meetingStartAt === 'string'
-      ? body.meetingStartAt
-      : undefined
+  const eventUri = String(body.eventUri || '')
+  const inviteeUri = String(body.inviteeUri || '')
+  const previewStart = Date.now() + 2 * 24 * 60 * 60 * 1000
+  const fetched = body.preview ? null : await fetchCalendlyEventTimes(eventUri, inviteeUri)
+  const startAt = body.preview ? new Date(previewStart).toISOString() : fetched?.start
+  const endAt = body.preview ? new Date(previewStart + 30 * 60 * 1000).toISOString() : fetched?.end
   const payload = await getPayloadClient()
   const updated = await payload.update({
     collection: 'applications',
@@ -232,10 +235,11 @@ async function booked(body: Body) {
       status: 'booked',
       bookingStatus: 'scheduled',
       eventType: doc.tier === 'qualified' && !body.preview ? 'strategy' : eventType,
-      calendlyEventUri: String(body.eventUri || ''),
-      calendlyInviteeUri: String(body.inviteeUri || ''),
+      calendlyEventUri: eventUri,
+      calendlyInviteeUri: inviteeUri,
       bookedAt: new Date().toISOString(),
-      meetingStartAt: startAt,
+      ...(startAt ? { meetingStartAt: startAt } : {}),
+      ...(endAt ? { meetingEndAt: endAt } : {}),
       priorityCall: false,
     },
   })
@@ -258,12 +262,13 @@ async function waitlist(body: Body) {
   const doc = await findByPublicId(String(body.id || ''))
   if (!doc) return NextResponse.json({ error: 'Unknown application' }, { status: 404 })
   const payload = await getPayloadClient()
-  await payload.update({
+  const updated = await payload.update({
     collection: 'applications',
     id: doc.id,
     overrideAccess: true,
     data: { waitlist: true, status: 'nurture', nurtureReason: String(body.reason || doc.tier || 'not_yet') },
   })
+  await notifyApplicant(updated as never, 'waitlist')
   await captureServer(String(doc.publicId), 'waitlist_joined', { reason: body.reason || doc.tier }, Boolean(doc.analyticsConsent))
   return NextResponse.json({ ok: true })
 }
@@ -318,6 +323,7 @@ async function magnet(body: Body) {
     })
   }
   await notifyApplication(doc as never, 'magnet')
+  await notifyApplicant(doc as never, 'magnet')
   await captureServer(String(doc.publicId || doc.id), 'lead_magnet_submitted', { resource, page: body.page }, Boolean(body.analyticsConsent))
   return NextResponse.json({ ok: true, id: doc.publicId })
 }
@@ -372,7 +378,9 @@ async function ics(id: string) {
   const doc = await findByPublicId(id)
   if (!doc?.meetingStartAt) return NextResponse.json({ error: 'No meeting time yet.' }, { status: 404 })
   const start = new Date(String(doc.meetingStartAt))
-  const end = new Date(start.getTime() + 30 * 60 * 1000)
+  if (Number.isNaN(start.getTime())) return NextResponse.json({ error: 'No meeting time yet.' }, { status: 404 })
+  const storedEnd = doc.meetingEndAt ? new Date(String(doc.meetingEndAt)) : null
+  const end = storedEnd && !Number.isNaN(storedEnd.getTime()) ? storedEnd : new Date(start.getTime() + 30 * 60 * 1000)
   const stamp = (date: Date) => date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z')
   const summary = await answerSummary(doc)
   const body = [

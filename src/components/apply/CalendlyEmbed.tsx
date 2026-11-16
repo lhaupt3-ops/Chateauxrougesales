@@ -105,10 +105,10 @@ export function CalendlyEmbed({
     return (
       <div className="flex min-h-[720px] flex-col justify-between rounded-3xl border border-dashed border-gold bg-white p-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.16em] text-wine">Placeholder calendar</p>
-          <h2 className="mt-3 font-serif text-3xl">Add a Calendly link in Site settings.</h2>
+          <p className="text-xs uppercase tracking-[0.16em] text-wine">Calendar</p>
+          <h2 className="mt-3 font-serif text-3xl">Times are not on this page yet.</h2>
           <p className="mt-3 leading-7 text-muted">
-            When the {eventType === 'fit' ? '15-minute fit call' : 'strategy call'} URL is a real Calendly link, the embed loads here with the name, email and answers already filled in.
+            We will email you a link to choose a time for the {eventType === 'fit' ? '15-minute fit call' : 'strategy call'}. Your name, email and answers are already saved.
           </p>
           <dl className="mt-6 space-y-2 text-sm">
             <div><dt className="text-muted">Name</dt><dd>{prefill.name || '—'}</dd></div>

@@ -57,6 +57,12 @@ export const TIMELINE_OPTIONS: Option[] = [
 ]
 
 export const INVESTMENT_VALUES = {
+  under3k: 'under_3k',
+  band1: '3k_5k',
+  band2: '5k_10k',
+  band3: '10k_20k',
+  band4: '20k_plus',
+  // Legacy answers from before the $3,000 floor. Kept so older applications still score and display.
   underLow: 'under_low',
   mid: 'mid',
   high: 'high',

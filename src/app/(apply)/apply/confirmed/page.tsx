@@ -5,7 +5,7 @@ import { ConfirmationActions } from '@/components/apply/ConfirmationActions'
 import { OutcomeViewed } from '@/components/apply/OutcomeViewed'
 import { findByPublicId } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
-import { getSettings } from '@/lib/settings'
+import { calendarConfirmationCopy, getSettings } from '@/lib/settings'
 
 export const dynamic = 'force-dynamic'
 
@@ -34,26 +34,36 @@ export default async function ConfirmedPage({ searchParams }: { searchParams: Pr
   if (doc.status !== 'booked') redirect(`/apply/book?id=${doc.publicId}`)
   const settings = await getSettings()
   const when = doc.meetingStartAt ? new Date(String(doc.meetingStartAt)) : null
+  const validWhen = when && !Number.isNaN(when.getTime()) ? when : null
+  const end = doc.meetingEndAt ? new Date(String(doc.meetingEndAt)) : null
+  const validEnd = end && !Number.isNaN(end.getTime()) ? end : null
+  const hasVideo = Boolean(settings.introVideoUrl)
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <OutcomeViewed tier={typeof doc.tier === 'string' ? doc.tier : ''} page="confirmed" />
       <p className="text-xs uppercase tracking-[0.16em] text-wine">Tentatively scheduled</p>
       <h1 className="mt-3 font-serif text-4xl tracking-[-0.04em] md:text-5xl">
-        You are booked, {String(doc.firstName || 'there')}. Two quick steps to lock it in.
+        You are booked, {String(doc.firstName || 'there')}. {hasVideo ? 'Two quick steps to lock it in.' : 'One quick step to lock it in.'}
       </h1>
-      {when && <p className="mt-4 text-lg text-muted">{when.toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' })}</p>}
+      {validWhen && <p className="mt-4 text-lg text-muted">{validWhen.toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' })}</p>}
       <ol className="mt-8 space-y-4">
         <li className="rounded-2xl border border-stone bg-white p-5">
-          <h2 className="font-serif text-2xl">1. Add it, and reply YES</h2>
-          <p className="mt-2 text-muted">Add the hold to your calendar. Reply YES to the text from {settings.closerName} so we know the number is right.</p>
-          <ConfirmationActions applicationId={String(doc.publicId)} start={when ? when.toISOString() : ''} />
+          <h2 className="font-serif text-2xl">{hasVideo ? '1. Add it to your calendar' : 'Add it to your calendar'}</h2>
+          <p className="mt-2 text-muted">{calendarConfirmationCopy(settings)}</p>
+          <ConfirmationActions
+            applicationId={String(doc.publicId)}
+            start={validWhen ? validWhen.toISOString() : ''}
+            end={validEnd ? validEnd.toISOString() : ''}
+          />
         </li>
-        <li className="rounded-2xl border border-stone bg-white p-5">
-          <h2 className="font-serif text-2xl">2. Watch the 90-second intro</h2>
-          <p className="mt-2 text-muted">Who you will meet, what happens on the call, and one thing we will not pretend.</p>
-          <ConfirmationActions applicationId={String(doc.publicId)} videoUrl={settings.introVideoUrl} videoOnly />
-        </li>
+        {hasVideo && (
+          <li className="rounded-2xl border border-stone bg-white p-5">
+            <h2 className="font-serif text-2xl">2. Watch the 90-second intro</h2>
+            <p className="mt-2 text-muted">Who you will meet, what happens on the call, and one thing we will not pretend.</p>
+            <ConfirmationActions applicationId={String(doc.publicId)} videoUrl={settings.introVideoUrl} videoOnly />
+          </li>
+        )}
       </ol>
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         {CARDS.map(([title, body]) => (

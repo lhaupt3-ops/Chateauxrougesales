@@ -28,6 +28,14 @@ export const CaseStudies: CollectionConfig = {
       admin: { description: 'Required before publish. Confirms the client allowed their name and numbers.' },
     },
     {
+      name: 'illustrative',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description: 'Tick when these numbers are an example, not a client result. The public card shows an Illustrative example label.',
+      },
+    },
+    {
       name: 'vertical',
       type: 'select',
       options: [

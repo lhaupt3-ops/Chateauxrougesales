@@ -3,7 +3,8 @@ import { ApplyLink } from '@/components/site/ApplyLink'
 import { EmailCapture } from '@/components/site/EmailCapture'
 import { FaqList, Placeholder, SectionHeading } from '@/components/site/ui'
 import type { Faq } from '@/content/faqs'
-import type { SiteSettings } from '@/lib/settings'
+import type { ProofStudy } from '@/lib/content'
+import { isOperatorPlaceholder, type SiteSettings } from '@/lib/settings'
 
 const PAINS = [
   {
@@ -27,7 +28,11 @@ const STAGES = [
   ['04 Run', 'Call review and a weekly set of numbers: show rate, close rate, cash collected.'],
 ]
 
-export function HomePage({ settings, faqs }: { settings: SiteSettings; faqs: Faq[] }) {
+export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSettings; faqs: Faq[]; proof?: ProofStudy[] }) {
+  const quotes = proof.filter((study) => study.quote)
+  const results = proof.flatMap((study) => study.results.map((result) => ({ ...result, slug: study.slug, illustrative: study.illustrative })))
+  const guarantee = isOperatorPlaceholder(settings.guaranteeText) ? '' : settings.guaranteeText
+  const notice = isOperatorPlaceholder(settings.noticeText) ? '' : settings.noticeText
   return (
     <>
       <section className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 md:grid-cols-[1.2fr_0.8fr] md:py-24">
@@ -83,12 +88,24 @@ export function HomePage({ settings, faqs }: { settings: SiteSettings; faqs: Faq
 
       <section className="border-y border-stone bg-white/50">
         <div className="mx-auto grid max-w-6xl gap-4 px-4 py-8 md:grid-cols-3">
-          <Placeholder
-            title="Founder track record"
-            body="Add only figures you can attribute. This block stays empty until Site settings or a real case study has them."
-          />
-          <Placeholder title="Client marks" body="No logos until a client has agreed to be named. We will not borrow recognition." />
-          <Placeholder title="Named results" body="Cash collected, close rate before and after, and the time window. Not an average we cannot show." />
+          {quotes.length === 0 ? (
+            <>
+              <Placeholder
+                title="Founder track record"
+                body="Add only figures you can attribute. This block stays empty until Site settings or a real case study has them."
+              />
+              <Placeholder title="Client marks" body="No logos until a client has agreed to be named. We will not borrow recognition." />
+              <Placeholder title="Named results" body="Cash collected, close rate before and after, and the time window. Not an average we cannot show." />
+            </>
+          ) : (
+            quotes.map((study) => (
+              <Link key={study.slug} href={`/results/${study.slug}`} className="rounded-2xl border border-stone bg-white/80 p-5">
+                {study.illustrative && <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-wine">Illustrative example</p>}
+                <blockquote className={`${study.illustrative ? 'mt-2 ' : ''}font-serif text-2xl leading-snug tracking-[-0.03em]`}>“{study.quote}”</blockquote>
+                {study.person && <p className="mt-4 text-sm text-muted">{study.person}</p>}
+              </Link>
+            ))
+          )}
         </div>
       </section>
 
@@ -163,9 +180,22 @@ export function HomePage({ settings, faqs }: { settings: SiteSettings; faqs: Faq
       <section className="mx-auto max-w-6xl px-4">
         <SectionHeading title="Results will be named, or they will not be here." body="The card format is ready. The stories are not invented." />
         <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {['Offer type', 'Cash collected', 'Close rate, before and after'].map((label) => (
-            <Placeholder key={label} title={label} body="This card links to a case study once a client has approved the numbers and their name." />
-          ))}
+          {results.length === 0
+            ? ['Offer type', 'Cash collected', 'Close rate, before and after'].map((label) => (
+                <Placeholder key={label} title={label} body="This card links to a case study once a client has approved the numbers and their name." />
+              ))
+            : results.map((result) => (
+                <Link
+                  key={`${result.slug}-${result.metric}-${result.after}`}
+                  href={`/results/${result.slug}`}
+                  className="rounded-2xl border border-stone bg-white/70 p-5"
+                >
+                  {result.illustrative && <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-wine">Illustrative example</p>}
+                  <p className={`${result.illustrative ? 'mt-2 ' : ''}text-[11px] uppercase tracking-wider text-muted`}>{result.metric}</p>
+                  <p className="mt-2 font-serif text-2xl">{result.before ? `${result.before} → ${result.after}` : result.after}</p>
+                  {result.timeframe && <p className="mt-2 text-sm text-muted">{result.timeframe}</p>}
+                </Link>
+              ))}
         </div>
         <Link href="/results" className="mt-6 inline-block text-sm underline">
           See the results page
@@ -230,12 +260,9 @@ export function HomePage({ settings, faqs }: { settings: SiteSettings; faqs: Faq
         </Link>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-8 px-4 pb-16 md:grid-cols-2">
+      <section className={`mx-auto grid max-w-6xl gap-8 px-4 pb-16 ${guarantee || notice ? 'md:grid-cols-2' : ''}`}>
         <div>
-          <SectionHeading title="How we charge" body="A setup fee, a monthly management fee, and a commission on cash collected. You see the shape before you book." />
-          {settings.bandsArePlaceholder && (
-            <p className="mt-4 text-sm text-wine">The investment bands on the application are placeholders until you replace them in Site settings.</p>
-          )}
+          <SectionHeading title="How we charge" body="A setup fee, a monthly management fee starting at $3,000, and a commission on cash collected. You see the shape before you book." />
           <Link href="/pricing" className="mt-4 inline-block text-sm underline">
             Read the pricing page
           </Link>
@@ -243,11 +270,13 @@ export function HomePage({ settings, faqs }: { settings: SiteSettings; faqs: Faq
             Apply
           </ApplyLink>
         </div>
+        {(guarantee || notice) && (
         <div className="rounded-2xl bg-wine p-6 text-ivory">
           <h2 className="font-serif text-3xl">The guarantee, in words we can keep</h2>
-          <p className="mt-4 leading-7 text-ivory/85">{settings.guaranteeText}</p>
-          <p className="mt-4 text-sm text-ivory/70">{settings.noticeText}</p>
+          {guarantee && <p className="mt-4 leading-7 text-ivory/85">{guarantee}</p>}
+          {notice && <p className="mt-4 text-sm text-ivory/70">{notice}</p>}
         </div>
+        )}
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-8">

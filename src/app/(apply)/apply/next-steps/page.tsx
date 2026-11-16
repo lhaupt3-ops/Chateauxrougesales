@@ -28,7 +28,12 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
           title: 'Raise the ticket, or bundle it',
           body: 'A team that sets and closes cannot live on a sub-$1,000 offer. Raise the price, or package the work so one yes pays for the seat. Then come back.',
         }
-      : doc.monthlyConversations === 'none'
+      : doc.investment === 'under_3k'
+        ? {
+            title: 'The minimum is $3,000 a month',
+            body: 'A managed sales team starts at $3,000 a month, before commission. Under that, the work costs more than it returns. Come back when a band on the pricing page fits.',
+          }
+        : doc.monthlyConversations === 'none'
         ? {
             title: 'Build lead flow first',
             body: 'Closing an empty calendar is theatre. Get a steady source of conversations, even a small one, before you pay for closers. Setters can be part of a later team. They cannot invent demand from nothing.',

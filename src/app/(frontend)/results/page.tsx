@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 })
 
 export default async function ResultsPage() {
-  let studies: { slug?: string | null; clientName: string; offerPriceBand?: string | null }[] = []
+  let studies: { slug?: string | null; clientName: string; offerPriceBand?: string | null; illustrative?: boolean | null }[] = []
   try {
     const payload = await getPayloadClient()
     const result = await payload.find({
@@ -42,7 +42,8 @@ export default async function ResultsPage() {
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           {studies.map((study) => (
             <Link key={study.slug} href={`/results/${study.slug}`} className="rounded-2xl border border-stone p-5">
-              <h2 className="font-serif text-2xl">{study.clientName}</h2>
+              {study.illustrative && <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-wine">Illustrative example</p>}
+              <h2 className="mt-2 font-serif text-2xl">{study.clientName}</h2>
               <p className="mt-2 text-sm text-muted">{study.offerPriceBand}</p>
             </Link>
           ))}

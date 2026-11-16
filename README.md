@@ -55,12 +55,13 @@ Both routes are safe to call more often than their schedule. A partial-lead remi
 | `PAYLOAD_ADMIN_EMAIL` | No | Creates the first admin when the users table is empty. |
 | `PAYLOAD_ADMIN_PASSWORD` | No | Password for that first admin. |
 | `BLOB_READ_WRITE_TOKEN` | Yes on Vercel | Vercel Blob. When missing, media is stored in `/media` on disk. |
-| `RESEND_API_KEY` | No | Transactional email. Without it, messages are logged and the request still succeeds. |
+| `RESEND_API_KEY` | No | Transactional email and Payload password resets. Without it, the Resend adapter is not registered, messages are logged, and the request still succeeds. |
 | `RESEND_FROM` | No | From address, for example `Chateaux Rouge <hello@yourdomain.com>`. |
 | `NOTIFY_EMAIL` | No | Owner inbox. Site settings can override it. |
 | `CALENDLY_STRATEGY_URL` | No | 30–45 minute strategy call. Also editable in Site settings. |
 | `CALENDLY_FIT_URL` | No | 15 minute fit call. |
-| `CALENDLY_WEBHOOK_SIGNING_KEY` | No | Verifies `POST /api/webhooks/calendly`. Production without the key returns 503. Local dev accepts unsigned payloads. |
+| `CALENDLY_WEBHOOK_SIGNING_KEY` | No | Verifies `POST /api/webhooks/calendly`. Production without the key returns 503. Local dev accepts unsigned payloads. The `invitee.created` payload stores the meeting start and end. |
+| `CALENDLY_API_TOKEN` | No | Personal access token. When set, `/api/apply/booked` reads the scheduled event start and end from the Calendly API. |
 | `CRON_SECRET` | Yes, for cron | Bearer token for `/api/cron/abandonment` and `/api/cron/publish`. Use the same value as the GitHub Actions secret. |
 | `NEXT_PUBLIC_POSTHOG_KEY` | No | Browser analytics. Loaded only after the consent banner. |
 | `NEXT_PUBLIC_POSTHOG_HOST` | No | Defaults to `https://us.i.posthog.com`. |
@@ -76,11 +77,11 @@ Calendly, Resend, and PostHog all no-op cleanly when their keys are missing. The
 
 ## Application routing
 
-Score version `1` lives in `src/lib/scoring.ts`.
+Score version `2` lives in `src/lib/scoring.ts`. An investment under $3,000 a month is not yet, even when the rest of the score would qualify.
 
 - Qualified (13 or more, no hard fail) opens the strategy calendar.
 - Review (8–12, or a researching lead who would otherwise qualify, or a flagged “other” offer) opens the 15-minute fit call.
-- Not yet (under 8, price under $1,000, or pre-revenue with no conversations) goes to `/apply/next-steps`.
+- Not yet (under 8, price under $1,000, investment under $3,000 a month, or pre-revenue with no conversations) goes to `/apply/next-steps`.
 - Price under $1,000 on a B2B offer is review, not an automatic no.
 
 Partial applications are saved as they go. A returning browser resumes from the id in local storage. The cron emails a partial lead after 30 minutes and an unbooked qualified or review lead after an hour.

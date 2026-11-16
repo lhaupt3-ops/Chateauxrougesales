@@ -1,0 +1,175 @@
+import type { ApplicationDoc } from './apply-server'
+import { renderEmail, type EmailRow } from './email-layout'
+import { explainReasons } from './reason-labels'
+import { absoluteUrl } from './site'
+import {
+  CONVERSATION_OPTIONS,
+  labelFor,
+  NEED_OPTIONS,
+  OFFER_OPTIONS,
+  PRICE_OPTIONS,
+  REVENUE_OPTIONS,
+  SETUP_OPTIONS,
+  TIMELINE_OPTIONS,
+} from './options'
+
+export type ApplicantKind = 'complete' | 'booked' | 'partial' | 'unbooked' | 'waitlist' | 'magnet'
+export type OwnerKind = 'complete' | 'booked' | 'magnet' | 'careers'
+
+export type BuiltEmail = {
+  subject: string
+  html: string
+  text: string
+  replyTo?: string
+}
+
+const TIER_LABELS: Record<string, string> = {
+  qualified: 'Qualified',
+  review: 'Review',
+  not_yet: 'Not yet',
+}
+
+export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind): BuiltEmail {
+  const first = String(doc.firstName || 'there')
+  const id = String(doc.publicId || '')
+  const when = formatWhen(doc.meetingStartAt)
+  const resource = String(doc.resourceSlug || '')
+  const link =
+    kind === 'partial'
+      ? absoluteUrl(`/apply?id=${id}`)
+      : kind === 'booked'
+        ? absoluteUrl(`/apply/confirmed?id=${id}`)
+        : kind === 'waitlist'
+          ? absoluteUrl('/pricing')
+          : kind === 'magnet'
+            ? absoluteUrl(resource ? `/resources/${resource}` : '/resources')
+            : absoluteUrl(doc.tier === 'not_yet' ? `/apply/next-steps?id=${id}` : `/apply/book?id=${id}`)
+
+  const copy = {
+    complete: {
+      subject: 'Your Chateaux Rouge fit result',
+      preheader: 'Your result is ready. Open it when you have a minute.',
+      eyebrow: 'Application',
+      heading: `Your result is ready, ${first}.`,
+      paragraphs: ['The questions are scored. Open the result to see the next step, and book a time if the fit is there.'],
+      cta: 'See my result',
+    },
+    booked: {
+      subject: 'You are booked with Chateaux Rouge',
+      preheader: when ? `Your call is on the calendar for ${when}.` : 'Your call is booked. Add it to your calendar.',
+      eyebrow: 'Booking',
+      heading: `You are booked, ${first}.`,
+      paragraphs: [
+        when
+          ? `The call is set for ${when}. Add it to your calendar from the confirmation page. Calendly has also emailed you.`
+          : 'The time is confirmed in your Calendly email. The confirmation page has the two steps that lock it in.',
+      ],
+      cta: 'Open the confirmation',
+    },
+    partial: {
+      subject: 'Finish your Chateaux Rouge application',
+      preheader: 'Your application is saved. It takes about a minute to finish.',
+      eyebrow: 'Application',
+      heading: 'Your application is still open.',
+      paragraphs: [`Hi ${first}. You started and stopped. The answers you already gave are saved.`],
+      cta: 'Continue the application',
+    },
+    unbooked: {
+      subject: 'Your Chateaux Rouge time is still open',
+      preheader: 'A time is still open on the calendar.',
+      eyebrow: 'Booking',
+      heading: 'A time is still open.',
+      paragraphs: [`Hi ${first}. Your application is in. Pick a time that you will actually make.`],
+      cta: 'Pick a time',
+    },
+    waitlist: {
+      subject: 'You are on the Chateaux Rouge list',
+      preheader: 'We will write when the fit is closer.',
+      eyebrow: 'Waitlist',
+      heading: `You are on the list, ${first}.`,
+      paragraphs: ['We will check in when the offer, the revenue, or the lead flow has moved. Nothing else is required today.'],
+      cta: 'Read how we charge',
+    },
+    magnet: {
+      subject: 'Your Chateaux Rouge guide',
+      preheader: 'The page is open whenever you want to read it.',
+      eyebrow: 'Guide',
+      heading: 'Your guide is ready.',
+      paragraphs: ['Read it on the site. If you want the same questions scored against your offer, the application is the next step.'],
+      cta: 'Open the guide',
+    },
+  }[kind]
+
+  const rendered = renderEmail({
+    preheader: copy.preheader,
+    eyebrow: copy.eyebrow,
+    heading: copy.heading,
+    paragraphs: copy.paragraphs,
+    cta: { label: copy.cta, href: link },
+  })
+  return { subject: copy.subject, ...rendered }
+}
+
+export function ownerEmail(doc: ApplicationDoc, kind: OwnerKind): BuiltEmail {
+  const name = [doc.firstName, doc.lastName].filter(Boolean).join(' ') || String(doc.email || 'Lead')
+  const offer = labelFor(OFFER_OPTIONS, String(doc.offerType || ''))
+  const price = labelFor(PRICE_OPTIONS, String(doc.pricePoint || ''))
+  const subject =
+    kind === 'booked'
+      ? `Call booked with ${name}`
+      : kind === 'magnet'
+        ? `Guide request from ${doc.email || name}`
+        : kind === 'careers'
+          ? `Careers enquiry from ${name}`
+          : `New application from ${name}`
+  const heading =
+    kind === 'booked' ? `${name} booked a call` : kind === 'magnet' ? 'A guide was requested' : kind === 'careers' ? 'A careers enquiry arrived' : `New application from ${name}`
+  const rows = compactRows([
+    ['Email', doc.email],
+    ['Phone', doc.phone],
+    ['Website', doc.website || doc.company],
+    ['Offer', offer && doc.offerOther ? `${offer} (${doc.offerOther})` : offer || doc.offerOther],
+    ['Price', price],
+    ['Revenue', labelFor(REVENUE_OPTIONS, String(doc.monthlyRevenue || ''))],
+    ['Conversations', labelFor(CONVERSATION_OPTIONS, String(doc.monthlyConversations || ''))],
+    ['Setup', labelFor(SETUP_OPTIONS, String(doc.salesSetup || ''))],
+    ['Needs', Array.isArray(doc.needs) ? (doc.needs as string[]).map((need) => labelFor(NEED_OPTIONS, need)).filter(Boolean).join(', ') : ''],
+    ['Timeline', labelFor(TIMELINE_OPTIONS, String(doc.timeline || ''))],
+    ['Investment', doc.investmentLabel || doc.investment],
+    ['Score', doc.score],
+    ['Tier', doc.tier ? TIER_LABELS[String(doc.tier)] || String(doc.tier) : ''],
+    ['Meeting', formatWhen(doc.meetingStartAt)],
+    ['Notes', doc.notes],
+    ['Landing page', doc.landingPage],
+    ['Last post', doc.lastBlogPost],
+    ['Source', doc.utmSource],
+    ['Campaign', doc.utmCampaign],
+  ])
+  const reasons = explainReasons(doc.reasons)
+  const adminUrl = absoluteUrl(`/admin/collections/applications/${doc.id}`)
+  const rendered = renderEmail({
+    preheader: subject,
+    eyebrow: 'Sales desk',
+    heading,
+    paragraphs: reasons.length ? ['How the score was built:'] : [],
+    rows,
+    bullets: reasons,
+    cta: { label: 'Open in admin', href: adminUrl },
+  })
+  const replyTo = typeof doc.email === 'string' && doc.email.includes('@') ? doc.email : undefined
+  return { subject, replyTo, ...rendered }
+}
+
+function compactRows(pairs: [string, unknown][]): EmailRow[] {
+  return pairs.flatMap(([label, value]) => {
+    if (value == null || value === '') return []
+    return [{ label, value: String(value) }]
+  })
+}
+
+function formatWhen(value: unknown): string {
+  if (value == null || value === '') return ''
+  const date = new Date(String(value))
+  if (Number.isNaN(date.getTime())) return String(value)
+  return date.toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short', timeZone: 'UTC' }) + ' UTC'
+}

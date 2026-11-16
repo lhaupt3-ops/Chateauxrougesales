@@ -25,7 +25,7 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'What does it cost?',
       answer:
-        'A setup fee, a monthly management fee, and a commission on cash collected. The investment bands on the application are placeholders until the commercial model is locked. The pricing page explains the shape.',
+        'A setup fee, a monthly management fee, and a commission on cash collected. Management starts at $3,000 a month. The pricing page lists the bands.',
     },
     {
       question: 'What do I need in place?',
@@ -40,12 +40,12 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'What if a closer is a bad fit?',
       answer:
-        'The placeholder guarantee is a replacement, not a made-up revenue promise. Confirm the final language in Site settings before you rely on it.',
+        'We replace a closer who is not a fit. That is a replacement promise, not a revenue promise. The wording you can rely on is the agreement.',
     },
     {
       question: 'Is this a long contract?',
       answer:
-        'The working shape is an initial term, then month to month. Notice terms are a placeholder until they are written into the agreement.',
+        'The working shape is an initial term, then month to month. The notice period is the one written into the agreement.',
     },
     {
       question: 'Who is this not for?',

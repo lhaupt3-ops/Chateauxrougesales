@@ -1,6 +1,6 @@
 import { INVESTMENT_VALUES } from './options'
 
-export const SCORING_VERSION = '1'
+export const SCORING_VERSION = '2'
 
 export type ApplicationAnswers = {
   offerType?: string | null
@@ -56,6 +56,11 @@ const TIMELINE_POINTS: Record<string, number> = {
 }
 
 const INVESTMENT_POINTS: Record<string, number> = {
+  [INVESTMENT_VALUES.under3k]: 0,
+  [INVESTMENT_VALUES.band1]: 2,
+  [INVESTMENT_VALUES.band2]: 3,
+  [INVESTMENT_VALUES.band3]: 3,
+  [INVESTMENT_VALUES.band4]: 3,
   [INVESTMENT_VALUES.underLow]: 1,
   [INVESTMENT_VALUES.mid]: 3,
   [INVESTMENT_VALUES.high]: 3,
@@ -120,6 +125,11 @@ export function scoreApplication(answers: ApplicationAnswers): ScoreResult {
   if (noMotion) {
     tier = 'not_yet'
     reasons.push('hard:pre_revenue_and_no_conversations')
+  }
+
+  if (answers.investment === INVESTMENT_VALUES.under3k) {
+    tier = 'not_yet'
+    reasons.push('hard:investment_under_3000')
   }
 
   const flagged = answers.offerType === 'other' && isFlaggedOffer(answers.offerOther)

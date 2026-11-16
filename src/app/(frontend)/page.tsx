@@ -1,5 +1,5 @@
 import { HomePage } from '@/components/home/HomePage'
-import { getFaqs } from '@/lib/content'
+import { getFaqs, getPublishedProof } from '@/lib/content'
 import { pageMetadata } from '@/lib/metadata'
 import { getSettings } from '@/lib/settings'
 
@@ -10,6 +10,6 @@ export const metadata = pageMetadata({
 })
 
 export default async function Page() {
-  const [settings, faqs] = await Promise.all([getSettings(), getFaqs('home')])
-  return <HomePage settings={settings} faqs={faqs} />
+  const [settings, faqs, proof] = await Promise.all([getSettings(), getFaqs('home'), getPublishedProof()])
+  return <HomePage settings={settings} faqs={faqs} proof={proof} />
 }
