@@ -49,7 +49,7 @@ export const SiteSettings: GlobalConfig = {
       name: 'nurtureEnabled',
       type: 'checkbox',
       defaultValue: false,
-      admin: { description: 'Off until you have read the sequence copy. Nothing in the nurture or follow-up sequences is sent while this is off.' },
+      admin: { description: 'Admins only. Off until you have read the sequence copy. Editors can edit that copy, but nothing is sent while this is off.' },
     },
     { name: 'introVideoUrl', type: 'text', admin: { description: 'Direct video file or YouTube URL for the confirmation page.' } },
     { name: 'closerName', type: 'text', defaultValue: 'Your strategist' },

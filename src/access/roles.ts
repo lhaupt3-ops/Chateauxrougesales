@@ -46,6 +46,11 @@ export const isAdminOrSales: Access = ({ req }) => {
   return role === 'admin' || role === 'sales'
 }
 
+export const isAdminOrSalesField: FieldAccess = ({ req }) => {
+  const role = roleOf(req.user)
+  return role === 'admin' || role === 'sales'
+}
+
 export const publishedOrContentTeam: Access = ({ req }) => {
   const role = roleOf(req.user)
   if (role === 'admin' || role === 'editor') return true

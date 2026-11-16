@@ -26,6 +26,7 @@ export async function EditorOverview() {
       <nav className="cr-dash-links" aria-label="Create">
         <Link href="/admin/collections/posts/create">New post</Link>
         <Link href="/admin/collections/media">Media</Link>
+        <Link href="/admin/globals/email-sequences">Email sequences</Link>
       </nav>
       <div className="cr-dash-split">
         <List title="Drafts in progress" rows={desk.drafts.map((post) => post.title || 'Untitled')} empty="No drafts." />

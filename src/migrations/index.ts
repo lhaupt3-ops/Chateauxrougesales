@@ -8,6 +8,7 @@ import * as migration_20261116_061547_user_password_gate from './20261116_061547
 import * as migration_20261116_120000_methodology_copy from './20261116_120000_methodology_copy';
 import * as migration_20261116_130000_rewrite_drafts from './20261116_130000_rewrite_drafts';
 import * as migration_20261116_140000_commission_copy from './20261116_140000_commission_copy';
+import * as migration_20261116_063511_closer_desk from './20261116_063511_closer_desk';
 
 export const migrations = [
   {
@@ -58,6 +59,11 @@ export const migrations = [
   {
     up: migration_20261116_140000_commission_copy.up,
     down: migration_20261116_140000_commission_copy.down,
-    name: '20261116_140000_commission_copy'
+    name: '20261116_140000_commission_copy',
+  },
+  {
+    up: migration_20261116_063511_closer_desk.up,
+    down: migration_20261116_063511_closer_desk.down,
+    name: '20261116_063511_closer_desk',
   },
 ];
