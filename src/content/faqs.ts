@@ -10,7 +10,7 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'What if they are pushy?',
       answer:
-        'Pressure that your buyers would resent is a failed call, not a style. Call review is part of the management, and the replacement promise exists so a bad fit does not stay on your calendar.',
+        'Pressure is a failed call, not a style. Call review is part of the management. What happens to a closer who does not fit is written in the agreement, not invented on this page.',
     },
     {
       question: 'Who owns the data and the recordings?',
@@ -25,12 +25,12 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'What does it cost?',
       answer:
-        'A setup fee, a monthly management fee, and a commission on cash collected. Management starts at $3,000 a month. The pricing page lists the bands.',
+        'A setup fee, a monthly management fee, and a commission on cash collected. The bands on the pricing page are a working draft until the agreement confirms them.',
     },
     {
       question: 'What do I need in place?',
       answer:
-        'An offer you have already sold, a price that can carry a professional team, and a way to deliver if sales pick up. Lead flow helps. If you do not have it, say so. We would rather add setters than pretend the calls exist.',
+        'An offer you have already sold, a price that can carry a team, and a way to deliver if more people say yes. If the conversations are not there yet, say so. We would rather add setters than pretend the calls exist.',
     },
     {
       question: 'Do you only close, or do you book the calls too?',
@@ -40,7 +40,7 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'What if a closer is a bad fit?',
       answer:
-        'We replace a closer who is not a fit. That is a replacement promise, not a revenue promise. The wording you can rely on is the agreement.',
+        'The agreement is the place for that promise. We will not print a replacement guarantee here until it is wording we can keep. We do not promise revenue.',
     },
     {
       question: 'Is this a long contract?',
@@ -50,7 +50,7 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'Who is this not for?',
       answer:
-        'Offers under $1,000, pre-revenue businesses with no sales conversations, and anyone looking for a closer job. Careers has its own page so this one can stay about buying.',
+        'Offers that have never sold, prices too small to carry a team, and anyone who wants a promised close rate. Job seekers use Careers, so this page can stay about buying.',
     },
   ],
   pricing: [
@@ -62,7 +62,7 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'Do you work commission only?',
       answer:
-        'Commission is part of the model. It is not the whole model. Management, call review and replacement have a cost even in a quiet month.',
+        'Commission is part of the model. It is not the whole model. Management and call review have a cost even in a quiet month.',
     },
     {
       question: 'What is the sales audit?',

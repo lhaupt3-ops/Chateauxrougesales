@@ -2,6 +2,9 @@ import * as migration_20261116_034034_initial from './20261116_034034_initial';
 import * as migration_20261116_044713_blob_storage_columns from './20261116_044713_blob_storage_columns';
 import * as migration_20261116_045040_proof_bands_and_meeting_end from './20261116_045040_proof_bands_and_meeting_end';
 import * as migration_20261116_060000_owner_admin_sender_and_test_leads from './20261116_060000_owner_admin_sender_and_test_leads';
+import * as migration_20261116_051838_placeholder_flags from './20261116_051838_placeholder_flags';
+import * as migration_20261116_120000_methodology_copy from './20261116_120000_methodology_copy';
+import * as migration_20261116_130000_rewrite_drafts from './20261116_130000_rewrite_drafts';
 
 export const migrations = [
   {
@@ -17,11 +20,26 @@ export const migrations = [
   {
     up: migration_20261116_045040_proof_bands_and_meeting_end.up,
     down: migration_20261116_045040_proof_bands_and_meeting_end.down,
-    name: '20261116_045040_proof_bands_and_meeting_end'
+    name: '20261116_045040_proof_bands_and_meeting_end',
   },
   {
     up: migration_20261116_060000_owner_admin_sender_and_test_leads.up,
     down: migration_20261116_060000_owner_admin_sender_and_test_leads.down,
-    name: '20261116_060000_owner_admin_sender_and_test_leads'
+    name: '20261116_060000_owner_admin_sender_and_test_leads',
+  },
+  {
+    up: migration_20261116_051838_placeholder_flags.up,
+    down: migration_20261116_051838_placeholder_flags.down,
+    name: '20261116_051838_placeholder_flags',
+  },
+  {
+    up: migration_20261116_120000_methodology_copy.up,
+    down: migration_20261116_120000_methodology_copy.down,
+    name: '20261116_120000_methodology_copy',
+  },
+  {
+    up: migration_20261116_130000_rewrite_drafts.up,
+    down: migration_20261116_130000_rewrite_drafts.down,
+    name: '20261116_130000_rewrite_drafts',
   },
 ];

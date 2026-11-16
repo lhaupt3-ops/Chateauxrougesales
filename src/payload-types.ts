@@ -1280,7 +1280,15 @@ export interface SiteSetting {
   closerName?: string | null;
   closerRole?: string | null;
   guaranteeText: string;
+  /**
+   * Keep this on until a lawyer has reviewed the guarantee. While it is on, the public site shows a draft notice instead of the text above.
+   */
+  guaranteeIsPlaceholder?: boolean | null;
   noticeText: string;
+  /**
+   * Keep this on until the term and notice period are confirmed. While it is on, the public site does not print the text above.
+   */
+  noticeIsPlaceholder?: boolean | null;
   timelineText: string;
   bandLowLabel: string;
   bandMidLabel: string;
@@ -1319,7 +1327,9 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   closerName?: T;
   closerRole?: T;
   guaranteeText?: T;
+  guaranteeIsPlaceholder?: T;
   noticeText?: T;
+  noticeIsPlaceholder?: T;
   timelineText?: T;
   bandLowLabel?: T;
   bandMidLabel?: T;

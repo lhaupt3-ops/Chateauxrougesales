@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
   title: 'Not yet · Chateaux Rouge',
-  description: 'A full sales team would cost more than it returns right now. Here is what we would do in your place.',
+  description: 'Not the moment for a managed team. A plain next step, and a waitlist if you want one.',
   path: '/apply/next-steps',
   noindex: true,
 })
@@ -25,27 +25,27 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
   const advice =
     doc.pricePoint === 'under_1000'
       ? {
-          title: 'Raise the ticket, or bundle it',
-          body: 'A team that sets and closes cannot live on a sub-$1,000 offer. Raise the price, or package the work so one yes pays for the seat. Then come back.',
+          title: 'The price is too small for this team',
+          body: 'The working rule is that a sub-$1,000 offer does not carry setters and closers. Raise the price, or bundle the work so one yes can pay for the seat. Then come back. This threshold is a draft until it is confirmed.',
         }
       : doc.investment === 'under_3k'
         ? {
-            title: 'The minimum is $3,000 a month',
-            body: 'A managed sales team starts at $3,000 a month, before commission. Under that, the work costs more than it returns. Come back when a band on the pricing page fits.',
+            title: 'The working floor is $3,000 a month',
+            body: 'Below that, a managed team costs more than it returns. The bands on the pricing page are a draft. Come back when an honest range sits inside them.',
           }
         : doc.monthlyConversations === 'none'
         ? {
-            title: 'Build lead flow first',
-            body: 'Closing an empty calendar is theatre. Get a steady source of conversations, even a small one, before you pay for closers. Setters can be part of a later team. They cannot invent demand from nothing.',
+            title: 'There is nothing to close yet',
+            body: 'A closer cannot invent demand. Get a small, steady set of conversations first. Setters can join a later team. They still need a real offer to talk about.',
           }
         : doc.monthlyRevenue === 'pre_revenue'
           ? {
-              title: 'Validate the offer',
-              body: 'Sell it yourself a few times. You will learn the objections, the price and the delivery load. Those are the notes a team needs. Without them, we would be guessing on your calls.',
+              title: 'Sell it yourself a few times first',
+              body: 'You will learn the objections, the price and the delivery load. Those notes are what a team needs. Without them, we would be guessing on your calls.',
             }
           : {
-              title: 'A full team would cost more than it returns right now',
-              body: 'The score says the economics are not there yet. That is a useful answer. Fix the constraint below, and the application is saved if you want to try again.',
+              title: 'Not the moment for a full team',
+              body: 'The answers say a managed team would cost more than it returns right now. That is a useful result, not a brush-off. The application is saved if you want to try again.',
             }
 
   return (

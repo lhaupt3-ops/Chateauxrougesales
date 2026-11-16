@@ -9,47 +9,48 @@ import { isOperatorPlaceholder, type SiteSettings } from '@/lib/settings'
 const PAINS = [
   {
     title: 'You are the bottleneck',
-    body: 'The calendar is the ceiling. Delivery waits because you are the only person who can take the call.',
+    body: 'Delivery waits because you are the only person who can take the sales call.',
   },
   {
-    title: 'Hiring closers is a lottery',
-    body: 'A freelance seat still needs a manager. If that manager is you, you bought a new job.',
+    title: 'A freelance closer still needs a manager',
+    body: 'If that manager is you, you bought another job. The useful purchase is the management as well as the seat.',
   },
   {
-    title: 'Leads go cold while you deliver',
-    body: 'A public study found firms that replied to online leads within an hour were far more likely to qualify them. Speed is a staffing problem.',
+    title: 'Leads go quiet while you deliver',
+    body: 'Published research links a reply inside the first hour with a much higher chance of qualifying a lead. That is a staffing problem, and it is their finding, not a result of ours.',
   },
 ]
 
 const STAGES = [
-  ['01 Audit', 'We read the offer and a set of real calls before anyone new gets on the phone.'],
-  ['02 Install', 'Scripts, calendar routing and follow-up, inside the CRM you already own.'],
-  ['03 Staff', 'Setters, closers and a sales lead. Not a pile of freelancers for you to herd.'],
-  ['04 Run', 'Call review and a weekly set of numbers: show rate, close rate, cash collected.'],
+  ['01 Read', 'We read the offer and a set of real calls, including losses, before anyone new gets on the phone.'],
+  ['02 Install', 'The call shape, the routing and the follow-up go into the CRM you already own.'],
+  ['03 Staff', 'Setters, closers and a sales lead. One unit, not a pile of freelancers for you to herd.'],
+  ['04 Review', 'A weekly look at show rate, close rate and cash collected, plus the calls themselves.'],
 ]
 
 export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSettings; faqs: Faq[]; proof?: ProofStudy[] }) {
   const quotes = proof.filter((study) => study.quote)
   const results = proof.flatMap((study) => study.results.map((result) => ({ ...result, slug: study.slug, illustrative: study.illustrative })))
-  const guarantee = isOperatorPlaceholder(settings.guaranteeText) ? '' : settings.guaranteeText
-  const notice = isOperatorPlaceholder(settings.noticeText) ? '' : settings.noticeText
+  const guarantee = settings.guaranteeIsPlaceholder || isOperatorPlaceholder(settings.guaranteeText) ? '' : settings.guaranteeText
+  const notice = settings.noticeIsPlaceholder || isOperatorPlaceholder(settings.noticeText) ? '' : settings.noticeText
+  const termsAreDraft = settings.guaranteeIsPlaceholder || settings.noticeIsPlaceholder
   return (
     <>
       <section className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 md:grid-cols-[1.2fr_0.8fr] md:py-24">
         <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-wine">Sales and closing, as a service</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-wine">A managed sales function</p>
           <h1 className="mt-4 font-serif text-5xl leading-[1.02] tracking-[-0.045em] md:text-6xl">
             Your high-ticket sales team, installed and run.
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-8 text-muted">
-            Setters, closers and a sales lead who own your pipeline, from the first reply to cash collected. Built for coaches, info-product and B2B offers of $3k and up.
+            Setters, closers and a sales lead who run the pipeline from the first reply to cash collected. The calls are honest. A no is an acceptable outcome. You keep the offer, the data and the recordings.
           </p>
           <div className="mt-8 max-w-xl">
             <EmailCapture location="hero" entry="hero_inline" />
             <p className="mt-3 text-sm text-muted">
-              2-minute application. No pitch deck. You keep the recordings.{' '}
+              A short application. See if we are a fit. A clear no is a useful answer.{' '}
               <ApplyLink location="hero" className="underline">
-                Apply for a sales team
+                See if we are a fit
               </ApplyLink>
             </p>
           </div>
@@ -148,6 +149,28 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
+        <SectionHeading
+          eyebrow="Two different conversations"
+          title="How we sell to you, and how the team sells for you."
+          body="They use the same standard. They are not the same call."
+        />
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <article className="rounded-2xl border border-stone bg-white/70 p-6">
+            <h3 className="font-serif text-2xl">With you, the founder</h3>
+            <p className="mt-3 leading-7 text-muted">
+              A short application, then a call whose job is clarity. We look at the offer, the calls you already have, and whether a managed team would help. Not a fit is a fine outcome. The commercial shape is on the pricing page before you book.
+            </p>
+          </article>
+          <article className="rounded-2xl border border-stone bg-white/70 p-6">
+            <h3 className="font-serif text-2xl">With your buyers</h3>
+            <p className="mt-3 leading-7 text-muted">
+              The closer’s job is to find what is actually true for the buyer and help them decide. Yes, not yet, or no. They listen more than they talk, they qualify before they mention price, and they do not invent urgency.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pb-16">
         <SectionHeading title="What you get. What you keep." />
         <div className="mt-8 overflow-x-auto rounded-2xl border border-stone">
           <table className="w-full min-w-[640px] text-left text-sm">
@@ -162,7 +185,7 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
               {[
                 ['The company', 'Offer, delivery, client relationship', 'First reply, booking, the call, follow-up'],
                 ['The system', 'CRM, accounts, data, recordings', 'Scripts, routing, call review, the weekly report'],
-                ['The risk', 'The right to leave on the written notice', 'Replacing a closer who is not a fit'],
+                ['The standard', 'The right to leave on the written notice', 'Call review against a written standard'],
               ].map((row) => (
                 <tr key={row[0]} className="border-t border-stone">
                   {row.map((cell) => (
@@ -206,18 +229,18 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
         <div className="rounded-2xl border border-stone bg-white/70 p-6">
           <h2 className="font-serif text-3xl">Built for</h2>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-muted">
-            <li>Offers priced at $3,000 or more.</li>
-            <li>You have already sold it yourself.</li>
-            <li>Calls or leads already exist, or you want setters in the same team.</li>
-            <li>You can deliver if more people say yes.</li>
+            <li>You have already sold the offer yourself.</li>
+            <li>The price can carry a professional team. The application asks, and says so if it cannot.</li>
+            <li>Conversations already exist, or you want setters in the same team.</li>
+            <li>You can deliver if more people say yes, and you will share the recordings.</li>
           </ul>
         </div>
         <div className="rounded-2xl border border-stone p-6">
           <h2 className="font-serif text-3xl">Not for</h2>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-muted">
-            <li>Offers under $1,000.</li>
-            <li>Pre-revenue, with no conversations yet.</li>
-            <li>A promised close rate, or a fake countdown.</li>
+            <li>An offer that has never sold, or a price too small to pay for the work.</li>
+            <li>A promised close rate, a fake countdown, or pressure you would not want on your buyers.</li>
+            <li>No capacity to deliver if more people say yes.</li>
             <li>
               Job seekers. <Link href="/careers" className="underline">Careers</Link> is the right door.
             </li>
@@ -260,9 +283,9 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
         </Link>
       </section>
 
-      <section className={`mx-auto grid max-w-6xl gap-8 px-4 pb-16 ${guarantee || notice ? 'md:grid-cols-2' : ''}`}>
+      <section className={`mx-auto grid max-w-6xl gap-8 px-4 pb-16 ${guarantee || notice || termsAreDraft ? 'md:grid-cols-2' : ''}`}>
         <div>
-          <SectionHeading title="How we charge" body="A setup fee, a monthly management fee starting at $3,000, and a commission on cash collected. You see the shape before you book." />
+          <SectionHeading title="How we charge" body="A setup fee, a monthly management fee, and a commission on cash collected. You see the shape before you book. The ranges on the application are a working draft until they are confirmed in the agreement." />
           <Link href="/pricing" className="mt-4 inline-block text-sm underline">
             Read the pricing page
           </Link>
@@ -270,7 +293,16 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
             Apply
           </ApplyLink>
         </div>
-        {(guarantee || notice) && (
+        {termsAreDraft && (
+          <div className="rounded-2xl border border-dashed border-gold bg-white/70 p-6">
+            <p className="text-xs uppercase tracking-[0.16em] text-wine">Draft</p>
+            <h2 className="mt-2 font-serif text-3xl">Guarantee and terms are not confirmed</h2>
+            <p className="mt-4 leading-7 text-muted">
+              Lawyer review is still pending. Nothing on this page is a guarantee, a contract length, or a notice period. The agreement is what you can rely on.
+            </p>
+          </div>
+        )}
+        {!termsAreDraft && (guarantee || notice) && (
         <div className="rounded-2xl bg-wine p-6 text-ivory">
           <h2 className="font-serif text-3xl">The guarantee, in words we can keep</h2>
           {guarantee && <p className="mt-4 leading-7 text-ivory/85">{guarantee}</p>}

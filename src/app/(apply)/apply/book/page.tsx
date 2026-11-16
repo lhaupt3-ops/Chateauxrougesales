@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
   title: 'Book your call · Chateaux Rouge',
-  description: 'Pick a time. Your name, email and answers are already on the invite.',
+  description: 'Pick a time for a call about whether this is a fit. A no is a fine outcome.',
   path: '/apply/book',
   noindex: true,
 })
@@ -43,15 +43,16 @@ export default async function BookPage({
       <div>
         <h1 className="font-serif text-4xl tracking-[-0.04em]">
           {eventType === 'strategy'
-            ? `${doc.firstName || 'You'}, you are a strong fit. Pick a time for your sales strategy call.`
-            : 'Looks promising. Let us confirm a few details on a 15-minute fit call.'}
+            ? `${doc.firstName || 'You'}, the answers look workable. Pick a time to get clear.`
+            : 'A few details are still open. Pick a short call so we can both decide.'}
         </h1>
         <ul className="mt-6 list-disc space-y-2 pl-5 text-muted">
-          <li>We look at the funnel and, if you have them, the call recordings.</li>
-          <li>We map the team, the numbers and the next 14 days.</li>
-          <li>{strategist ? `You meet ${strategist}${settings.closerRole ? `, ${settings.closerRole}` : ''}. No deck.` : 'You meet the person running the call. No deck.'}</li>
+          <li>The point of the call is clarity. Not a fit is a perfectly good outcome.</li>
+          <li>Bring the person who can say yes. If someone else decides with you, they should be there.</li>
+          <li>{eventType === 'strategy' ? 'Plan on 30 to 45 minutes.' : 'Plan on about 15 minutes.'} We will look at the offer and, if you have them, the recordings.</li>
+          <li>{strategist ? `You meet ${strategist}${settings.closerRole && settings.closerRole !== 'Sales lead' ? `, ${settings.closerRole}` : ''}. No deck.` : 'You meet the person running the call. No deck.'}</li>
         </ul>
-        <p className="mt-6 text-sm text-muted">Can&apos;t find a time? Reply to your email and we will fit you in.</p>
+        <p className="mt-6 text-sm text-muted">The commercial shape is already on the pricing page. The agreement is the price. Can&apos;t find a time? Reply to your email.</p>
       </div>
       <CalendlyEmbed
         url={url}

@@ -83,7 +83,7 @@ export function GuidePage({ guide }: { guide: Guide }) {
           location="guide_footer"
           className="mt-6 inline-flex h-12 items-center rounded-full bg-rouge px-5 text-sm font-medium text-white hover:bg-wine"
         >
-          Apply for a sales team
+          See if we are a fit
         </ApplyLink>
       </div>
     </article>

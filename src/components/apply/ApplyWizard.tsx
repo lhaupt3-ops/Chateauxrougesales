@@ -315,8 +315,8 @@ export function ApplyWizard({
 
       {step === 'email' && (
         <form onSubmit={submitEmail} className="space-y-4">
-          <h1 className="font-serif text-4xl tracking-[-0.04em]">Let&apos;s see if we&apos;re a fit.</h1>
-          <p className="text-lg text-muted">Where should we send your fit result?</p>
+          <h1 className="font-serif text-4xl tracking-[-0.04em]">See if we are a fit.</h1>
+          <p className="text-lg text-muted">Where should we send the result? A no is a useful answer.</p>
           <label className="block text-sm" htmlFor="email">
             Work email
           </label>
@@ -329,7 +329,7 @@ export function ApplyWizard({
       )}
 
       {step === 'offer' && (
-        <Step title="What do you sell?" options={OFFER_OPTIONS} selected={String(answers.offerType || '')} onChoose={choose} />
+        <Step title="What do you sell?" hint="The offer a buyer would actually pay for." options={OFFER_OPTIONS} selected={String(answers.offerType || '')} onChoose={choose} />
       )}
       {step === 'offer' && answers.offerType === 'other' && (
         <form
@@ -347,21 +347,21 @@ export function ApplyWizard({
         </form>
       )}
 
-      {step === 'price' && <Step title="What does a client pay you?" hint="The typical price of the main offer." options={PRICE_OPTIONS} selected={String(answers.pricePoint || '')} onChoose={choose} />}
-      {step === 'revenue' && <Step title="Monthly revenue right now?" options={REVENUE_OPTIONS} selected={String(answers.monthlyRevenue || '')} onChoose={choose} />}
+      {step === 'price' && <Step title="What does a buyer usually pay?" hint="The typical price of the main offer. This is how we see whether a team can carry it." options={PRICE_OPTIONS} selected={String(answers.pricePoint || '')} onChoose={choose} />}
+      {step === 'revenue' && <Step title="What comes in each month, roughly?" hint="An honest band is more useful than a round number." options={REVENUE_OPTIONS} selected={String(answers.monthlyRevenue || '')} onChoose={choose} />}
       {step === 'conversations' && (
         <Step
-          title="How many sales conversations come in each month?"
-          hint="Booked calls, demo requests, or qualified inbound leads."
+          title="How many real sales conversations happen in a month?"
+          hint="Booked calls, demo requests, or qualified inbound. Not a hope."
           options={CONVERSATION_OPTIONS}
           selected={String(answers.monthlyConversations || '')}
           onChoose={choose}
         />
       )}
-      {step === 'setup' && <Step title="Who handles sales today?" options={SETUP_OPTIONS} selected={String(answers.salesSetup || '')} onChoose={choose} />}
+      {step === 'setup' && <Step title="Who runs those conversations today?" options={SETUP_OPTIONS} selected={String(answers.salesSetup || '')} onChoose={choose} />}
       {step === 'needs' && (
         <div>
-          <h1 className="font-serif text-4xl tracking-[-0.04em]">What do you want off your plate?</h1>
+          <h1 className="font-serif text-4xl tracking-[-0.04em]">What would you like off your plate?</h1>
           <p className="mt-2 text-muted">Choose any that apply.</p>
           <div className="mt-6 grid gap-3">
             {NEED_OPTIONS.map((option, optionIndex) => {
@@ -396,20 +396,20 @@ export function ApplyWizard({
           </button>
         </div>
       )}
-      {step === 'timeline' && <Step title="When do you want this running?" options={TIMELINE_OPTIONS} selected={String(answers.timeline || '')} onChoose={choose} />}
+      {step === 'timeline' && <Step title="When would you want this in place?" hint="Researching is an honest answer. It changes the route, not the respect." options={TIMELINE_OPTIONS} selected={String(answers.timeline || '')} onChoose={choose} />}
       {step === 'investment' && (
         <div>
-          <h1 className="font-serif text-4xl tracking-[-0.04em]">Which range fits your plan?</h1>
+          <h1 className="font-serif text-4xl tracking-[-0.04em]">Which monthly range is honest?</h1>
           <p className="mt-3 max-w-xl leading-7 text-muted">
-            Our engagements combine a setup and a monthly management fee with commission on cash collected. The minimum management fee is $3,000 a month.
+            The shape is a setup fee, a monthly management fee, and commission on cash collected. These bands are a working draft, not a quote. The agreement is the price. Under $3,000 a month is below the working floor.
           </p>
           <OptionList options={investmentOptions} selected={String(answers.investment || '')} onChoose={choose} />
         </div>
       )}
       {step === 'contact' && (
         <form onSubmit={finish} className="space-y-4">
-          <h1 className="font-serif text-4xl tracking-[-0.04em]">Your details</h1>
-          <p className="text-muted">So your closer can text a confirmation.</p>
+          <h1 className="font-serif text-4xl tracking-[-0.04em]">How should we reach you?</h1>
+          <p className="text-muted">So we can confirm a time, if the fit is there. No sequence of chase messages.</p>
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="First name" name="firstName" autoComplete="given-name" />
             <Field label="Last name" name="lastName" autoComplete="family-name" />

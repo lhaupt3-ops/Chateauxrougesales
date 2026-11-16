@@ -11,18 +11,18 @@ export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
   title: 'You are booked · Chateaux Rouge',
-  description: 'Two steps to lock in the call: add it to your calendar, and watch the short intro.',
+  description: 'You are booked. Add the call, and come ready to decide whether this is a fit.',
   path: '/apply/confirmed',
   noindex: true,
 })
 
 const CARDS = [
-  ['How the call runs', 'Thirty to forty-five minutes. We look at the offer, the calls and the numbers. You leave with a yes, a no, or a smaller first step.'],
-  ['The timeline', 'If we work together, the working target is the timeline in your agreement. The site only shows a number operations has confirmed.'],
-  ['How we charge', 'Setup, a monthly management fee, and commission on cash collected. You will see it in writing before anything starts.'],
-  ['Who it is for', 'Offers of $3,000 or more that have already sold. Not for pre-revenue ideas or sub-$1,000 products.'],
-  ['What to bring', 'The offer in one page, recent numbers, one or two call recordings, and the person who can say yes.'],
-  ['A client story', 'A named story will sit in this card once a client has agreed. Until then, we will not borrow one.'],
+  ['What the call is for', 'Clarity. We look at the offer, the calls and the numbers. You leave with a yes, a no, or a smaller first step. Not a fit is a fine result.'],
+  ['Who should be there', 'The person who can say yes. If someone else decides with you, ask them to join. We will not ask you to go around them.'],
+  ['How we charge', 'Setup, a monthly management fee, and commission on cash collected. You see the terms in writing before anything starts. The bands on the site are a working draft.'],
+  ['What to bring', 'The offer in one page, recent numbers, and one or two recordings if you have them.'],
+  ['After the call', 'If we work together, the next step is an agreement you can read before you pay. If we do not, you leave with a plain recommendation.'],
+  ['A client story', 'A named story will sit here only after a client has approved the numbers and their name. Until then, this card stays empty of proof.'],
 ]
 
 export default async function ConfirmedPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {

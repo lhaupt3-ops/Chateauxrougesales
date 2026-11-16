@@ -1,5 +1,8 @@
 import { INVESTMENT_VALUES } from './options'
 
+// Working qualification rules, not a confirmed commercial policy.
+// Price under $1,000, pre-revenue with no conversations, and investment under $3,000 a month route to not yet.
+// The public site calls these a draft until the ranges are confirmed.
 export const SCORING_VERSION = '2'
 
 export type ApplicationAnswers = {
