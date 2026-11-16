@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { JsonLd } from '@/components/site/JsonLd'
+import { authorIsIndexable } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
 import { getPayloadClient } from '@/lib/payload'
 import { absoluteUrl } from '@/lib/site'
@@ -9,10 +10,22 @@ export const revalidate = 3600
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
+  const payload = await getPayloadClient()
+  const authors = await payload.find({ collection: 'authors', where: { slug: { equals: slug } }, limit: 1, overrideAccess: true })
+  const author = authors.docs[0]
+  const written = author
+    ? await payload.count({
+        collection: 'posts',
+        where: { and: [{ _status: { equals: 'published' } }, { authors: { equals: author.id } }] },
+        overrideAccess: true,
+      })
+    : { totalDocs: 0 }
+  const name = author?.name || 'Author'
   return pageMetadata({
-    title: `Author · Chateaux Rouge`,
-    description: 'Author profile for the Chateaux Rouge journal.',
+    title: `${name} · Chateaux Rouge`,
+    description: author?.bio ? String(author.bio).slice(0, 155) : 'Author profile for the Chateaux Rouge journal.',
     path: `/authors/${slug}`,
+    noindex: !author || !authorIsIndexable(author, written.totalDocs),
   })
 }
 

@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { CalendlyEmbed } from '@/components/apply/CalendlyEmbed'
+import { CallOutline } from '@/components/site/CallOutline'
 import { OutcomeViewed } from '@/components/apply/OutcomeViewed'
 import { answerSummary, findByPublicId, isCalendlyUrl } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
@@ -51,9 +52,13 @@ export default async function BookPage({
         <ul className="mt-6 list-disc space-y-2 pl-5 text-muted">
           <li>The point of the call is clarity. Not a fit is a perfectly good outcome.</li>
           <li>Bring the person who can say yes. If someone else decides with you, they should be there.</li>
-          <li>{eventType === 'strategy' ? 'Plan on 30 to 45 minutes.' : 'Plan on about 15 minutes.'} We will look at the offer and, if you have them, the recordings.</li>
+          <li>{eventType === 'strategy' ? 'Plan on 30 minutes.' : 'Plan on about 15 minutes.'} We will look at the offer and, if you have them, the recordings.</li>
           <li>{strategist ? `You meet ${strategist}${settings.closerRole && settings.closerRole !== 'Sales lead' ? `, ${settings.closerRole}` : ''}. No deck.` : 'You meet the person running the call. No deck.'}</li>
         </ul>
+        {typeof doc.decisionMakers === 'string' && doc.decisionMakers !== 'just_me' && (
+          <p className="mt-4 text-muted">Bring the other person who would decide. The call is more useful if they can hear it.</p>
+        )}
+        {eventType === 'strategy' && <CallOutline />}
         <p className="mt-6 text-sm text-muted">The commercial shape is already on the pricing page. The agreement is the price. Can&apos;t find a time? Reply to your email.</p>
       </div>
       <CalendlyEmbed

@@ -74,7 +74,7 @@ export function ResourceGate({
           ? 'These are the same questions as the application. Leave your email to continue. The result is a next step, not a promise.'
           : `Leave your email to read ${title}. We will also send the link. Unsubscribe any time.`}
       </p>
-      <input name="email" type="email" required autoComplete="email" placeholder="Work email" className="h-12 w-full rounded-full border border-stone px-4" />
+      <input name="email" type="email" required autoComplete="email" placeholder="Email" className="h-12 w-full rounded-full border border-stone px-4" />
       <label className="flex items-start gap-2 text-sm text-muted">
         <input name="consent" type="checkbox" value="yes" className="mt-1" />
         <span>Email me this guide. I can unsubscribe in one click. This is separate from analytics cookies.</span>

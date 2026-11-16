@@ -23,6 +23,12 @@ export type BuiltEmail = {
   replyTo?: string
 }
 
+function inviteOthers(doc: ApplicationDoc): string {
+  const who = String(doc.decisionMakers || '')
+  if (!who || who === 'just_me') return ''
+  return ' Bring the other person who would decide. The call is more useful if they can hear it.'
+}
+
 const TIER_LABELS: Record<string, string> = {
   qualified: 'Qualified',
   review: 'Review',
@@ -61,8 +67,8 @@ export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind): BuiltE
       heading: `You are booked, ${first}.`,
       paragraphs: [
         when
-          ? `The call is set for ${when}. The point of it is clarity, and not a fit is a fine outcome. Add it from the confirmation page. Bring whoever else decides with you.`
-          : 'The time is in your Calendly email. The confirmation page explains what to bring. Bring whoever else decides with you.',
+          ? `The call is set for ${when}. It is 30 minutes. The point is clarity, and not a fit is a fine outcome. Any terms are in writing before you pay.${inviteOthers(doc)}`
+          : `The time is in your Calendly email. It is 30 minutes. Not a fit is a fine outcome. Any terms are in writing before you pay.${inviteOthers(doc)}`,
       ],
       cta: 'Open the confirmation',
     },

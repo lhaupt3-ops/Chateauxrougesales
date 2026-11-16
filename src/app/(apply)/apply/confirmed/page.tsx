@@ -47,6 +47,9 @@ export default async function ConfirmedPage({ searchParams }: { searchParams: Pr
         You are booked, {String(doc.firstName || 'there')}. {hasVideo ? 'Two quick steps to lock it in.' : 'One quick step to lock it in.'}
       </h1>
       {validWhen && <p className="mt-4 text-lg text-muted">{validWhen.toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' })}</p>}
+      {typeof doc.decisionMakers === 'string' && doc.decisionMakers !== 'just_me' && (
+        <p className="mt-4 text-muted">Bring the other person who would decide. The call is more useful if they can hear it.</p>
+      )}
       <ol className="mt-8 space-y-4">
         <li className="rounded-2xl border border-stone bg-white p-5">
           <h2 className="font-serif text-2xl">{hasVideo ? '1. Add it to your calendar' : 'Add it to your calendar'}</h2>

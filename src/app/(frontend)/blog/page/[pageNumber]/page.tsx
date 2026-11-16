@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
+import { countPublishedPosts } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
 import { publishedPosts } from '@/lib/posts'
 
@@ -7,10 +8,12 @@ export const revalidate = 3600
 
 export async function generateMetadata({ params }: { params: Promise<{ pageNumber: string }> }) {
   const { pageNumber } = await params
+  const count = await countPublishedPosts()
   return pageMetadata({
     title: `Journal, page ${pageNumber} · Chateaux Rouge`,
     description: 'Older essays from the Chateaux Rouge journal.',
     path: `/blog/page/${pageNumber}`,
+    noindex: count < 1,
   })
 }
 

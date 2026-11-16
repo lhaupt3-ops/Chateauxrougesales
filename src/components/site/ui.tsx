@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { publicCopy } from '@/lib/indexing'
 import { JsonLd } from './JsonLd'
 import { absoluteUrl } from '@/lib/site'
 
@@ -37,7 +38,10 @@ export function Breadcrumbs({ items }: { items: { name: string; path: string }[]
 }
 
 export function FaqList({ faqs, includeSchema = true }: { faqs: { question: string; answer: string }[]; includeSchema?: boolean }) {
-  if (!faqs.length) return null
+  const clean = faqs
+    .map((faq) => ({ question: publicCopy(faq.question), answer: publicCopy(faq.answer) }))
+    .filter((faq) => faq.question && faq.answer)
+  if (!clean.length) return null
   return (
     <section className="mt-16">
       <h2 className="font-serif text-3xl tracking-[-0.03em]">Questions worth asking first</h2>
@@ -46,7 +50,7 @@ export function FaqList({ faqs, includeSchema = true }: { faqs: { question: stri
           data={{
             '@context': 'https://schema.org',
             '@type': 'FAQPage',
-            mainEntity: faqs.map((faq) => ({
+            mainEntity: clean.map((faq) => ({
               '@type': 'Question',
               name: faq.question,
               acceptedAnswer: { '@type': 'Answer', text: faq.answer },
@@ -55,7 +59,7 @@ export function FaqList({ faqs, includeSchema = true }: { faqs: { question: stri
         />
       )}
       <div className="mt-6 divide-y divide-stone border-y border-stone">
-        {faqs.map((faq) => (
+        {clean.map((faq) => (
           <details key={faq.question} className="group py-4">
             <summary className="cursor-pointer list-none text-lg font-medium">{faq.question}</summary>
             <p className="mt-3 max-w-3xl leading-7 text-muted">{faq.answer}</p>
@@ -69,7 +73,7 @@ export function FaqList({ faqs, includeSchema = true }: { faqs: { question: stri
 export function Placeholder({ title, body }: { title: string; body: string }) {
   return (
     <div className="rounded-2xl border border-dashed border-gold/80 bg-white/60 p-5">
-      <p className="text-xs uppercase tracking-[0.16em] text-wine">Placeholder</p>
+      <p className="text-xs uppercase tracking-[0.16em] text-wine">To be confirmed</p>
       <p className="mt-2 font-medium">{title}</p>
       <p className="mt-2 text-sm leading-6 text-muted">{body}</p>
     </div>

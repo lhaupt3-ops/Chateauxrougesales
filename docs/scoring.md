@@ -37,6 +37,10 @@ New applications answer `setupFee` instead of a monthly budget band. The commerc
 - A flagged “other” offer that would otherwise pass is held at review.
 - Researching demotes an otherwise qualified score to review.
 
+## Who decides
+
+`decisionMakers` is stored on the application (`just_me`, `partner`, or `team`). It is not scored. It does not change qualified, review, or not yet. When the answer is not `just_me`, the booking page and the booking email ask them to bring that person.
+
 ## Older applications
 
 Monthly band answers are still stored on `investment` and still score if `setupFee` is empty. `under_3k` remains not yet (`hard:investment_under_3000`). Those labels stay readable. They are not asked on the form anymore.

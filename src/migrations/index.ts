@@ -9,6 +9,7 @@ import * as migration_20261116_120000_methodology_copy from './20261116_120000_m
 import * as migration_20261116_130000_rewrite_drafts from './20261116_130000_rewrite_drafts';
 import * as migration_20261116_140000_commission_copy from './20261116_140000_commission_copy';
 import * as migration_20261116_063511_closer_desk from './20261116_063511_closer_desk';
+import * as migration_20261116_065147_decision_makers_and_careers_index from './20261116_065147_decision_makers_and_careers_index';
 
 export const migrations = [
   {
@@ -65,5 +66,10 @@ export const migrations = [
     up: migration_20261116_063511_closer_desk.up,
     down: migration_20261116_063511_closer_desk.down,
     name: '20261116_063511_closer_desk',
+  },
+  {
+    up: migration_20261116_065147_decision_makers_and_careers_index.up,
+    down: migration_20261116_065147_decision_makers_and_careers_index.down,
+    name: '20261116_065147_decision_makers_and_careers_index',
   },
 ];

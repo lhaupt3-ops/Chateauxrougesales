@@ -7,7 +7,20 @@ export const revalidate = 3600
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  return pageMetadata({ title: 'Case study · Chateaux Rouge', description: 'A named client result.', path: `/results/${slug}` })
+  const payload = await getPayloadClient()
+  const result = await payload.find({
+    collection: 'case-studies',
+    where: { and: [{ slug: { equals: slug } }, { _status: { equals: 'published' } }] },
+    limit: 1,
+    overrideAccess: true,
+  })
+  const study = result.docs[0]
+  return pageMetadata({
+    title: study ? `${study.clientName} · Chateaux Rouge` : 'Case study · Chateaux Rouge',
+    description: study?.illustrative ? 'An illustrative example, not a published client result.' : 'A named client result, published with permission.',
+    path: `/results/${slug}`,
+    noindex: !study || study.illustrative === true || study.seo?.noindex === true,
+  })
 }
 
 export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {

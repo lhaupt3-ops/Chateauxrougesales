@@ -110,7 +110,12 @@ export async function refreshMethodologyCopy(payload: Payload) {
   if (typeof settings.noticeText === 'string' && settings.noticeText.startsWith(OLD_NOTICE_START)) {
     patch.noticeText = defaultSettings.noticeText
   }
-  if (settings.timelineText === OLD_TIMELINE) patch.timelineText = defaultSettings.timelineText
+  if (
+    settings.timelineText === OLD_TIMELINE ||
+    (typeof settings.timelineText === 'string' && /this sentence is a draft/i.test(settings.timelineText))
+  ) {
+    patch.timelineText = defaultSettings.timelineText
+  }
   if (Object.keys(patch).length) {
     try {
       await payload.updateGlobal({ slug: 'site-settings', overrideAccess: true, data: patch })

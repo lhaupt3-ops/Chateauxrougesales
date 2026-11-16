@@ -1,16 +1,21 @@
 import { ApplyLink } from '@/components/site/ApplyLink'
 import { Breadcrumbs, FaqList } from '@/components/site/ui'
 import { pricingFaqs } from '@/content/faqs'
+import { pricingIsIndexable } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
 import { getFaqs } from '@/lib/content'
 import { confirmedOrPending, getSettings } from '@/lib/settings'
 import Link from 'next/link'
 
-export const metadata = pageMetadata({
-  title: 'How we charge · Chateaux Rouge',
-  description: 'A one-off setup fee, then commission on cash collected. No monthly retainer. The amounts are confirmed in the written agreement.',
-  path: '/pricing',
-})
+export async function generateMetadata() {
+  const settings = await getSettings()
+  return pageMetadata({
+    title: 'How we charge · Chateaux Rouge',
+    description: 'A one-off setup fee, then commission on cash collected. The amounts are confirmed in the written agreement.',
+    path: '/pricing',
+    noindex: !pricingIsIndexable(settings),
+  })
+}
 
 export default async function PricingPage() {
   const [settings, faqs] = await Promise.all([getSettings(), getFaqs('pricing')])
@@ -41,7 +46,7 @@ export default async function PricingPage() {
       </p>
       <p className="mt-6">
         <ApplyLink location="pricing" className="underline">
-          Apply
+          See if we&apos;re a fit
         </ApplyLink>
         <span className="text-muted"> · </span>
         <Link href="/resources/are-you-ready-for-closers" className="underline">

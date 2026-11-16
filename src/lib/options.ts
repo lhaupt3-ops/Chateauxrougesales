@@ -56,6 +56,12 @@ export const TIMELINE_OPTIONS: Option[] = [
   { value: 'researching', label: 'Just researching for now' },
 ]
 
+export const DECISION_OPTIONS: Option[] = [
+  { value: 'just_me', label: 'Just me' },
+  { value: 'partner', label: 'Me and a partner or co-founder' },
+  { value: 'team', label: 'A team or board' },
+]
+
 export const SETUP_FEE_OPTIONS: Option[] = [
   { value: 'yes', label: 'Yes. I can pay a one-off setup fee.' },
   { value: 'not_yet', label: 'Not yet, but I could within a month or two.' },

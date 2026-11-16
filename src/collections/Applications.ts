@@ -88,6 +88,16 @@ export const Applications: CollectionConfig = {
                 { name: 'needs', type: 'json', admin: locked },
                 { name: 'timeline', type: 'text', admin: locked },
                 { name: 'setupFee', type: 'text', admin: locked },
+                {
+                  name: 'decisionMakers',
+                  type: 'select',
+                  options: [
+                    { label: 'Just me', value: 'just_me' },
+                    { label: 'Me and a partner or co-founder', value: 'partner' },
+                    { label: 'A team or board', value: 'team' },
+                  ],
+                  admin: { readOnly: true, description: 'Who else would be part of the decision. Not used in the score.' },
+                },
                 { name: 'investment', type: 'text', admin: { ...locked, description: 'Older monthly budget band. Not asked on new applications.' } },
                 { name: 'investmentLabel', type: 'text', admin: locked },
               ],

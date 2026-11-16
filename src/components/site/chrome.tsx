@@ -29,7 +29,7 @@ export function Header() {
             dataCta="nav"
             className="rounded-full bg-rouge px-4 py-2 text-sm font-medium text-white hover:bg-wine"
           >
-            See if we are a fit
+            See if we&apos;re a fit
           </ApplyLink>
           <details className="relative md:hidden">
             <summary className="cursor-pointer rounded-full border border-stone px-3 py-2 text-sm">Menu</summary>
@@ -41,7 +41,7 @@ export function Header() {
                   </Link>
                 ))}
                 <ApplyLink location="mobile_nav" className="rounded-xl bg-rouge px-2 py-2 text-center text-sm font-medium text-white">
-                  See if we are a fit
+                  See if we&apos;re a fit
                 </ApplyLink>
               </nav>
             </div>

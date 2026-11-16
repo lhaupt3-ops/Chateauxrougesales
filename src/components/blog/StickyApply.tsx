@@ -32,7 +32,7 @@ export function StickyApply() {
         }
         className="block rounded-full bg-rouge py-3 text-center text-sm font-medium text-white"
       >
-        See if we are a fit
+        See if we&apos;re a fit
       </Link>
     </div>
   )

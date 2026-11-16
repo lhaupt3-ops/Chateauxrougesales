@@ -158,6 +158,7 @@ export const FUNNEL_STEPS = [
   'needs',
   'timeline',
   'setupFee',
+  'decisionMakers',
   'investment',
   'contact',
 ] as const
@@ -172,6 +173,7 @@ export const FUNNEL_LABELS: Record<string, string> = {
   needs: 'What they need',
   timeline: 'Timeline',
   setupFee: 'Setup fee',
+  decisionMakers: 'Who decides',
   investment: 'Older budget band',
   contact: 'Contact details',
 }

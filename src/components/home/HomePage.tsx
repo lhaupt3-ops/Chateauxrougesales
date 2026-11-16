@@ -4,6 +4,7 @@ import { EmailCapture } from '@/components/site/EmailCapture'
 import { FaqList, Placeholder, SectionHeading } from '@/components/site/ui'
 import type { Faq } from '@/content/faqs'
 import type { ProofStudy } from '@/lib/content'
+import { publicCopy } from '@/lib/indexing'
 import { isOperatorPlaceholder, type SiteSettings } from '@/lib/settings'
 
 const PAINS = [
@@ -31,8 +32,8 @@ const STAGES = [
 export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSettings; faqs: Faq[]; proof?: ProofStudy[] }) {
   const quotes = proof.filter((study) => study.quote)
   const results = proof.flatMap((study) => study.results.map((result) => ({ ...result, slug: study.slug, illustrative: study.illustrative })))
-  const guarantee = settings.guaranteeIsPlaceholder || isOperatorPlaceholder(settings.guaranteeText) ? '' : settings.guaranteeText
-  const notice = settings.noticeIsPlaceholder || isOperatorPlaceholder(settings.noticeText) ? '' : settings.noticeText
+  const guarantee = settings.guaranteeIsPlaceholder || isOperatorPlaceholder(settings.guaranteeText) ? '' : publicCopy(settings.guaranteeText)
+  const notice = settings.noticeIsPlaceholder || isOperatorPlaceholder(settings.noticeText) ? '' : publicCopy(settings.noticeText)
   const termsAreDraft = settings.guaranteeIsPlaceholder || settings.noticeIsPlaceholder
   return (
     <>
@@ -48,9 +49,9 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
           <div className="mt-8 max-w-xl">
             <EmailCapture location="hero" entry="hero_inline" />
             <p className="mt-3 text-sm text-muted">
-              A short application. See if we are a fit. A clear no is a useful answer.{' '}
+              A short application. See if we&apos;re a fit. A clear no is a useful answer.{' '}
               <ApplyLink location="hero" className="underline">
-                See if we are a fit
+                See if we&apos;re a fit
               </ApplyLink>
             </p>
           </div>
@@ -134,7 +135,7 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
           <SectionHeading
             eyebrow="The system"
             title="Four stages. Then it is a weekly habit."
-            body={settings.timelineText}
+            body={publicCopy(settings.timelineText)}
             tone="light"
           />
           <ol className="mt-8 grid gap-4 md:grid-cols-4">
@@ -290,7 +291,7 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
             Read the pricing page
           </Link>
           <ApplyLink location="pricing" className="mt-4 ml-4 inline-block text-sm underline">
-            Apply
+            See if we&apos;re a fit
           </ApplyLink>
         </div>
         {termsAreDraft && (
@@ -298,7 +299,7 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
             <p className="text-xs uppercase tracking-[0.16em] text-wine">Draft</p>
             <h2 className="mt-2 font-serif text-3xl">Guarantee and terms are not confirmed</h2>
             <p className="mt-4 leading-7 text-muted">
-              Lawyer review is still pending. Nothing on this page is a guarantee, a contract length, or a notice period. The agreement is what you can rely on.
+              To be confirmed. Nothing on this page is a guarantee, a contract length, or a notice period. The agreement is what you can rely on.
             </p>
           </div>
         )}
@@ -341,7 +342,7 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
 
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="rounded-3xl border border-stone bg-white/80 p-8 md:p-12">
-          <h2 className="font-serif text-4xl tracking-[-0.03em]">See if we are a fit.</h2>
+          <h2 className="font-serif text-4xl tracking-[-0.03em]">See if we&apos;re a fit.</h2>
           <p className="mt-3 max-w-xl text-muted">Same two minutes as the top of the page. If you would rather read first, the free guide is a scorecard of the sales process you already have.</p>
           <div className="mt-6 max-w-xl">
             <EmailCapture location="footer" entry="footer_inline" />
