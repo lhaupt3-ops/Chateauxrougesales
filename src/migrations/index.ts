@@ -35,6 +35,11 @@ export const migrations = [
     name: '20261116_051838_placeholder_flags',
   },
   {
+    up: migration_20261116_055921_commission_model.up,
+    down: migration_20261116_055921_commission_model.down,
+    name: '20261116_055921_commission_model',
+  },
+  {
     up: migration_20261116_120000_methodology_copy.up,
     down: migration_20261116_120000_methodology_copy.down,
     name: '20261116_120000_methodology_copy',
@@ -43,11 +48,6 @@ export const migrations = [
     up: migration_20261116_130000_rewrite_drafts.up,
     down: migration_20261116_130000_rewrite_drafts.down,
     name: '20261116_130000_rewrite_drafts',
-  },
-  {
-    up: migration_20261116_055921_commission_model.up,
-    down: migration_20261116_055921_commission_model.down,
-    name: '20261116_055921_commission_model',
   },
   {
     up: migration_20261116_140000_commission_copy.up,
