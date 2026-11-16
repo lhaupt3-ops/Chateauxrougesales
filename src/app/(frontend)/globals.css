@@ -1,0 +1,126 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-rouge: #b3122e;
+  --color-wine: #5e0b1a;
+  --color-ink: #111114;
+  --color-ivory: #f7f3ee;
+  --color-stone: #e7e1d8;
+  --color-gold: #b89b5e;
+  --color-muted: #5c5852;
+  --font-serif: var(--font-fraunces), 'Iowan Old Style', Palatino, Georgia, serif;
+  --font-sans: var(--font-inter), 'Helvetica Neue', Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ivory);
+  background-image: radial-gradient(rgba(17, 17, 20, 0.045) 0.65px, transparent 0.65px);
+  background-size: 4px 4px;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: #f3c3cc;
+}
+
+:focus-visible {
+  outline: 2px solid #b3122e;
+  outline-offset: 3px;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+.rich h2,
+.rich h3 {
+  font-family: var(--font-serif);
+  font-weight: 460;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+}
+
+.rich h2 {
+  margin-top: 2.4rem;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+
+.rich h3 {
+  margin-top: 1.6rem;
+  font-size: 1.3rem;
+}
+
+.rich p,
+.rich li {
+  color: var(--color-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.rich p {
+  margin-top: 0.9rem;
+}
+
+.rich ul,
+.rich ol {
+  margin-top: 0.9rem;
+  padding-left: 1.2rem;
+}
+
+.rich ul {
+  list-style: disc;
+}
+
+.rich ol {
+  list-style: decimal;
+}
+
+.rich a {
+  color: var(--color-wine);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.rich blockquote {
+  margin-top: 1.2rem;
+  border-left: 2px solid var(--color-gold);
+  padding-left: 1rem;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  line-height: 1.4;
+  color: var(--color-ink);
+}
+
+.rich table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.rich th,
+.rich td {
+  border-bottom: 1px solid var(--color-stone);
+  padding: 0.6rem 0.4rem;
+  text-align: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
