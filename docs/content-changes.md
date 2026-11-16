@@ -8,10 +8,13 @@ The public site now describes a managed sales team whose standard is an honest d
 - Services, who-we-help and comparison pages: headlines and the “who it is for” lines now describe a working picture. Price floors are questions the application asks, not a published rate card. The agency-versus-freelance page no longer advertises replacement as a locked promise.
 - About: the standards page. Five tests, the lines we do not cross, and an explicit note that hiring, KPIs, the guarantee and the fee are unconfirmed.
 - How it works: the install (read, install, staff, review) and the buyer call (open, discover, qualify, decide) are separate.
-- Pricing: the four bands stay, and they are labelled a working draft while `bandsArePlaceholder` is on.
+- Pricing: monthly management starts at $3,000, which is confirmed. The four bands stay a working draft. `bandsArePlaceholder` is forced back on for existing databases. The page does not call unconfirmed ranges a published price.
 - Application: question wording is calmer. The investment step says the bands are a draft and that under $3,000 a month is below the working floor. Scoring version 2 is unchanged: under $1,000 (except B2B review), pre-revenue with no conversations, and `under_3k` still route to not yet. Those thresholds are working rules, not confirmed policy.
 - Book, confirmation and next-steps: the call is for clarity, the decision-maker should attend, and a poor fit gets a plain next step plus an optional waitlist that does not chase.
 - Email: fit result, booking, reminders, waitlist, guide and the owner note use the same voice. Password reset already uses the shared layout.
+- Journal: eight draft essays are rewritten by slug and kept as drafts. Hero images and SEO fields are left in place.
+- Careers, results, resources and the course-page FAQ now say the same thing: no published hiring plan, no published results, drafts are drafts, and a price under $1,000 is a working rule.
+- Site settings changes revalidate the homepage, the pricing page and the root layout.
 - SEO: home, apply, pricing, about and how-it-works metadata, plus the organisation description in JSON-LD, promise process rather than outcomes. Guide schema uses each page’s updated description.
 
 ## Placeholders that still need a real decision
@@ -21,8 +24,8 @@ These stay editable in Site settings, or as empty proof blocks. Do not publish t
 - Ideal client profile beyond “has already sold, can deliver, will share recordings.”
 - Offer menu beyond the four pages already on the site (audit, install, managed team, and any training add-on).
 - Exact fee, the four band labels, a starting figure, and whether commission-only is ever offered.
-- Guarantee wording. The current field is an unpublished draft. It must be a promise the agreement can keep, never a close rate or a revenue number.
-- Contract length and notice.
+- Guarantee wording. `guaranteeIsPlaceholder` stays on, so the homepage shows a draft notice instead of whatever text is stored, including a 90-day pipeline promise. Turn the flag off only after a lawyer has reviewed wording the agreement can keep.
+- Contract length and notice. `noticeIsPlaceholder` stays on for the same reason. The terms page says commercial terms are a draft pending review.
 - Time to first covered calls.
 - Hiring profile, employment status of closers, and the replacement rule.
 - KPI targets (speed to lead, show rate, close rate, talk share, scorecard bands).

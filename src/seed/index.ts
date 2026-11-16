@@ -29,6 +29,9 @@ export async function seed(payload: Payload) {
       slug: 'site-settings',
       data: {
         ...defaultSettings,
+        guaranteeIsPlaceholder: true,
+        noticeIsPlaceholder: true,
+        bandsArePlaceholder: true,
         notifyEmail: process.env.NOTIFY_EMAIL || undefined,
         calendlyStrategyUrl: process.env.CALENDLY_STRATEGY_URL || undefined,
         calendlyFitUrl: process.env.CALENDLY_FIT_URL || undefined,

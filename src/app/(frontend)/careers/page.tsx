@@ -4,7 +4,7 @@ import { pageMetadata } from '@/lib/metadata'
 
 export const metadata = pageMetadata({
   title: 'Careers · Chateaux Rouge',
-  description: 'Closer and setter enquiries. This page keeps job-seeker intent off the pages written for buyers.',
+  description: 'A separate door for people who set or close. Not a published hiring plan, and not the page for founders buying a team.',
   path: '/careers',
 })
 
@@ -14,7 +14,10 @@ export default function CareersPage() {
       <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Careers', path: '/careers' }]} />
       <h1 className="mt-8 font-serif text-5xl">Careers</h1>
       <p className="mt-4 leading-7 text-muted">
-        We are not running an open hiring board. If you set or close high-ticket offers and you want to be considered when a seat opens, leave a note. Buyers looking for a team should use the application, not this form.
+        This page is only for people who set or close. It is not an open hiring board. Pay, seats and the profile we look for are not confirmed, so none of that is listed here. Leave a note if you want to be considered when a seat exists.
+      </p>
+      <p className="mt-3 leading-7 text-muted">
+        Founders looking for a team should use the application. Mixing the two crowds the wrong conversation.
       </p>
       <CareersForm />
     </article>

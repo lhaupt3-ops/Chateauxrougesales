@@ -7,7 +7,7 @@ export const revalidate = 3600
 
 export const metadata = pageMetadata({
   title: 'Results · Chateaux Rouge',
-  description: 'Named case studies, with permission. Empty until a client has agreed to the numbers.',
+  description: 'No results are published yet. A case appears only after a client approves the name, the metric and the time window.',
   path: '/results',
 })
 
@@ -30,7 +30,7 @@ export default async function ResultsPage() {
       <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Results', path: '/results' }]} />
       <h1 className="mt-8 font-serif text-5xl tracking-[-0.04em]">Results</h1>
       <p className="mt-4 max-w-2xl text-lg leading-8 text-muted">
-        A case is a client name, a price band, the problem, what we did, and the numbers before and after. We publish it when they say we can.
+        Nothing here is a result yet. A card needs a client name, a metric, a before and after, and the time window, all approved in writing. Until that exists, the placeholders stay.
       </p>
       {studies.length === 0 ? (
         <div className="mt-8 grid gap-4 md:grid-cols-3">

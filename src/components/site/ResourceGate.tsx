@@ -49,8 +49,8 @@ export function ResourceGate({
     <form onSubmit={onSubmit} className="mt-8 space-y-3 rounded-2xl border border-stone bg-white p-5">
       <p className="text-sm text-muted">
         {scorecard
-          ? 'This scorecard is the application. Leave your email and continue the questions. A strong score books a call.'
-          : `Leave your email to read ${title}. The draft below is a working version, not a client case.`}
+          ? 'These are the same questions as the application. Leave your email to continue. The result is a next step, not a promise.'
+          : `Leave your email to read ${title}. What follows is a working draft, not a client result.`}
       </p>
       <input name="email" type="email" required autoComplete="email" placeholder="Work email" className="h-12 w-full rounded-full border border-stone px-4" />
       <button className="h-12 rounded-full bg-rouge px-5 text-sm text-white">{scorecard ? 'Start the scorecard' : 'Read it'}</button>

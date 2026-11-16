@@ -21,12 +21,13 @@ export default async function PricingPage() {
       <p className="mt-4 text-lg leading-8 text-muted">
         Three parts: a setup fee, a monthly management fee, and a commission on cash collected. You see the model before you book. The exact numbers are confirmed on the call and in the agreement.
       </p>
-      {settings.startingFrom ? <p className="mt-6 font-serif text-3xl">From {settings.startingFrom}</p> : null}
+      <p className="mt-6 font-serif text-3xl">From $3,000/month</p>
+      <p className="mt-2 text-sm text-muted">Monthly management starts there. {settings.startingFrom ? `Setup is listed as ${settings.startingFrom}.` : 'A separate setup figure appears only after it is set.'}</p>
       <h2 className="mt-10 font-serif text-3xl">The bands on the application</h2>
       <p className="mt-3 leading-7 text-muted">
         {settings.bandsArePlaceholder
-          ? 'Working draft. These labels are editable in the back office and are not a quote. The call and the agreement set the figures.'
-          : 'These are the ranges we are willing to publish. The agreement still sets the exact fee.'}
+          ? 'Working draft. These labels are not a published price. The call and the agreement set the figures.'
+          : 'The agreement still sets the exact fee. These are the labels on the application.'}
       </p>
       <ul className="mt-4 list-disc space-y-2 pl-5 text-muted">
         <li>Under $3,000/mo</li>

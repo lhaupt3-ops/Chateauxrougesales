@@ -31,8 +31,9 @@ const STAGES = [
 export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSettings; faqs: Faq[]; proof?: ProofStudy[] }) {
   const quotes = proof.filter((study) => study.quote)
   const results = proof.flatMap((study) => study.results.map((result) => ({ ...result, slug: study.slug, illustrative: study.illustrative })))
-  const guarantee = isOperatorPlaceholder(settings.guaranteeText) ? '' : settings.guaranteeText
-  const notice = isOperatorPlaceholder(settings.noticeText) ? '' : settings.noticeText
+  const guarantee = settings.guaranteeIsPlaceholder || isOperatorPlaceholder(settings.guaranteeText) ? '' : settings.guaranteeText
+  const notice = settings.noticeIsPlaceholder || isOperatorPlaceholder(settings.noticeText) ? '' : settings.noticeText
+  const termsAreDraft = settings.guaranteeIsPlaceholder || settings.noticeIsPlaceholder
   return (
     <>
       <section className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 md:grid-cols-[1.2fr_0.8fr] md:py-24">
@@ -282,7 +283,7 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
         </Link>
       </section>
 
-      <section className={`mx-auto grid max-w-6xl gap-8 px-4 pb-16 ${guarantee || notice ? 'md:grid-cols-2' : ''}`}>
+      <section className={`mx-auto grid max-w-6xl gap-8 px-4 pb-16 ${guarantee || notice || termsAreDraft ? 'md:grid-cols-2' : ''}`}>
         <div>
           <SectionHeading title="How we charge" body="A setup fee, a monthly management fee, and a commission on cash collected. You see the shape before you book. The ranges on the application are a working draft until they are confirmed in the agreement." />
           <Link href="/pricing" className="mt-4 inline-block text-sm underline">
@@ -292,7 +293,16 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
             Apply
           </ApplyLink>
         </div>
-        {(guarantee || notice) && (
+        {termsAreDraft && (
+          <div className="rounded-2xl border border-dashed border-gold bg-white/70 p-6">
+            <p className="text-xs uppercase tracking-[0.16em] text-wine">Draft</p>
+            <h2 className="mt-2 font-serif text-3xl">Guarantee and terms are not confirmed</h2>
+            <p className="mt-4 leading-7 text-muted">
+              Lawyer review is still pending. Nothing on this page is a guarantee, a contract length, or a notice period. The agreement is what you can rely on.
+            </p>
+          </div>
+        )}
+        {!termsAreDraft && (guarantee || notice) && (
         <div className="rounded-2xl bg-wine p-6 text-ivory">
           <h2 className="font-serif text-3xl">The guarantee, in words we can keep</h2>
           {guarantee && <p className="mt-4 leading-7 text-ivory/85">{guarantee}</p>}

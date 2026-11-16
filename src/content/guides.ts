@@ -320,9 +320,9 @@ export const verticals: Guide[] = [
         ],
       },
       {
-        heading: 'Refunds and the handoff',
+        heading: 'The handoff',
         paragraphs: [
-          'The close is not the end. The notes have to reach delivery in a form a coach can use. We treat a sloppy handoff as a refund risk, and we would rather write the note than celebrate the cash.',
+          'The close is not the end. The notes have to reach delivery in a form the people doing the work can use. Write the note before celebrating the cash. A refund policy, once one exists, sits beside legal consumer rights. It does not replace them, and it is not stated here.',
         ],
       },
     ],
@@ -333,7 +333,7 @@ export const verticals: Guide[] = [
       },
       {
         question: 'What if my course is under $1,000?',
-        answer: 'A full sales team will usually cost more than it returns. The application routes that answer to a plain next-step page, not to a strategy call.',
+        answer: 'The application treats a price under $1,000 as too small for this team and sends that answer to a plain next step, not a strategy call. That cutoff is a working rule, not a comment on your business.',
       },
     ],
     related: [

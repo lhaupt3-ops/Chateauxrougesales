@@ -15,7 +15,9 @@ export type SiteSettings = {
   calendlyFitUrl: string
   resendFrom: string
   guaranteeText: string
+  guaranteeIsPlaceholder: boolean
   noticeText: string
+  noticeIsPlaceholder: boolean
   timelineText: string
   bandLowLabel: string
   bandMidLabel: string
@@ -41,8 +43,10 @@ export const defaultSettings: SiteSettings = {
   resendFrom: process.env.RESEND_FROM || 'Chateaux Rouge <notifications@example.com>',
   guaranteeText:
     'Placeholder: unconfirmed. Do not publish a guarantee until the agreement can keep it. A kept promise might be a written replacement standard or a fee condition. It will not be a close rate or a revenue number.',
+  guaranteeIsPlaceholder: true,
   noticeText:
     'Placeholder: unconfirmed. The working shape is an initial term, then month to month. The notice period belongs in the agreement, not on the site, until it is real.',
+  noticeIsPlaceholder: true,
   timelineText: 'Working target, not confirmed: first covered calls once operations locks a date. This sentence is a draft.',
   bandLowLabel: '$3,000–$5,000/mo',
   bandMidLabel: '$5,000–$10,000/mo',
@@ -79,7 +83,9 @@ export async function getSettings(): Promise<SiteSettings> {
       calendlyFitUrl: text(global.calendlyFitUrl, process.env.CALENDLY_FIT_URL || ''),
       resendFrom: usableResendFrom(global.resendFrom, process.env.RESEND_FROM || defaultSettings.resendFrom),
       guaranteeText: text(global.guaranteeText, defaultSettings.guaranteeText),
+      guaranteeIsPlaceholder: global.guaranteeIsPlaceholder !== false,
       noticeText: text(global.noticeText, defaultSettings.noticeText),
+      noticeIsPlaceholder: global.noticeIsPlaceholder !== false,
       timelineText: text(global.timelineText, defaultSettings.timelineText),
       bandLowLabel: text(global.bandLowLabel, defaultSettings.bandLowLabel),
       bandMidLabel: text(global.bandMidLabel, defaultSettings.bandMidLabel),
