@@ -4,7 +4,7 @@ import { hideFromSales, isAdminOrEditor } from '@/access/roles'
 export const Media: CollectionConfig = {
   slug: 'media',
   admin: {
-    group: 'System',
+    group: 'Journal',
     hidden: hideFromSales,
   },
   access: {

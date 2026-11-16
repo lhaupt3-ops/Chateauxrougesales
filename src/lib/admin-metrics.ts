@@ -158,18 +158,40 @@ export const FUNNEL_STEPS = [
   'needs',
   'timeline',
   'setupFee',
+  'investment',
   'contact',
 ] as const
 
+export const FUNNEL_LABELS: Record<string, string> = {
+  email: 'Email',
+  offer: 'Offer type',
+  price: 'Price point',
+  revenue: 'Monthly revenue',
+  conversations: 'Lead flow',
+  setup: 'Sales setup',
+  needs: 'What they need',
+  timeline: 'Timeline',
+  setupFee: 'Setup fee',
+  investment: 'Older budget band',
+  contact: 'Contact details',
+}
+
+export const MIN_FUNNEL_VISITS = 20
+
 export type FunnelStep = { label: string; people: number; dropOff: number | null }
+
+export function funnelIsThin(steps: FunnelStep[]): boolean {
+  const visits = steps.find((step) => step.label === 'Visits')?.people ?? 0
+  return visits < MIN_FUNNEL_VISITS
+}
 
 export function funnelFromCounts(counts: Record<string, number>, steps: Record<string, number>): FunnelStep[] {
   const sequence: { label: string; people: number }[] = [
     { label: 'Visits', people: counts.$pageview || 0 },
-    { label: 'CTA', people: counts.cta_clicked || 0 },
+    { label: 'Call to action', people: counts.cta_clicked || 0 },
     { label: 'Apply opened', people: counts.apply_started || 0 },
     { label: 'Email saved', people: counts.apply_email_submitted || 0 },
-    ...FUNNEL_STEPS.map((step) => ({ label: step, people: steps[step] || 0 })),
+    ...FUNNEL_STEPS.map((step) => ({ label: FUNNEL_LABELS[step] || step, people: steps[step] || 0 })),
     { label: 'Submitted', people: counts.application_submitted || 0 },
     { label: 'Booked', people: counts.call_booking_confirmed || counts.call_booked_server || 0 },
   ]

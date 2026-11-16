@@ -1,7 +1,34 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionAfterChangeHook, CollectionAfterLoginHook, CollectionConfig } from 'payload'
 import { adminOnly, isAdmin, isAdminField } from '@/access/roles'
+import { sendEmail } from '@/lib/email'
 import { renderEmail } from '@/lib/email-layout'
 import { absoluteUrl } from '@/lib/site'
+import { welcomeMessage } from '@/lib/welcome-email'
+
+const recordLogin: CollectionAfterLoginHook = async ({ user, req }) => {
+  await req.payload.update({
+    collection: 'users',
+    id: user.id,
+    overrideAccess: true,
+    req,
+    context: { recordLogin: true },
+    data: {
+      previousLoginAt: (user as { lastLoginAt?: string | null }).lastLoginAt || null,
+      lastLoginAt: new Date().toISOString(),
+    },
+  })
+}
+
+const sendWelcome: CollectionAfterChangeHook = async ({ doc, operation, req }) => {
+  if (operation !== 'create') return doc
+  if (req.context?.skipWelcome) return doc
+  const message = welcomeMessage({
+    name: typeof doc.name === 'string' ? doc.name : '',
+    role: typeof doc.role === 'string' ? doc.role : 'admin',
+  })
+  await sendEmail({ to: String(doc.email || ''), subject: message.subject, html: message.html, text: message.text })
+  return doc
+}
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -54,5 +81,17 @@ export const Users: CollectionConfig = {
         description: 'Admins manage the whole back office. Editors run the journal. Sales can read and update applications only.',
       },
     },
+    {
+      name: 'mustChangePassword',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: { description: 'On for people an admin creates. They choose a new password before they can change anything else.' },
+    },
+    { name: 'lastLoginAt', type: 'date', admin: { readOnly: true, position: 'sidebar' } },
+    { name: 'previousLoginAt', type: 'date', admin: { readOnly: true, position: 'sidebar' } },
   ],
+  hooks: {
+    afterLogin: [recordLogin],
+    afterChange: [sendWelcome],
+  },
 }

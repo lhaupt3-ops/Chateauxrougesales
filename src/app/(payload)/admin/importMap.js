@@ -28,6 +28,8 @@ import { default as default_534076e2c753ea5d539a54b05f456b1b } from '@/component
 import { default as default_a44df17d0fc3dcd873dae43dc3bf66bd } from '@/components/admin/Logo'
 import { default as default_5db7e5e3e4964e6efc90884fde697bc7 } from '@/components/admin/Overview'
 import { default as default_89344134860f9bc63867ffefbf33f214 } from '@/components/admin/BeforeLogin'
+import { default as default_password_gate } from '@/components/admin/PasswordGate'
+import { default as default_set_password } from '@/components/admin/SetPassword'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e } from '@payloadcms/storage-vercel-blob/client'
 
@@ -63,6 +65,8 @@ export const importMap = {
   "@/components/admin/Logo#default": default_a44df17d0fc3dcd873dae43dc3bf66bd,
   "@/components/admin/Overview#default": default_5db7e5e3e4964e6efc90884fde697bc7,
   "@/components/admin/BeforeLogin#default": default_89344134860f9bc63867ffefbf33f214,
+  "@/components/admin/PasswordGate#default": default_password_gate,
+  "@/components/admin/SetPassword#default": default_set_password,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1,
   "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e
 }

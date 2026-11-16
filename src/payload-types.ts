@@ -160,6 +160,12 @@ export interface User {
    * Admins manage the whole back office. Editors run the journal. Sales can read and update applications only.
    */
   role: 'admin' | 'editor' | 'sales';
+  /**
+   * On for people an admin creates. They choose a new password before they can change anything else.
+   */
+  mustChangePassword?: boolean | null;
+  lastLoginAt?: string | null;
+  previousLoginAt?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -862,6 +868,9 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
+  mustChangePassword?: T;
+  lastLoginAt?: T;
+  previousLoginAt?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { funnelFromCounts, median, percentDelta, windowsFor, type LeadDoc } from './admin-metrics'
+import { funnelFromCounts, funnelIsThin, median, percentDelta, windowsFor, type LeadDoc } from './admin-metrics'
 import { clearPostHogCache, loadPostHogFunnel } from './posthog-funnel'
 
 test('median and deltas handle empty and even samples', () => {
@@ -47,7 +47,14 @@ test('funnel drop-off is the share lost from the previous step', () => {
   )
   assert.equal(steps[0].dropOff, null)
   assert.equal(steps[1].dropOff, 0.6)
+  assert.equal(steps.find((step) => step.label === 'Offer type')?.people, 8)
   assert.equal(steps.at(-1)?.people, 2)
+  assert.equal(funnelIsThin(steps), false)
+})
+
+test('a tiny visit count hides drop-off noise', () => {
+  const steps = funnelFromCounts({ $pageview: 6, cta_clicked: 1 }, {})
+  assert.equal(funnelIsThin(steps), true)
 })
 
 test('PostHog is skipped cleanly when the key is missing', async () => {

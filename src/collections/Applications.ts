@@ -1,6 +1,5 @@
 import type { CollectionConfig, Where } from 'payload'
-import { isAdmin, isAdminOrSales } from '@/access/roles'
-import { roleOf } from '@/access/roles'
+import { hideFromEditor, isAdmin, isAdminOrSales, roleOf } from '@/access/roles'
 
 const select = (options: { value: string; label: string }[]) => options
 
@@ -9,6 +8,7 @@ export const Applications: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
     group: 'Sales',
+    hidden: hideFromEditor,
     defaultColumns: ['email', 'status', 'tier', 'score', 'offerType', 'createdAt'],
     description: 'Every application is stored here. Signed-in admins and sales can download CSV at /api/applications/export.',
     listSearchableFields: ['email', 'firstName', 'lastName', 'website', 'company'],
