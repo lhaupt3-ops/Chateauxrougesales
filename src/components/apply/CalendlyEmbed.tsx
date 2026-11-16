@@ -123,5 +123,12 @@ export function CalendlyEmbed({
     )
   }
 
-  return <div ref={parent} className="min-h-[720px] overflow-hidden rounded-3xl border border-stone bg-white" />
+  return (
+    <div>
+      <a className="mb-3 inline-flex h-12 items-center text-base underline md:hidden" href={url} target="_blank" rel="noopener noreferrer">
+        Open booking in a new tab
+      </a>
+      <div ref={parent} className="min-h-[70dvh] overflow-hidden rounded-3xl border border-stone bg-white md:min-h-[720px]" />
+    </div>
+  )
 }

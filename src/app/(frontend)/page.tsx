@@ -1,11 +1,12 @@
 import { HomePage } from '@/components/home/HomePage'
 import { getFaqs, getPublishedProof } from '@/lib/content'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { getSettings } from '@/lib/settings'
 
 export const metadata = pageMetadata({
-  title: 'Chateaux Rouge · Sales team, installed and run',
-  description: 'A managed high-ticket sales team: setters, closers and a sales lead. The calls look for the truth. A no is an acceptable answer.',
+  title: SEO.home.title,
+  description: SEO.home.description,
   path: '/',
 })
 

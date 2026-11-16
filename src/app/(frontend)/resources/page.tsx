@@ -1,12 +1,14 @@
 import Link from 'next/link'
+import { Breadcrumbs } from '@/components/site/ui'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { getPayloadClient } from '@/lib/payload'
 
 export const revalidate = 3600
 
 export const metadata = pageMetadata({
-  title: 'Resources · Chateaux Rouge',
-  description: 'A free guide on whether you are ready for closers, plus shorter notes you can read after leaving an email.',
+  title: SEO.resources.title,
+  description: SEO.resources.description,
   path: '/resources',
 })
 
@@ -23,10 +25,11 @@ export default async function ResourcesPage() {
   const extras = (result?.docs || []).filter((doc) => doc.slug && doc.slug !== 'are-you-ready-for-closers')
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
-      <p className="text-xs uppercase tracking-[0.16em] text-wine">Resources</p>
+      <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Resources', path: '/resources' }]} />
+      <p className="mt-8 text-xs uppercase tracking-[0.16em] text-wine">Resources</p>
       <h1 className="mt-3 font-serif text-5xl tracking-[-0.04em]">Read this before you hire.</h1>
       <p className="mt-4 text-lg leading-8 text-muted">
-        One long guide, written for founders who want a sales team. Shorter notes sit underneath it once they are published.
+        The long guide is on this page’s first link. You can read it without an email. The one-page scorecard is the piece we email. Shorter notes underneath still ask for an address.
       </p>
       <Link href="/resources/are-you-ready-for-closers" className="mt-8 block rounded-3xl bg-ink p-8 text-ivory">
         <p className="text-xs uppercase tracking-[0.16em] text-gold">Free guide</p>

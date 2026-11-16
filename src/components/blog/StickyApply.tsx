@@ -18,7 +18,7 @@ export function StickyApply() {
 
   if (!show) return null
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-stone bg-ivory/95 p-3 md:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-stone bg-ivory/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
       <Link
         href="/apply"
         onClick={() =>
@@ -30,7 +30,7 @@ export function StickyApply() {
             post_slug: readPostSlug(),
           })
         }
-        className="block rounded-full bg-rouge py-3 text-center text-sm font-medium text-white"
+        className="flex h-12 items-center justify-center rounded-full bg-rouge text-center text-base font-medium text-white"
       >
         See if we&apos;re a fit
       </Link>

@@ -3,11 +3,12 @@ import { CallOutline } from '@/components/site/CallOutline'
 import { Breadcrumbs, FaqList } from '@/components/site/ui'
 import { publicCopy } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { isOperatorPlaceholder, getSettings } from '@/lib/settings'
 
 export const metadata = pageMetadata({
-  title: 'How it works · Chateaux Rouge',
-  description: 'How a managed sales team is installed, and how the closers run a buyer’s call: listen, qualify, then decide.',
+  title: SEO.how.title,
+  description: SEO.how.description,
   path: '/how-it-works',
 })
 

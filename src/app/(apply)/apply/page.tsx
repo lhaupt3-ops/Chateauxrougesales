@@ -2,13 +2,14 @@ import { headers } from 'next/headers'
 import Link from 'next/link'
 import { ApplyWizard } from '@/components/apply/ApplyWizard'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { dialFromCountry } from '@/lib/options'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
-  title: "See if we're a fit · Chateaux Rouge",
-  description: 'A short application. We look for an honest fit. A no is a useful answer, and you can book only if the fit is there.',
+  title: SEO.apply.title,
+  description: SEO.apply.description,
   path: '/apply',
 })
 

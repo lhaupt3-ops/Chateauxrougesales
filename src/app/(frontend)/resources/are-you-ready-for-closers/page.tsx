@@ -1,34 +1,46 @@
 import Link from 'next/link'
-import { ResourceGate } from '@/components/site/ResourceGate'
+import { GuideViewed } from '@/components/analytics/GuideViewed'
+import { JsonLd } from '@/components/site/JsonLd'
+import { Breadcrumbs } from '@/components/site/ui'
+import { SCORECARD_PATH, SCORECARD_QUESTIONS } from '@/content/scorecard'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
+import { absoluteUrl, SITE_NAME } from '@/lib/site'
 
 export const metadata = pageMetadata({
-  title: 'Are you actually ready for closers? · Chateaux Rouge',
-  description: 'A free self-audit for founders who want setters and closers. Two conversations, a call shape, working targets, and the red flags that mean you should wait.',
+  title: SEO.guide.title,
+  description: SEO.guide.description,
   path: '/resources/are-you-ready-for-closers',
 })
-
-const QUESTIONS = [
-  ['The offer has a price you have already collected.', 'A slide that says “from” is not a price. If the last ten sales did not cluster around one number, the closer has nothing to hold.'],
-  ['You can explain who it is not for.', 'A closer who cannot refuse the wrong buyer will fill the calendar with people who cannot pay or cannot be served.'],
-  ['Someone other than you can describe the offer without performing you.', 'If the sale only works when you are in the room, a team will sell a thinner version. Write the version they are allowed to say.'],
-  ['Conversations already start without a closer.', 'A closer does not invent demand. If the week has no booked conversations, the missing role is usually a setter, or the offer is not being put in front of anyone.'],
-  ['You know where a maybe goes.', 'A maybe without a date and an owner is not a pipeline. Name the place those notes live before you hire.'],
-  ['You can listen to a call you would let a new hire copy.', 'If you would not play one recording to a stranger, the process is still in your head. Hiring freezes that confusion into someone else’s week.'],
-  ['Delivery can absorb more yeses.', 'A full calendar that you cannot fulfil is a worse problem than a quiet one. Count the seats, the calls, or the client hours you can actually take.'],
-  ['A one-off setup fee is possible.', 'Commission on future cash does not pay for the weeks spent building the call, the handoff and the review. If the only acceptable model is “pay us when we close”, wait.'],
-]
 
 export default function ReadyForClosersPage() {
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
-      <p className="text-xs uppercase tracking-[0.16em] text-wine">Free guide</p>
+      <GuideViewed />
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: 'Are you actually ready for closers?',
+          description: SEO.guide.description,
+          mainEntityOfPage: absoluteUrl('/resources/are-you-ready-for-closers'),
+          author: { '@type': 'Organization', name: SITE_NAME },
+          publisher: { '@type': 'Organization', name: SITE_NAME, logo: { '@type': 'ImageObject', url: absoluteUrl('/logo-mark.png') } },
+        }}
+      />
+      <Breadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Resources', path: '/resources' },
+          { name: 'Are you ready for closers?', path: '/resources/are-you-ready-for-closers' },
+        ]}
+      />
+      <p className="mt-8 text-xs uppercase tracking-[0.16em] text-wine">Free guide</p>
       <h1 className="mt-3 font-serif text-5xl tracking-[-0.04em]">Are you actually ready for closers?</h1>
       <p className="mt-4 text-lg leading-8 text-muted">
         For founders of coaching, consulting, course and other high-ticket offers who are thinking about a sales team. This is a self-audit. It does not predict your revenue, and it does not use anyone else’s results as yours.
       </p>
-      <ResourceGate slug="are-you-ready-for-closers" scorecard={false} title="Are you actually ready for closers?">
-        <div className="space-y-10">
+        <div className="mt-10 space-y-10">
           <section>
             <h2 className="font-serif text-3xl">Start with two conversations</h2>
             <p className="mt-3 leading-7 text-muted">
@@ -42,13 +54,17 @@ export default function ReadyForClosersPage() {
             <h2 className="font-serif text-3xl">Score the process you have</h2>
             <p className="mt-3 leading-7 text-muted">Answer yes or no. Two or more nos means a closer will not fix the week. Fix the nos first.</p>
             <ol className="mt-4 space-y-3">
-              {QUESTIONS.map(([title, body], index) => (
+              {SCORECARD_QUESTIONS.map(([title, body], index) => (
                 <li key={title} className="rounded-2xl border border-stone bg-white p-4">
                   <p className="font-medium">{index + 1}. {title}</p>
                   <p className="mt-1 text-sm leading-6 text-muted">{body}</p>
                 </li>
               ))}
             </ol>
+            <p className="mt-4 text-base">
+              <Link href={SCORECARD_PATH} className="underline">Get the one-page scorecard</Link>
+              <span className="text-muted">. Same eight checks, with room to mark yes or no. We email the link. This guide stays open without an email.</span>
+            </p>
           </section>
           <section>
             <h2 className="font-serif text-3xl">Setter, closer, or neither</h2>
@@ -101,12 +117,11 @@ export default function ReadyForClosersPage() {
               Sell the offer yourself until the price, the objections and the delivery load are written down. Then look at a setter if the gap is conversations, or a closer if the gap is the decision. A managed team is the later step, when both conversations exist and a setup fee is possible.
             </p>
             <p className="mt-4 text-sm">
-              <Link href="/apply" className="underline">Reapply when that is true</Link>
+              <Link href={SCORECARD_PATH} className="underline">Get the scorecard</Link>
               <span className="text-muted">. The setup amount and the commission percentage are still to be confirmed in writing. Nothing in this guide is a quote.</span>
             </p>
           </section>
         </div>
-      </ResourceGate>
     </article>
   )
 }

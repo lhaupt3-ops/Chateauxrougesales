@@ -5,13 +5,14 @@ import { ConfirmationActions } from '@/components/apply/ConfirmationActions'
 import { OutcomeViewed } from '@/components/apply/OutcomeViewed'
 import { findByPublicId } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { calendarConfirmationCopy, getSettings } from '@/lib/settings'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
-  title: 'You are booked · Chateaux Rouge',
-  description: 'You are booked. Add the call, and come ready to decide whether this is a fit.',
+  title: SEO.confirmed.title,
+  description: SEO.confirmed.description,
   path: '/apply/confirmed',
   noindex: true,
 })

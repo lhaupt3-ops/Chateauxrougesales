@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { hideFromSales, isAdminOrEditor, publishedOrContentTeam } from '@/access/roles'
+import { pingIndexNow } from '@/lib/indexnow'
 import { slugify } from '@/lib/slug'
 
 export const CaseStudies: CollectionConfig = {
@@ -89,6 +90,14 @@ export const CaseStudies: CollectionConfig = {
         }
         if (data?._status === 'published' && !data.publishedAt) data.publishedAt = new Date().toISOString()
         return data
+      },
+    ],
+    afterChange: [
+      ({ doc }) => {
+        if (doc?._status === 'published' && doc.illustrative !== true && doc.seo?.noindex !== true && typeof doc.slug === 'string') {
+          void pingIndexNow([`/results/${doc.slug}`, '/results'])
+        }
+        return doc
       },
     ],
   },

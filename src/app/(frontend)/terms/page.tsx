@@ -1,9 +1,10 @@
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { confirmedOrPending, getSettings } from '@/lib/settings'
 
 export const metadata = pageMetadata({
-  title: 'Terms · Chateaux Rouge',
-  description: 'Terms for using the Chateaux Rouge website. Commercial terms are confirmed only in a written agreement.',
+  title: SEO.terms.title,
+  description: SEO.terms.description,
   path: '/terms',
 })
 

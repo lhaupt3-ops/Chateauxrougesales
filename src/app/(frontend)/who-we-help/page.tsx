@@ -2,10 +2,11 @@ import Link from 'next/link'
 import { verticals } from '@/content/guides'
 import { Breadcrumbs } from '@/components/site/ui'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 
 export const metadata = pageMetadata({
-  title: 'Who we help · Chateaux Rouge',
-  description: 'Sales teams for coaches, course creators, and agencies or B2B service firms with high-ticket offers.',
+  title: SEO.who.title,
+  description: SEO.who.description,
   path: '/who-we-help',
 })
 

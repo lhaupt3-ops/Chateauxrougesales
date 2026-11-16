@@ -44,7 +44,7 @@ export function pageMetadata({
 export function rootMetadata(): Metadata {
   return {
     metadataBase: new URL(getSiteUrl()),
-    title: { absolute: 'Chateaux Rouge · Your sales team, installed and run' },
+    title: { absolute: 'Outsourced high-ticket closing for founders | Chateaux Rouge' },
     description:
       'A managed sales team for founders who have outgrown taking every call. Setters, closers and a sales lead. Honest calls. You keep the data.',
     applicationName: SITE_NAME,

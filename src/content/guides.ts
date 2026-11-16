@@ -86,7 +86,7 @@ export const services: Guide[] = [
     slug: 'high-ticket-closers',
     path: '/services/high-ticket-closers',
     kind: 'service',
-    metaTitle: 'High-ticket closers for hire',
+    metaTitle: 'High-ticket closers for founders',
     metaDescription: 'Outsourced high-ticket closers, managed inside your brand. For founders who need the calls run, not a marketplace of freelancers.',
     eyebrow: 'Outsourced closers',
     h1: 'High-ticket closers, hired and managed for you.',

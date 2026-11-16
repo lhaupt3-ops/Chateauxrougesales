@@ -5,11 +5,17 @@ import { ApplyHeader } from '@/components/site/chrome'
 import { rootMetadata } from '@/lib/metadata'
 import '../(frontend)/globals.css'
 
-const fraunces = Fraunces({ subsets: ['latin'], display: 'swap', variable: '--font-fraunces' })
-const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' })
+const fraunces = Fraunces({ subsets: ['latin'], display: 'optional', preload: true, adjustFontFallback: true, variable: '--font-fraunces' })
+const inter = Inter({ subsets: ['latin'], display: 'swap', preload: false, adjustFontFallback: true, variable: '--font-inter' })
 
 export const metadata: Metadata = rootMetadata()
-export const viewport: Viewport = { themeColor: '#f7f3ee', width: 'device-width', initialScale: 1 }
+export const viewport: Viewport = {
+  themeColor: '#f7f3ee',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  interactiveWidget: 'overlays-content',
+}
 
 export default function ApplyLayout({ children }: { children: React.ReactNode }) {
   return (

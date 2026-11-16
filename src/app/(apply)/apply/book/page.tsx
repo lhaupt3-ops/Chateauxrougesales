@@ -5,13 +5,14 @@ import { CallOutline } from '@/components/site/CallOutline'
 import { OutcomeViewed } from '@/components/apply/OutcomeViewed'
 import { answerSummary, findByPublicId, isCalendlyUrl } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { configuredStrategistName, getSettings } from '@/lib/settings'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
-  title: 'Book your call · Chateaux Rouge',
-  description: 'Pick a time for a call about whether this is a fit. A no is a fine outcome.',
+  title: SEO.book.title,
+  description: SEO.book.description,
   path: '/apply/book',
   noindex: true,
 })

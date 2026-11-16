@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ApplyLink } from './ApplyLink'
 import { Logo } from './Logo'
+import { MobileNav } from './MobileNav'
 
 export const NAV = [
   { href: '/services', label: 'Services' },
@@ -27,25 +28,11 @@ export function Header() {
           <ApplyLink
             location="header"
             dataCta="nav"
-            className="rounded-full bg-rouge px-4 py-2 text-sm font-medium text-white hover:bg-wine"
+            className="hidden h-11 items-center rounded-full bg-rouge px-4 text-base font-medium text-white hover:bg-wine md:inline-flex"
           >
             See if we&apos;re a fit
           </ApplyLink>
-          <details className="relative md:hidden">
-            <summary className="cursor-pointer rounded-full border border-stone px-3 py-2 text-sm">Menu</summary>
-            <div className="absolute right-0 mt-2 w-56 rounded-2xl border border-stone bg-ivory p-3 shadow-sm">
-              <nav className="flex flex-col gap-2 text-sm" aria-label="Mobile">
-                {NAV.map((item) => (
-                  <Link key={item.href} href={item.href} className="rounded-xl px-2 py-2 hover:bg-white">
-                    {item.label}
-                  </Link>
-                ))}
-                <ApplyLink location="mobile_nav" className="rounded-xl bg-rouge px-2 py-2 text-center text-sm font-medium text-white">
-                  See if we&apos;re a fit
-                </ApplyLink>
-              </nav>
-            </div>
-          </details>
+          <MobileNav items={NAV} />
         </div>
       </div>
     </header>
@@ -132,7 +119,7 @@ export function Footer({
         </div>
       )}
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-5 text-xs text-ivory/60">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] text-base text-ivory/80">
           <p>© {new Date().getFullYear()} Chateaux Rouge</p>
           <div className="flex gap-4">
             {socials.map((social) => (

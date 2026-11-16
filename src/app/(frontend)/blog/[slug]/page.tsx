@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { PostView } from '@/components/blog/PostView'
 import { pageMetadata } from '@/lib/metadata'
+import { brandTitle } from '@/lib/seo-titles'
 import { getPayloadClient } from '@/lib/payload'
 import { getPost } from '@/lib/posts'
 import { absoluteUrl } from '@/lib/site'
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const description = seo.metaDescription || String(post.excerpt || '')
   const image = seo.ogImage && typeof seo.ogImage === 'object' ? seo.ogImage.url : undefined
   return pageMetadata({
-    title: title.length > 60 ? title.slice(0, 60) : `${title} · Chateaux Rouge`.slice(0, 70),
+    title: brandTitle(title),
     description: description.slice(0, 155),
     path: seo.canonicalUrl || `/blog/${slug}`,
     noindex: Boolean(seo.noindex) || post._status !== 'published',

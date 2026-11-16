@@ -3,6 +3,7 @@ import { Breadcrumbs, FaqList } from '@/components/site/ui'
 import { pricingFaqs } from '@/content/faqs'
 import { pricingIsIndexable } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { getFaqs } from '@/lib/content'
 import { confirmedOrPending, getSettings } from '@/lib/settings'
 import Link from 'next/link'
@@ -10,8 +11,8 @@ import Link from 'next/link'
 export async function generateMetadata() {
   const settings = await getSettings()
   return pageMetadata({
-    title: 'How we charge · Chateaux Rouge',
-    description: 'A one-off setup fee, then commission on cash collected. The amounts are confirmed in the written agreement.',
+    title: SEO.pricing.title,
+    description: SEO.pricing.description,
     path: '/pricing',
     noindex: !pricingIsIndexable(settings),
   })
