@@ -1,1 +1,151 @@
 /* Payload admin keeps its own interface. Brand shows up through the logo. */
+
+.cr-dash {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.cr-dash-head,
+.cr-dash-windows,
+.cr-dash-split,
+.cr-dash-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.cr-dash-kicker {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--theme-elevation-500, #6b6560);
+}
+
+.cr-dash h2,
+.cr-dash h3 {
+  margin: 0;
+}
+
+.cr-dash-card {
+  flex: 1 1 240px;
+  padding: 16px;
+  border: 1px solid var(--theme-elevation-150, #e7e1d8);
+  border-radius: 12px;
+  background: var(--theme-elevation-0, #fff);
+}
+
+.cr-dash-card dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  margin: 12px 0 0;
+}
+
+.cr-dash-card dt {
+  font-size: 12px;
+  color: var(--theme-elevation-500, #6b6560);
+}
+
+.cr-dash-card dd {
+  margin: 0;
+  font-size: 18px;
+}
+
+.cr-dash-card small.is-down {
+  color: #8d1d32;
+}
+
+.cr-dash-card small.is-up {
+  color: #1f6b45;
+}
+
+.cr-dash-note {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--theme-elevation-500, #6b6560);
+}
+
+.cr-dash-button,
+.cr-dash-links a,
+.cr-table a {
+  color: inherit;
+}
+
+.cr-dash-button {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #111114;
+  color: #f7f3ee;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.cr-funnel {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.cr-funnel li {
+  display: grid;
+  grid-template-columns: 140px 48px 80px 1fr;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.cr-funnel i {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: #b3122e;
+}
+
+.cr-table {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.cr-table th,
+.cr-table td {
+  padding: 8px 6px;
+  text-align: left;
+  border-bottom: 1px solid var(--theme-elevation-100, #eee);
+}
+
+.cr-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: var(--theme-elevation-100, #f3f0ea);
+}
+
+.cr-badge-qualified {
+  background: #e5f4ea;
+}
+
+.cr-badge-review {
+  background: #f8efd8;
+}
+
+.cr-badge-not_yet {
+  background: #f8e4e8;
+}
+
+.cr-dash-links a {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--theme-elevation-50, #faf8f5);
+  text-decoration: none;
+  font-size: 13px;
+}

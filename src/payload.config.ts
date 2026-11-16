@@ -63,6 +63,7 @@ export default buildConfig({
         Icon: '@/components/admin/Icon',
       },
       beforeLogin: ['@/components/admin/BeforeLogin'],
+      beforeDashboard: ['@/components/admin/Overview'],
     },
     livePreview: {
       breakpoints: [
