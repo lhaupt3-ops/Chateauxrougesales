@@ -52,8 +52,10 @@ export const Users: CollectionConfig = {
     },
   },
   admin: {
-    useAsTitle: 'email',
-    defaultColumns: ['name', 'email', 'role'],
+    useAsTitle: 'name',
+    defaultColumns: ['name', 'email', 'role', 'lastLoginAt', 'mustChangePassword'],
+    listSearchableFields: ['name', 'email'],
+    description: 'Create a person, pick a role, and save. They get a welcome email without the password and must choose their own on first sign-in.',
     hidden: adminOnly,
     group: 'System',
   },
@@ -87,7 +89,7 @@ export const Users: CollectionConfig = {
       defaultValue: true,
       admin: { description: 'On for people an admin creates. They choose a new password before they can change anything else.' },
     },
-    { name: 'lastLoginAt', type: 'date', admin: { readOnly: true, position: 'sidebar' } },
+    { name: 'lastLoginAt', type: 'date', label: 'Last login', admin: { readOnly: true, position: 'sidebar', description: 'Updated each time they sign in.' } },
     { name: 'previousLoginAt', type: 'date', admin: { readOnly: true, position: 'sidebar' } },
   ],
   hooks: {

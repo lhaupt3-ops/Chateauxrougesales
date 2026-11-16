@@ -8,7 +8,9 @@ export const Posts: CollectionConfig = {
   slug: 'posts',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', '_status', 'pillar', 'updatedAt'],
+    defaultColumns: ['title', '_status', 'publishedAt', 'authors', 'seoStatus'],
+    listSearchableFields: ['title', 'slug'],
+    description: 'Editors work here. The SEO column says what is missing before a post can be published.',
     group: 'Journal',
     hidden: hideFromSales,
     preview: (data) => {
@@ -17,6 +19,7 @@ export const Posts: CollectionConfig = {
       return `/next/preview?secret=${encodeURIComponent(secret)}&path=${encodeURIComponent(`/blog/${slug || 'draft'}`)}`
     },
   },
+  defaultSort: '-updatedAt',
   access: {
     read: publishedOrContentTeam,
     create: isAdminOrEditor,
@@ -36,7 +39,7 @@ export const Posts: CollectionConfig = {
     maxPerDoc: 50,
   },
   fields: [
-    { name: 'title', type: 'text', required: true },
+    { name: 'title', type: 'text', required: true, admin: { description: 'The headline in the journal and in the admin list.' } },
     {
       name: 'slug',
       type: 'text',
@@ -147,7 +150,7 @@ export const Posts: CollectionConfig = {
       type: 'relationship',
       relationTo: 'authors',
       hasMany: true,
-      admin: { position: 'sidebar' },
+      admin: { position: 'sidebar', description: 'The byline. At least one author is required before publish.' },
     },
     {
       name: 'reviewer',
@@ -189,7 +192,13 @@ export const Posts: CollectionConfig = {
     {
       name: 'publishedAt',
       type: 'date',
-      admin: { position: 'sidebar', date: { pickerAppearance: 'dayAndTime' } },
+      admin: { position: 'sidebar', date: { pickerAppearance: 'dayAndTime' }, description: 'When it went or will go live. A future date on a draft is the schedule.' },
+    },
+    {
+      name: 'seoStatus',
+      type: 'text',
+      label: 'SEO',
+      admin: { readOnly: true, position: 'sidebar', description: 'Ready, or the SEO fields still missing. Updated on save.' },
     },
     {
       name: 'substantiveUpdateAt',

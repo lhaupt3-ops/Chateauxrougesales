@@ -77,6 +77,8 @@ export interface Config {
     resources: Resource;
     faqs: Faq;
     applications: Application;
+    bookings: Booking;
+    subscribers: Subscriber;
     redirects: Redirect;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
@@ -96,6 +98,8 @@ export interface Config {
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
     applications: ApplicationsSelect<false> | ApplicationsSelect<true>;
+    bookings: BookingsSelect<false> | BookingsSelect<true>;
+    subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
@@ -150,6 +154,8 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Create a person, pick a role, and save. They get a welcome email without the password and must choose their own on first sign-in.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -164,6 +170,9 @@ export interface User {
    * On for people an admin creates. They choose a new password before they can change anything else.
    */
   mustChangePassword?: boolean | null;
+  /**
+   * Updated each time they sign in.
+   */
   lastLoginAt?: string | null;
   previousLoginAt?: string | null;
   updatedAt: string;
@@ -301,11 +310,16 @@ export interface Tag {
   createdAt: string;
 }
 /**
+ * Editors work here. The SEO column says what is missing before a post can be published.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
 export interface Post {
   id: number;
+  /**
+   * The headline in the journal and in the admin list.
+   */
   title: string;
   /**
    * Changing a published slug creates a 301 redirect.
@@ -377,6 +391,9 @@ export interface Post {
     primaryKeyword?: string | null;
     secondaryKeywords?: string | null;
   };
+  /**
+   * The byline. At least one author is required before publish.
+   */
   authors?: (number | Author)[] | null;
   reviewer?: (number | null) | Author;
   category?: (number | null) | Category;
@@ -401,7 +418,14 @@ export interface Post {
    * Up to 3. If empty, the page fills siblings from the same category.
    */
   relatedPosts?: (number | Post)[] | null;
+  /**
+   * When it went or will go live. A future date on a draft is the schedule.
+   */
   publishedAt?: string | null;
+  /**
+   * Ready, or the SEO fields still missing. Updated on save.
+   */
+  seoStatus?: string | null;
   /**
    * Set this only when the essay materially changes. It is the "Updated" date and the sitemap lastmod.
    */
@@ -520,48 +544,52 @@ export interface Faq {
   createdAt: string;
 }
 /**
- * Every application is stored here. Signed-in admins and sales can download CSV at /api/applications/export.
+ * Work one lead at a time. Status, assignee, follow-up date, and outcome are in the sidebar. Fit answers are labels, not raw keys.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "applications".
  */
 export interface Application {
   id: number;
-  publicId?: string | null;
-  status: 'partial' | 'complete' | 'booked' | 'no_show' | 'won' | 'lost' | 'nurture';
-  tier?: ('qualified' | 'review' | 'not_yet') | null;
-  score?: number | null;
-  reasons?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  tags?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  scoringVersion?: string | null;
-  email: string;
-  firstName?: string | null;
-  lastName?: string | null;
-  phone?: string | null;
-  website?: string | null;
-  company?: string | null;
+  /**
+   * Built from the first and last name. Used as the title in the list.
+   */
+  name?: string | null;
+  /**
+   * Qualified, review, or not yet. Filled from the score.
+   */
+  scoreBand?: string | null;
+  /**
+   * When the application was started.
+   */
+  submittedAt?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   offerType?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   offerOther?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   pricePoint?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   monthlyRevenue?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   monthlyConversations?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   salesSetup?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   needs?:
     | {
         [k: string]: unknown;
@@ -571,18 +599,202 @@ export interface Application {
     | number
     | boolean
     | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   timeline?: string | null;
   /**
-   * Legacy monthly band. Older applications only.
+   * Set by the application. Closers do not edit this.
+   */
+  setupFee?: string | null;
+  /**
+   * Older monthly budget band. Not asked on new applications.
    */
   investment?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   investmentLabel?: string | null;
-  setupFee?: string | null;
-  emailUnsubscribed?: boolean | null;
-  marketingConsent?: boolean | null;
-  unsubscribeToken?: string | null;
-  nurtureEnrolledAt?: string | null;
+  /**
+   * Used in the list title and emails.
+   */
+  firstName?: string | null;
+  /**
+   * Used with the first name.
+   */
+  lastName?: string | null;
+  /**
+   * Where follow-ups are sent. Search the list by this.
+   */
+  email: string;
+  /**
+   * Shown as a tel link in the summary.
+   */
+  phone?: string | null;
+  /**
+   * Shown next to the name. Searchable.
+   */
+  company?: string | null;
+  /**
+   * Their site, if they gave one.
+   */
+  website?: string | null;
+  /**
+   * Start time. The list and summary show it in your timezone.
+   */
+  meetingStartAt?: string | null;
+  /**
+   * End time from Calendly.
+   */
+  meetingEndAt?: string | null;
+  /**
+   * Scheduled means a time is on the calendar. Canceled means they or we removed it.
+   */
+  bookingStatus?: ('none' | 'scheduled' | 'canceled') | null;
+  /**
+   * Strategy is the 30-minute call. Fit is the 15-minute call, only when that switch is on.
+   */
+  eventType?: ('strategy' | 'fit') | null;
+  /**
+   * Calendly reference for this booking.
+   */
+  calendlyEventUri?: string | null;
+  calendlyInviteeUri?: string | null;
+  /**
+   * When the booking was recorded.
+   */
+  bookedAt?: string | null;
+  /**
+   * What happened on the call. Write this after you hang up.
+   */
+  callNotes?: string | null;
+  /**
+   * The objections they raised, in their words.
+   */
+  objections?: string | null;
+  /**
+   * Anything the next person on this lead should know. Not sent to the lead.
+   */
+  internalNotes?: string | null;
+  /**
+   * Notes captured outside the call, including career enquiries. Read-only.
+   */
+  notes?: string | null;
+  /**
+   * Also the PostHog distinct id for this lead.
+   */
+  publicId?: string | null;
+  /**
+   * Copied from the public id. This is the id PostHog uses.
+   */
+  posthogDistinctId?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  scoringVersion?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  score?: number | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  tier?: ('qualified' | 'review' | 'not_yet') | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  reasons?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  tags?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  utmSource?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  utmMedium?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  utmCampaign?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  utmTerm?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  utmContent?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  referrer?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  landingPage?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  lastBlogPost?: string | null;
+  /**
+   * IP address captured when they started the application.
+   */
+  ipAddress?: string | null;
+  /**
+   * Browser captured when they started the application.
+   */
+  userAgent?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  device?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  country?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  entry?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  source?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  resourceSlug?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  stepReached?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   sequenceKind?: ('none' | 'nurture' | 'partial' | 'qualified') | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   sequenceLog?:
     | {
         [k: string]: unknown;
@@ -592,42 +804,157 @@ export interface Application {
     | number
     | boolean
     | null;
-  notes?: string | null;
-  utmSource?: string | null;
-  utmMedium?: string | null;
-  utmCampaign?: string | null;
-  utmTerm?: string | null;
-  utmContent?: string | null;
-  lastUtmSource?: string | null;
-  lastUtmMedium?: string | null;
-  lastUtmCampaign?: string | null;
-  referrer?: string | null;
-  landingPage?: string | null;
-  lastBlogPost?: string | null;
-  device?: string | null;
-  country?: string | null;
-  entry?: string | null;
-  calendlyEventUri?: string | null;
-  calendlyInviteeUri?: string | null;
-  eventType?: ('strategy' | 'fit') | null;
-  bookingStatus?: ('none' | 'scheduled' | 'canceled') | null;
-  bookedAt?: string | null;
-  meetingStartAt?: string | null;
-  meetingEndAt?: string | null;
-  consentSms?: boolean | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  unsubscribeToken?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  emailUnsubscribed?: boolean | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  marketingConsent?: boolean | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   consentMarketing?: boolean | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  consentSms?: boolean | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   analyticsConsent?: boolean | null;
-  completedAt?: string | null;
-  stepReached?: string | null;
+  /**
+   * On if they asked to be told when the fit is closer.
+   */
   waitlist?: boolean | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   nurtureReason?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  nurtureEnrolledAt?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   priorityCall?: boolean | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   partialReminderSentAt?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   unbookedReminderSentAt?: string | null;
-  source?: string | null;
-  resourceSlug?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  completedAt?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  lastUtmSource?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  lastUtmMedium?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  lastUtmCampaign?: string | null;
+  /**
+   * Quick status change. Partial is unfinished, complete is scored, booked has a time, nurture is the guide path.
+   */
+  status: 'partial' | 'complete' | 'booked' | 'no_show' | 'won' | 'lost' | 'nurture';
+  /**
+   * Who owns the next action on this lead.
+   */
+  assignee?: (number | null) | User;
   assignedTo?: (number | null) | User;
-  internalNotes?: string | null;
+  /**
+   * When you will next look at this lead. The summary says if the date has passed.
+   */
+  nextFollowUpAt?: string | null;
+  /**
+   * The result after the conversation. Open means you have not decided.
+   */
+  outcome?: ('open' | 'won' | 'lost' | 'no_show') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Calls that already have a time. Open the application for the fit answers and notes. Change the status here after the call.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings".
+ */
+export interface Booking {
+  id: number;
+  /**
+   * Copied from the application. Edit the name there.
+   */
+  who: string;
+  /**
+   * Use this to find the person. The application has the phone number.
+   */
+  email?: string | null;
+  /**
+   * Start time from Calendly. Shown in your local timezone in the admin.
+   */
+  when?: string | null;
+  /**
+   * No-show and completed also update the outcome on the application.
+   */
+  status: 'scheduled' | 'canceled' | 'no_show' | 'completed';
+  /**
+   * Calendly event reference. Read-only.
+   */
+  calendlyUrl?: string | null;
+  /**
+   * Open this for the fit answers, notes, and follow-up date.
+   */
+  application: number | Application;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Waitlist, guide opt-ins, and people who agreed to marketing email. Uncheck them here if they should not be emailed. Sending still waits on the nurture switch in Site settings.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscribers".
+ */
+export interface Subscriber {
+  id: number;
+  /**
+   * Who this address belongs to.
+   */
+  name?: string | null;
+  /**
+   * The address the sequences use.
+   */
+  email: string;
+  /**
+   * Waitlist asked to hear back. Guide left an email for the free guide. Marketing ticked the consent box.
+   */
+  kind: 'waitlist' | 'guide' | 'marketing';
+  /**
+   * On means the sequences must not email this address. One-click unsubscribe sets this too.
+   */
+  unsubscribed?: boolean | null;
+  /**
+   * Where the address came from. Read-only.
+   */
+  source?: string | null;
+  /**
+   * The application this address belongs to, when there is one.
+   */
+  application?: (number | null) | Application;
   updatedAt: string;
   createdAt: string;
 }
@@ -814,6 +1141,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'applications';
         value: number | Application;
+      } | null)
+    | ({
+        relationTo: 'bookings';
+        value: number | Booking;
+      } | null)
+    | ({
+        relationTo: 'subscribers';
+        value: number | Subscriber;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1045,6 +1380,7 @@ export interface PostsSelect<T extends boolean = true> {
   pillar?: T;
   relatedPosts?: T;
   publishedAt?: T;
+  seoStatus?: T;
   substantiveUpdateAt?: T;
   readingTime?: T;
   updatedAt?: T;
@@ -1129,19 +1465,9 @@ export interface FaqsSelect<T extends boolean = true> {
  * via the `definition` "applications_select".
  */
 export interface ApplicationsSelect<T extends boolean = true> {
-  publicId?: T;
-  status?: T;
-  tier?: T;
-  score?: T;
-  reasons?: T;
-  tags?: T;
-  scoringVersion?: T;
-  email?: T;
-  firstName?: T;
-  lastName?: T;
-  phone?: T;
-  website?: T;
-  company?: T;
+  name?: T;
+  scoreBand?: T;
+  submittedAt?: T;
   offerType?: T;
   offerOther?: T;
   pricePoint?: T;
@@ -1150,51 +1476,100 @@ export interface ApplicationsSelect<T extends boolean = true> {
   salesSetup?: T;
   needs?: T;
   timeline?: T;
+  setupFee?: T;
   investment?: T;
   investmentLabel?: T;
-  setupFee?: T;
-  emailUnsubscribed?: T;
-  marketingConsent?: T;
-  unsubscribeToken?: T;
-  nurtureEnrolledAt?: T;
-  sequenceKind?: T;
-  sequenceLog?: T;
+  firstName?: T;
+  lastName?: T;
+  email?: T;
+  phone?: T;
+  company?: T;
+  website?: T;
+  meetingStartAt?: T;
+  meetingEndAt?: T;
+  bookingStatus?: T;
+  eventType?: T;
+  calendlyEventUri?: T;
+  calendlyInviteeUri?: T;
+  bookedAt?: T;
+  callNotes?: T;
+  objections?: T;
+  internalNotes?: T;
   notes?: T;
+  publicId?: T;
+  posthogDistinctId?: T;
+  scoringVersion?: T;
+  score?: T;
+  tier?: T;
+  reasons?: T;
+  tags?: T;
   utmSource?: T;
   utmMedium?: T;
   utmCampaign?: T;
   utmTerm?: T;
   utmContent?: T;
-  lastUtmSource?: T;
-  lastUtmMedium?: T;
-  lastUtmCampaign?: T;
   referrer?: T;
   landingPage?: T;
   lastBlogPost?: T;
+  ipAddress?: T;
+  userAgent?: T;
   device?: T;
   country?: T;
   entry?: T;
-  calendlyEventUri?: T;
-  calendlyInviteeUri?: T;
-  eventType?: T;
-  bookingStatus?: T;
-  bookedAt?: T;
-  meetingStartAt?: T;
-  meetingEndAt?: T;
-  consentSms?: T;
-  consentMarketing?: T;
-  analyticsConsent?: T;
-  completedAt?: T;
+  source?: T;
+  resourceSlug?: T;
   stepReached?: T;
+  sequenceKind?: T;
+  sequenceLog?: T;
+  unsubscribeToken?: T;
+  emailUnsubscribed?: T;
+  marketingConsent?: T;
+  consentMarketing?: T;
+  consentSms?: T;
+  analyticsConsent?: T;
   waitlist?: T;
   nurtureReason?: T;
+  nurtureEnrolledAt?: T;
   priorityCall?: T;
   partialReminderSentAt?: T;
   unbookedReminderSentAt?: T;
-  source?: T;
-  resourceSlug?: T;
+  completedAt?: T;
+  lastUtmSource?: T;
+  lastUtmMedium?: T;
+  lastUtmCampaign?: T;
+  status?: T;
+  assignee?: T;
   assignedTo?: T;
-  internalNotes?: T;
+  nextFollowUpAt?: T;
+  outcome?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings_select".
+ */
+export interface BookingsSelect<T extends boolean = true> {
+  who?: T;
+  email?: T;
+  when?: T;
+  status?: T;
+  calendlyUrl?: T;
+  application?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscribers_select".
+ */
+export interface SubscribersSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  kind?: T;
+  unsubscribed?: T;
+  source?: T;
+  application?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1316,7 +1691,7 @@ export interface SiteSetting {
    */
   discoveryCallEnabled?: boolean | null;
   /**
-   * Off until you have read the sequence copy. Nothing in the nurture or follow-up sequences is sent while this is off.
+   * Admins only. Off until you have read the sequence copy. Editors can edit that copy, but nothing is sent while this is off.
    */
   nurtureEnabled?: boolean | null;
   /**
@@ -1390,7 +1765,7 @@ export interface SiteSetting {
   createdAt?: string | null;
 }
 /**
- * Copy for the nurture and follow-up emails. Nothing is sent until Site settings → nurtureEnabled is on. Send a preview to yourself with POST /api/admin/sequence-preview while logged in as an admin.
+ * Edit the subject and body of each step. Editors can change this copy. Only an admin can turn sending on, with nurtureEnabled in Site settings. Nothing is sent while that switch is off.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "email-sequences".
@@ -1402,10 +1777,25 @@ export interface EmailSequence {
    */
   steps?:
     | {
+        /**
+         * Leave this key as it is. The sender matches on it.
+         */
         key: string;
+        /**
+         * Hours after they enter the sequence before this email can send.
+         */
         delayHours: number;
+        /**
+         * Inbox subject. Do not start it with a bracket tag.
+         */
         subject: string;
+        /**
+         * The heading inside the email.
+         */
         heading: string;
+        /**
+         * Paragraphs separated by a blank line. The guide and apply links are added for you.
+         */
         body: string;
         id?: string | null;
       }[]

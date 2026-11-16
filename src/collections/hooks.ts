@@ -14,7 +14,7 @@ type Doc = {
   authors?: unknown
   category?: unknown
   body?: unknown
-  seo?: { metaDescription?: string }
+  seo?: { metaTitle?: string; metaDescription?: string }
   publishedAt?: string
   substantiveUpdateAt?: string
   readingTime?: number
@@ -37,6 +37,12 @@ export const preparePost: CollectionBeforeChangeHook = ({ data }) => {
   if (next.body) {
     next.readingTime = readingTimeMinutes(lexicalToText(next.body))
   }
+  const gaps: string[] = []
+  if (!next.seo?.metaTitle) gaps.push('meta title')
+  if (!next.seo?.metaDescription) gaps.push('meta description')
+  if (!next.heroImage) gaps.push('cover')
+  if (!next.heroImageAlt) gaps.push('alt text')
+  ;(next as Doc & { seoStatus?: string }).seoStatus = gaps.length ? `Missing ${gaps.join(', ')}` : 'Ready'
   if (next._status === 'published' && !next.publishedAt) {
     next.publishedAt = new Date().toISOString()
   }

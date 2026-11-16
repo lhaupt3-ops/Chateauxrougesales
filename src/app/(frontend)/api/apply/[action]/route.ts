@@ -95,6 +95,8 @@ async function start(request: Request, body: Body) {
       landingPage: attribution.landingPage || '',
       lastBlogPost: attribution.lastBlogPost || '',
       device: attribution.device || '',
+      ipAddress: request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '',
+      userAgent: request.headers.get('user-agent') || '',
     },
   })
   await setApplicationCookie(publicId)

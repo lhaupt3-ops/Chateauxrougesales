@@ -11,6 +11,8 @@ import { fileURLToPath } from 'url'
 import { blockDeleteUntilPassword, blockGlobalWritesUntilPassword, blockWritesUntilPassword } from './access/password-gate'
 import { adminOnly, isAdmin, isAdminOrEditor } from './access/roles'
 import { Applications } from './collections/Applications'
+import { Bookings } from './collections/Bookings'
+import { Subscribers } from './collections/Subscribers'
 import { Authors } from './collections/Authors'
 import { CaseStudies } from './collections/CaseStudies'
 import { Categories } from './collections/Categories'
@@ -31,7 +33,7 @@ import { seed } from './seed'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const collections = [Users, Media, Authors, Categories, Tags, Posts, CaseStudies, Resources, Faqs, Applications]
+const collections = [Users, Media, Authors, Categories, Tags, Posts, CaseStudies, Resources, Faqs, Applications, Bookings, Subscribers]
 for (const collection of collections) {
   collection.hooks = {
     ...collection.hooks,
