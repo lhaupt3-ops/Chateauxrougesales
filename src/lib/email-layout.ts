@@ -69,12 +69,12 @@ function renderHtml(email: BrandedEmail): string {
         .join('')}</table>`
     : ''
   const bullets = email.bullets?.length
-    ? `<ul style="margin:0 0 20px;padding:0 0 0 18px;">${email.bullets
+    ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px;">${email.bullets
         .map(
           (item) =>
-            `<li class="email-muted" style="margin:0 0 8px;font-family:${SANS};font-size:14px;line-height:1.5;color:${MUTED};">${escapeHtml(item)}</li>`,
+            `<tr><td valign="top" style="padding:0 8px 8px 0;font-family:${SANS};font-size:14px;line-height:1.5;color:${ROUGE};">•</td><td class="email-muted" style="padding:0 0 8px;font-family:${SANS};font-size:14px;line-height:1.5;color:${MUTED};">${escapeHtml(item)}</td></tr>`,
         )
-        .join('')}</ul>`
+        .join('')}</table>`
     : ''
   const cta = email.cta
     ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 8px;"><tr><td bgcolor="${ROUGE}" style="border-radius:999px;background:${ROUGE};">
@@ -101,12 +101,16 @@ function renderHtml(email: BrandedEmail): string {
     .email-card { background-color: #2a211e !important; border-color: #3d312c !important; }
     .email-ink { color: #F6F3EE !important; }
     .email-muted { color: #d9cfc4 !important; }
-    .email-footer { background-color: #120e0d !important; }
+    .email-footer { background-color: #1C1C1C !important; }
+    .email-logo-light { background-color: #F6F3EE !important; }
+    .email-logo-dark { background-color: #1C1C1C !important; }
   }
   [data-ogsc] .email-bg { background-color: #1a1412 !important; }
   [data-ogsc] .email-card { background-color: #2a211e !important; }
   [data-ogsc] .email-ink { color: #F6F3EE !important; }
   [data-ogsc] .email-muted { color: #d9cfc4 !important; }
+  [data-ogsc] .email-logo-light { background-color: #F6F3EE !important; }
+  [data-ogsc] .email-logo-dark { background-color: #1C1C1C !important; }
 </style>
 </head>
 <body class="email-bg" style="margin:0;padding:0;background:${IVORY};color:${INK};">
@@ -116,8 +120,8 @@ function renderHtml(email: BrandedEmail): string {
     <td align="center" style="padding:32px 16px;">
       <table role="presentation" width="560" cellpadding="0" cellspacing="0" class="email-card" bgcolor="${WHITE}" style="width:560px;max-width:560px;background:${WHITE};border:1px solid ${STONE};border-radius:24px;">
         <tr>
-          <td style="padding:28px 32px 4px;">
-            <img src="${escapeAttr(logo)}" width="240" height="56" alt="Chateaux Rouge" style="display:block;border:0;width:240px;height:56px;">
+          <td class="email-logo-light" bgcolor="${IVORY}" style="padding:28px 32px 4px;background:${IVORY};">
+            <img src="${escapeAttr(logo)}" width="240" height="56" alt="Chateaux Rouge" style="display:block;border:0;width:240px;height:56px;background:${IVORY};">
           </td>
         </tr>
         ${
@@ -137,8 +141,8 @@ function renderHtml(email: BrandedEmail): string {
           </td>
         </tr>
         <tr>
-          <td class="email-footer" bgcolor="${INK}" style="padding:22px 32px;background:${INK};border-radius:0 0 24px 24px;">
-            <p style="margin:0 0 12px;"><img src="${escapeAttr(footerLogo)}" width="180" height="42" alt="Chateaux Rouge" style="display:block;border:0;width:180px;height:42px;"></p>
+          <td class="email-footer email-logo-dark" bgcolor="${INK}" style="padding:22px 32px;background:${INK};border-radius:0 0 24px 24px;">
+            <img src="${escapeAttr(footerLogo)}" width="192" height="45" alt="Chateaux Rouge" style="display:block;border:0;width:192px;height:45px;background:${INK};margin:0 0 12px;">
             <p style="margin:0;font-family:${SANS};font-size:12px;line-height:1.6;color:${IVORY};">${footerLinks}</p>
           </td>
         </tr>

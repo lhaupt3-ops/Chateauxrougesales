@@ -18,8 +18,10 @@ test('the shared layout uses the site palette, logo, serif heading, and a text p
   assert.match(html, /Inter/)
   assert.match(html, /Arial/)
   assert.match(html, /border-radius:24px/)
-  assert.match(html, /lockup-horizontal-light\.png/)
-  assert.match(html, /alt="Chateaux Rouge"/)
+  assert.match(html, /https:\/\/chateauxrouge\.com\/brand\/lockups\/lockup-horizontal-light\.png/)
+  assert.match(html, /https:\/\/chateauxrouge\.com\/brand\/lockups\/lockup-horizontal-dark\.png/)
+  assert.match(html, /width="240" height="56" alt="Chateaux Rouge"/)
+  assert.doesNotMatch(html, /<svg|var\(--/)
   assert.match(html, /prefers-color-scheme: dark/)
   assert.match(html, /Chateaux Rouge/)
   assert.match(html, /See my result/)
@@ -36,7 +38,8 @@ test('client-facing subjects do not lead with a bracket tag', () => {
   for (const kind of ['complete', 'booked', 'partial', 'unbooked', 'waitlist', 'magnet'] as const) {
     const message = applicantEmail(doc, kind)
     assert.equal(message.subject.startsWith('['), false, message.subject)
-    assert.match(message.html, /lockup-horizontal-light\.png/)
+    assert.match(message.html, /brand\/lockups\/lockup-horizontal-light\.png/)
+    assert.match(message.html, /alt="Chateaux Rouge"/)
     assert.match(message.text, /Chateaux Rouge/)
   }
 })
