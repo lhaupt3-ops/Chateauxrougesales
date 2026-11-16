@@ -2,10 +2,11 @@ import Link from 'next/link'
 import { comparisons } from '@/content/guides'
 import { Breadcrumbs } from '@/components/site/ui'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 
 export const metadata = pageMetadata({
-  title: 'Comparisons · Chateaux Rouge',
-  description: 'Outsourced versus in-house, setter versus closer, and agency versus freelance. Written for buyers.',
+  title: SEO.compare.title,
+  description: SEO.compare.description,
   path: '/compare',
 })
 

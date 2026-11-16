@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Breadcrumbs, Placeholder } from '@/components/site/ui'
 import { countRealResults } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { getPayloadClient } from '@/lib/payload'
 
 export const revalidate = 3600
@@ -9,7 +10,7 @@ export const revalidate = 3600
 export async function generateMetadata() {
   const count = await countRealResults()
   return pageMetadata({
-    title: 'Results · Chateaux Rouge',
+    title: SEO.results.title,
     description: count
       ? 'Client results published with permission: the name, the metric and the time window.'
       : 'A case appears here only after a client approves the name, the metric and the time window.',

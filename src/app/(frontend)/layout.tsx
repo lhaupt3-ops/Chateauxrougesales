@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import dynamic from 'next/dynamic'
 import { Fraunces, Inter } from 'next/font/google'
 import { AttributionCapture } from '@/components/analytics/Analytics'
+import { StickyApply } from '@/components/blog/StickyApply'
 import { Footer, Header } from '@/components/site/chrome'
 import { JsonLd } from '@/components/site/JsonLd'
 import { getLatestPosts } from '@/lib/content'
@@ -24,6 +25,8 @@ export const viewport: Viewport = {
   themeColor: '#f7f3ee',
   width: 'device-width',
   initialScale: 1,
+  viewportFit: 'cover',
+  interactiveWidget: 'overlays-content',
 }
 
 export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
@@ -34,8 +37,6 @@ export default async function FrontendLayout({ children }: { children: React.Rea
     settings.xUrl ? { href: settings.xUrl, label: 'X' } : null,
     settings.instagram ? { href: settings.instagram, label: 'Instagram' } : null,
   ].filter((item): item is { href: string; label: string } => Boolean(item))
-
-  const sameAs = socials.map((social) => social.href)
 
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
@@ -52,7 +53,10 @@ export default async function FrontendLayout({ children }: { children: React.Rea
             logo: absoluteUrl('/logo-mark.png'),
             description: 'A managed sales team for high-ticket offers. The client keeps the CRM, the data and the recordings.',
             email: settings.contactEmail || undefined,
-            sameAs,
+            contactPoint: settings.contactEmail
+              ? { '@type': 'ContactPoint', email: settings.contactEmail, contactType: 'customer support' }
+              : undefined,
+            sameAs: settings.linkedIn ? [settings.linkedIn] : [],
           }}
         />
         <JsonLd
@@ -66,6 +70,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
         <Header />
         <main id="content">{children}</main>
         <Footer posts={posts} socials={socials} />
+        <StickyApply />
         <AttributionCapture />
         <Analytics />
         <ConsentBanner />

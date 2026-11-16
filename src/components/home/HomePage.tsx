@@ -343,7 +343,7 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="rounded-3xl border border-stone bg-white/80 p-8 md:p-12">
           <h2 className="font-serif text-4xl tracking-[-0.03em]">See if we&apos;re a fit.</h2>
-          <p className="mt-3 max-w-xl text-muted">Same two minutes as the top of the page. If you would rather read first, the free guide is a scorecard of the sales process you already have.</p>
+          <p className="mt-3 max-w-xl text-muted">Same two minutes as the top of the page. If you would rather read first, the free guide is open on the site. The one-page scorecard is the piece we email.</p>
           <div className="mt-6 max-w-xl">
             <EmailCapture location="footer" entry="footer_inline" />
           </div>

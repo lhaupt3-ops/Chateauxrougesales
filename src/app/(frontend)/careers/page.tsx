@@ -2,13 +2,14 @@ import { CareersForm } from '@/components/site/CareersForm'
 import { Breadcrumbs } from '@/components/site/ui'
 import { careersIsIndexable } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { getSettings } from '@/lib/settings'
 
 export async function generateMetadata() {
   const settings = await getSettings()
   return pageMetadata({
-    title: 'Careers · Chateaux Rouge',
-    description: 'A separate door for people who set or close. Not the page for founders buying a team.',
+    title: SEO.careers.title,
+    description: SEO.careers.description,
     path: '/careers',
     noindex: !careersIsIndexable(settings),
   })

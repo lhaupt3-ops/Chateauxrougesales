@@ -48,7 +48,7 @@ export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind): BuiltE
         : kind === 'waitlist'
           ? absoluteUrl('/pricing')
           : kind === 'magnet'
-            ? absoluteUrl(resource ? `/resources/${resource}` : '/resources')
+            ? absoluteUrl(resource === 'closer-readiness-scorecard' ? `/resources/closer-readiness-scorecard?id=${id}` : resource ? `/resources/${resource}` : '/resources')
             : absoluteUrl(doc.tier === 'not_yet' ? `/apply/next-steps?id=${id}` : `/apply/book?id=${id}`)
 
   const copy = {
@@ -96,14 +96,23 @@ export function applicantEmail(doc: ApplicationDoc, kind: ApplicantKind): BuiltE
       paragraphs: ['We will write when the offer, the revenue, or the lead flow has moved. You can ignore the note. We will not chase.'],
       cta: 'Read how we charge',
     },
-    magnet: {
-      subject: 'Your Chateaux Rouge guide',
-      preheader: 'The page is open whenever you want to read it.',
-      eyebrow: 'Guide',
-      heading: 'Your guide is ready.',
-      paragraphs: ['Read it on the site. If you want the same questions scored against your offer, the application is the next step.'],
-      cta: 'Open the guide',
-    },
+    magnet: resource === 'closer-readiness-scorecard'
+      ? {
+          subject: 'Your closer readiness scorecard',
+          preheader: 'One page. Eight yes or no checks. Print it or keep the PDF.',
+          eyebrow: 'Scorecard',
+          heading: 'Your scorecard is ready.',
+          paragraphs: ['The guide stays open on the site. This note is the one-page scorecard: mark yes or no, then read what the count means. Two or more nos means fix those before you hire a closer.'],
+          cta: 'Open the scorecard',
+        }
+      : {
+          subject: 'Your Chateaux Rouge guide',
+          preheader: 'The page is open whenever you want to read it.',
+          eyebrow: 'Guide',
+          heading: 'Your guide is ready.',
+          paragraphs: ['The guide is on the site and does not need an email. This note is for the shorter piece you asked for.'],
+          cta: 'Open it',
+        },
   }[kind]
 
   const rendered = renderEmail({
@@ -124,12 +133,14 @@ export function ownerEmail(doc: ApplicationDoc, kind: OwnerKind): BuiltEmail {
     kind === 'booked'
       ? `Call booked with ${name}`
       : kind === 'magnet'
-        ? `Guide request from ${doc.email || name}`
+        ? doc.resourceSlug === 'closer-readiness-scorecard'
+          ? `Scorecard request from ${doc.email || name}`
+          : `Guide request from ${doc.email || name}`
         : kind === 'careers'
           ? `Careers enquiry from ${name}`
           : `New application from ${name}`
   const heading =
-    kind === 'booked' ? `${name} booked a call` : kind === 'magnet' ? 'A guide was requested' : kind === 'careers' ? 'A careers enquiry arrived' : `New application from ${name}`
+    kind === 'booked' ? `${name} booked a call` : kind === 'magnet' ? (doc.resourceSlug === 'closer-readiness-scorecard' ? 'A scorecard was requested' : 'A guide was requested') : kind === 'careers' ? 'A careers enquiry arrived' : `New application from ${name}`
   const rows = compactRows([
     ['Email', doc.email],
     ['Phone', doc.phone],

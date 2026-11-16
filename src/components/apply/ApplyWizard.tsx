@@ -112,6 +112,30 @@ export function ApplyWizard({
   }, [id])
 
   useEffect(() => {
+    const raw = window.sessionStorage.getItem('cr_apply_draft')
+    if (!raw) return
+    try {
+      const saved = JSON.parse(raw) as { answers?: Answers; index?: number; phone?: string; dial?: string; otherText?: string }
+      queueMicrotask(() => {
+        if (saved.answers) setAnswers((current) => ({ ...saved.answers, ...current }))
+        if (typeof saved.phone === 'string') setPhone((current) => current || saved.phone || '')
+        if (typeof saved.dial === 'string' && saved.dial) setDial(saved.dial)
+        if (typeof saved.otherText === 'string') setOtherText((current) => current || saved.otherText || '')
+        if (!initialId && typeof saved.index === 'number' && saved.index > 0 && saved.index < STEPS.length) {
+          indexRef.current = saved.index
+          setIndex(saved.index)
+        }
+      })
+    } catch {
+      window.sessionStorage.removeItem('cr_apply_draft')
+    }
+  }, [initialId])
+
+  useEffect(() => {
+    window.sessionStorage.setItem('cr_apply_draft', JSON.stringify({ answers, index, phone, dial, otherText }))
+  }, [answers, index, phone, dial, otherText])
+
+  useEffect(() => {
     indexRef.current = index
   }, [index])
 
@@ -259,6 +283,7 @@ export function ApplyWizard({
       return
     }
     completed.current = true
+    window.sessionStorage.removeItem('cr_apply_draft')
     track('application_submitted', { tier: data.tier, score: data.score, next: data.next })
     setPersonProperties({
       tier: data.tier,
@@ -293,9 +318,9 @@ export function ApplyWizard({
       </div>
 
       {index > 0 && (
-        <button
+          <button
           type="button"
-          className="mb-6 text-sm text-muted underline"
+          className="mb-6 inline-flex h-11 items-center text-base text-muted underline"
           onClick={() => {
             track('apply_back_clicked', { step_id: step })
             go(index - 1)
@@ -312,8 +337,8 @@ export function ApplyWizard({
           <label className="block text-sm" htmlFor="email">
             Email
           </label>
-          <input id="email" name="email" type="email" autoComplete="email" required defaultValue={String(answers.email || '')} className="h-12 w-full rounded-2xl border border-stone bg-white px-4" />
-          <button className="h-12 rounded-full bg-rouge px-5 text-sm font-medium text-white" disabled={pending}>
+          <input id="email" name="email" type="email" autoComplete="email" inputMode="email" enterKeyHint="next" required defaultValue={String(answers.email || '')} className="h-12 w-full rounded-2xl border border-stone bg-white px-4 text-base" />
+          <button className="inline-flex h-12 min-w-11 items-center rounded-full bg-rouge px-5 text-base font-medium text-white" disabled={pending}>
             Start my application
           </button>
           <p className="text-sm text-muted">About 90 seconds. A few quick taps.</p>
@@ -334,7 +359,7 @@ export function ApplyWizard({
           <label htmlFor="offerOther" className="text-sm">
             What is it? Optional.
           </label>
-          <input id="offerOther" value={otherText} onChange={(event) => setOtherText(event.target.value)} className="h-12 w-full rounded-2xl border border-stone px-4" />
+          <input id="offerOther" value={otherText} onChange={(event) => setOtherText(event.target.value)} enterKeyHint="next" className="h-12 w-full rounded-2xl border border-stone px-4 text-base" />
           <button className="h-12 rounded-full bg-rouge px-5 text-sm text-white">Continue</button>
         </form>
       )}
@@ -364,7 +389,7 @@ export function ApplyWizard({
                   type="button"
                   aria-pressed={selected}
                   onClick={() => toggleNeed(option.value)}
-                  className={`min-h-12 rounded-2xl border px-4 py-4 text-left ${selected ? 'border-ink bg-white' : 'border-stone bg-white/70'}`}
+                  className={`min-h-14 rounded-2xl border px-4 py-4 text-left text-base ${selected ? 'border-ink bg-white' : 'border-stone bg-white/70'}`}
                 >
                   <span className="mr-3 text-muted">{optionIndex + 1}</span>
                   {option.label}
@@ -374,7 +399,7 @@ export function ApplyWizard({
           </div>
           <button
             type="button"
-            className="mt-4 h-12 rounded-full bg-rouge px-5 text-sm text-white"
+            className="mt-4 inline-flex h-12 min-w-11 items-center rounded-full bg-rouge px-5 text-base text-white"
             onClick={() => {
               const needs = Array.isArray(answers.needs) ? answers.needs : []
               if (!needs.length) {
@@ -427,13 +452,13 @@ export function ApplyWizard({
             </label>
             <label className="text-sm">
               Mobile
-              <input name="phone" required autoComplete="tel" inputMode="tel" value={phone} onChange={(event) => setPhone(event.target.value)} className="mt-1 h-12 w-full rounded-2xl border border-stone px-4" />
+              <input name="phone" type="tel" required autoComplete="tel" inputMode="tel" enterKeyHint="next" value={phone} onChange={(event) => setPhone(event.target.value)} className="mt-1 h-12 w-full rounded-2xl border border-stone px-4 text-base" />
             </label>
           </div>
           <Field label="Company or website" name="website" autoComplete="url" required={false} placeholder="acme.com" />
           <label className="block text-sm">
             What made you look at this now? One line is plenty.
-            <textarea name="notes" maxLength={300} className="mt-1 min-h-24 w-full rounded-2xl border border-stone px-4 py-3" />
+            <textarea name="notes" maxLength={300} enterKeyHint="done" className="mt-1 min-h-24 w-full rounded-2xl border border-stone px-4 py-3 text-base" />
           </label>
           <label className="flex items-start gap-3 text-sm leading-6">
             <input type="checkbox" className="mt-1" checked={consent} onChange={(event) => setConsent(event.target.checked)} required />
@@ -495,7 +520,7 @@ function OptionList({ options, selected, onChoose }: { options: Option[]; select
           role="option"
           aria-selected={selected === option.value}
           onClick={() => onChoose(option.value)}
-          className={`min-h-12 rounded-2xl border px-4 py-4 text-left ${selected === option.value ? 'border-ink bg-white' : 'border-stone bg-white/70 hover:border-ink'}`}
+          className={`min-h-14 rounded-2xl border px-4 py-4 text-left text-base ${selected === option.value ? 'border-ink bg-white' : 'border-stone bg-white/70 hover:border-ink'}`}
         >
           <span className="mr-3 text-muted">{index + 1}</span>
           {option.label}
@@ -521,7 +546,7 @@ function Field({
   return (
     <label className="block text-sm">
       {label}
-      <input name={name} required={required} autoComplete={autoComplete} placeholder={placeholder} className="mt-1 h-12 w-full rounded-2xl border border-stone bg-white px-4" />
+      <input name={name} required={required} autoComplete={autoComplete} inputMode={name === 'website' ? 'url' : 'text'} enterKeyHint="next" placeholder={placeholder} className="mt-1 h-12 w-full rounded-2xl border border-stone bg-white px-4 text-base" />
     </label>
   )
 }

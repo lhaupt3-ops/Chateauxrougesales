@@ -1,9 +1,10 @@
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { getSettings } from '@/lib/settings'
 
 export const metadata = pageMetadata({
-  title: 'Privacy · Chateaux Rouge',
-  description: 'How Lasse Haupt handles personal information on this site, under the Australian Privacy Principles.',
+  title: SEO.privacy.title,
+  description: SEO.privacy.description,
   path: '/privacy',
 })
 

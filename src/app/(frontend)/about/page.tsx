@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import { Breadcrumbs, Placeholder } from '@/components/site/ui'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 
 export const metadata = pageMetadata({
-  title: 'How we sell · Chateaux Rouge',
-  description: 'The standard for our own sales calls and for the calls our team runs for clients. No fake urgency, no invented results, no pressure.',
+  title: SEO.about.title,
+  description: SEO.about.description,
   path: '/about',
 })
 

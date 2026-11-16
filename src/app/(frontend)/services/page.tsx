@@ -2,10 +2,11 @@ import Link from 'next/link'
 import { services } from '@/content/guides'
 import { Breadcrumbs } from '@/components/site/ui'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 
 export const metadata = pageMetadata({
-  title: 'Services · Chateaux Rouge',
-  description: 'Done-for-you sales teams, high-ticket closers, appointment setting and a sales audit. One accountable unit for high-ticket offers.',
+  title: SEO.services.title,
+  description: SEO.services.description,
   path: '/services',
 })
 

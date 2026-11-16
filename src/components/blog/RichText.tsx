@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { ApplyLink } from '@/components/site/ApplyLink'
 import { EmailCapture } from '@/components/site/EmailCapture'
 import { headingList, lexicalToText, slugifyHeading } from '@/lib/lexical'
 
@@ -73,7 +72,7 @@ function renderNode(node: Node, key: number): React.ReactNode {
   if (node.type === 'upload' && node.value?.url) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img key={key} src={node.value.url} alt={node.value.alt || ''} width={node.value.width} height={node.value.height} className="mt-4 rounded-2xl" />
+      <img key={key} src={node.value.url} alt={node.value.alt || ''} width={node.value.width} height={node.value.height} loading="lazy" decoding="async" className="mt-4 h-auto max-w-full rounded-2xl" />
     )
   }
   if (node.type === 'block') return <BlockView key={key} fields={node.fields || {}} />
@@ -171,9 +170,9 @@ function Cta({ fields }: { fields: Record<string, unknown> }) {
           Get the guide
         </Link>
       ) : (
-        <ApplyLink location="post_inline" className="mt-4 inline-block rounded-full bg-ivory px-4 py-2 text-sm text-ink">
-          See if we&apos;re a fit
-        </ApplyLink>
+        <Link href="/resources/are-you-ready-for-closers" className="mt-4 inline-flex h-11 items-center rounded-full bg-ivory px-4 text-base text-ink">
+          Read the free guide
+        </Link>
       )}
     </div>
   )

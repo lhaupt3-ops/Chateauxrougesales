@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { publishedPosts } from '@/lib/posts'
 import { allGuides } from '@/content/guides'
 
 export const metadata = pageMetadata({
-  title: 'Search · Chateaux Rouge',
-  description: 'Search the journal and the service pages.',
+  title: SEO.search.title,
+  description: SEO.search.description,
   path: '/search',
   noindex: true,
 })

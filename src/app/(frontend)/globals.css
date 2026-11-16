@@ -14,6 +14,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -22,6 +23,32 @@ body {
   background-size: 4px 4px;
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: clip;
+  overflow-wrap: anywhere;
+}
+
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+main p,
+main li {
+  max-width: 68ch;
+}
+
+main .text-sm {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+footer a,
+header a,
+header button {
+  min-height: 44px;
 }
 
 ::selection {
@@ -97,11 +124,18 @@ summary::-webkit-details-marker {
   color: var(--color-ink);
 }
 
+.rich table,
+.rich pre {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 .rich table {
   width: 100%;
   margin-top: 1rem;
   border-collapse: collapse;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .rich th,
@@ -109,6 +143,17 @@ summary::-webkit-details-marker {
   border-bottom: 1px solid var(--color-stone);
   padding: 0.6rem 0.4rem;
   text-align: left;
+}
+
+@media print {
+  .scorecard-sheet {
+    break-inside: avoid;
+  }
+  header,
+  footer,
+  .print\:hidden {
+    display: none !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

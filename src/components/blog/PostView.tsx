@@ -7,7 +7,6 @@ import { JsonLd } from '@/components/site/JsonLd'
 import { absoluteUrl, SITE_NAME } from '@/lib/site'
 import { pillarHref, pillarLabel } from '@/lib/options'
 import { BlogReadTracker } from './BlogReadTracker'
-import { StickyApply } from './StickyApply'
 
 type Media = { url?: string; alt?: string; width?: number; height?: number } | number | null
 type Author = { name?: string; slug?: string; role?: string; url?: string }
@@ -71,7 +70,7 @@ export function PostView({ post, related }: { post: Post; related: { title?: str
       </p>
       {hero && typeof hero === 'object' && hero.url && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={hero.url} alt={String(post.heroImageAlt || hero.alt || '')} width={hero.width || 1200} height={hero.height || 675} className="mt-8 w-full rounded-3xl" />
+        <img src={hero.url} alt={String(post.heroImageAlt || hero.alt || '')} width={hero.width || 1200} height={hero.height || 675} fetchPriority="high" decoding="async" className="mt-8 h-auto w-full rounded-3xl" />
       )}
       {takeaways.length > 0 && (
         <div className="mt-8 rounded-2xl bg-ink p-5 text-ivory">
@@ -89,14 +88,14 @@ export function PostView({ post, related }: { post: Post; related: { title?: str
       <div className="mt-6">
         <RichText data={post.body} />
       </div>
-      <p className="mt-8 text-sm">
-        <ApplyLink location="post_inline" className="underline">
-          See if we&apos;re a fit
-        </ApplyLink>
-        <span className="text-muted"> · </span>
+      <p className="mt-8 text-base">
         <Link href="/resources/are-you-ready-for-closers" className="underline">
           Free guide: are you ready for closers?
         </Link>
+        <span className="text-muted"> · </span>
+        <ApplyLink location="post_inline" className="underline">
+          See if we&apos;re a fit
+        </ApplyLink>
       </p>
       {cta.heading && (
         <div className="mt-10 rounded-2xl border border-stone p-5">
@@ -161,7 +160,6 @@ export function PostView({ post, related }: { post: Post; related: { title?: str
         </section>
       )}
       <BlogReadTracker slug={slug} category={category?.slug || ''} />
-      <StickyApply />
     </article>
   )
 }

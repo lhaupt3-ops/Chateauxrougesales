@@ -1,5 +1,6 @@
 import { revalidatePath, revalidateTag } from 'next/cache'
 import type { CollectionAfterChangeHook, CollectionBeforeChangeHook } from 'payload'
+import { pingIndexNow } from '@/lib/indexnow'
 import { lexicalToText, readingTimeMinutes } from '@/lib/lexical'
 import { slugify } from '@/lib/slug'
 
@@ -78,6 +79,14 @@ export const revalidatePost: CollectionAfterChangeHook = ({ doc, previousDoc }) 
     const message = error instanceof Error ? error.message : ''
     if (!message.includes('static generation store missing')) console.error('[revalidate] post', error)
   }
+  const paths: string[] = []
+  if (doc._status === 'published' && typeof doc.slug === 'string' && !doc.seo?.noindex) {
+    paths.push(`/blog/${doc.slug}`, '/blog')
+  }
+  if (previousDoc?._status === 'published' && typeof previousDoc.slug === 'string' && previousDoc.slug !== doc.slug) {
+    paths.push(`/blog/${previousDoc.slug}`)
+  }
+  if (paths.length) void pingIndexNow(paths)
   return doc
 }
 

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Breadcrumbs } from '@/components/site/ui'
 import { countPublishedPosts } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { publishedPosts } from '@/lib/posts'
 
 export const revalidate = 3600
@@ -9,8 +10,8 @@ export const revalidate = 3600
 export async function generateMetadata() {
   const count = await countPublishedPosts()
   return pageMetadata({
-    title: 'Journal · Chateaux Rouge',
-    description: 'Essays on sales teams as a service, closer pay, hiring, and show rate. Written for founders, not job seekers.',
+    title: SEO.blog.title,
+    description: SEO.blog.description,
     path: '/blog',
     noindex: count < 1,
   })

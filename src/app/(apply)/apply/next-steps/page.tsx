@@ -5,13 +5,14 @@ import { OutcomeViewed } from '@/components/apply/OutcomeViewed'
 import { WaitlistForm } from '@/components/apply/WaitlistForm'
 import { findByPublicId } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
+import { SEO } from '@/lib/seo-titles'
 import { getSettings } from '@/lib/settings'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
-  title: 'Next step · Chateaux Rouge',
-  description: 'A plain next step. The free guide, and a way back when the fit is real.',
+  title: SEO.next.title,
+  description: SEO.next.description,
   path: '/apply/next-steps',
   noindex: true,
 })
