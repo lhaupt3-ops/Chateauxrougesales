@@ -4,6 +4,7 @@ import { RichText, TableOfContents } from './RichText'
 import { EmailCapture } from '@/components/site/EmailCapture'
 import { FaqList, Breadcrumbs } from '@/components/site/ui'
 import { JsonLd } from '@/components/site/JsonLd'
+import { BRAND_ICON_URL } from '@/lib/brand'
 import { absoluteUrl, SITE_NAME } from '@/lib/site'
 import { pillarHref, pillarLabel } from '@/lib/options'
 import { BlogReadTracker } from './BlogReadTracker'
@@ -49,7 +50,7 @@ export function PostView({ post, related }: { post: Post; related: { title?: str
             name: author.name,
             url: author.slug ? absoluteUrl(`/authors/${author.slug}`) : undefined,
           })),
-          publisher: { '@type': 'Organization', name: SITE_NAME, logo: { '@type': 'ImageObject', url: absoluteUrl('/logo-mark.png') } },
+          publisher: { '@type': 'Organization', name: SITE_NAME, logo: { '@type': 'ImageObject', url: BRAND_ICON_URL } },
           image: hero && typeof hero === 'object' && hero.url ? absoluteUrl(hero.url) : undefined,
         }}
       />

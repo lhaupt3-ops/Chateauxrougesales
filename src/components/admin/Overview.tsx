@@ -6,6 +6,7 @@ import { getSettings } from '@/lib/settings'
 import { EditorOverview } from './EditorOverview'
 import { SalesOverview } from './SalesOverview'
 import { loadPostHogFunnel } from '@/lib/posthog-funnel'
+import { AdminBrand } from './Logo'
 
 const LINKS = [
   ['/admin/collections/applications', 'Applications'],
@@ -59,6 +60,7 @@ async function AdminOverview() {
     <section className="cr-dash">
       <header className="cr-dash-head">
         <div>
+          <AdminBrand />
           <p className="cr-dash-kicker">Overview</p>
           <h2>The funnel, without opening another tab.</h2>
         </div>

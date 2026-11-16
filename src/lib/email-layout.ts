@@ -1,14 +1,12 @@
+import { BRAND_LOCKUP_DARK_URL, BRAND_LOCKUP_LIGHT_URL, CHARCOAL, IVORY, ROUGE } from './brand'
 import { absoluteUrl, SITE_NAME } from './site'
 
-const IVORY = '#f7f3ee'
-const INK = '#111114'
-const ROUGE = '#b3122e'
+const INK = CHARCOAL
 const STONE = '#e7e1d8'
 const MUTED = '#5c5852'
-const GOLD = '#b89b5e'
 const WHITE = '#ffffff'
-const SERIF = "Georgia, Palatino, 'Times New Roman', serif"
-const SANS = "Arial, Helvetica, sans-serif"
+const SERIF = "Inter, 'Helvetica Neue', Arial, sans-serif"
+const SANS = "Inter, 'Helvetica Neue', Arial, sans-serif"
 
 export type EmailLink = { label: string; href: string }
 export type EmailRow = { label: string; value: string }
@@ -52,7 +50,8 @@ export function plainTextFromHtml(html: string): string {
 }
 
 function renderHtml(email: BrandedEmail): string {
-  const logo = absoluteUrl('/logo-mark.png')
+  const logo = BRAND_LOCKUP_LIGHT_URL
+  const footerLogo = BRAND_LOCKUP_DARK_URL
   const paragraphs = (email.paragraphs || [])
     .map(
       (paragraph) =>
@@ -84,7 +83,7 @@ function renderHtml(email: BrandedEmail): string {
     : ''
   const footerLinks = FOOTER_LINKS.map(
     (link) =>
-      `<a href="${escapeAttr(link.href)}" style="color:${GOLD};text-decoration:underline;">${escapeHtml(link.label)}</a>`,
+      `<a href="${escapeAttr(link.href)}" style="color:${IVORY};text-decoration:underline;">${escapeHtml(link.label)}</a>`,
   ).join('<span style="color:#8a8178;"> &nbsp;·&nbsp; </span>')
 
   return `<!doctype html>
@@ -100,13 +99,13 @@ function renderHtml(email: BrandedEmail): string {
   @media (prefers-color-scheme: dark) {
     .email-bg { background-color: #1a1412 !important; }
     .email-card { background-color: #2a211e !important; border-color: #3d312c !important; }
-    .email-ink { color: #f7f3ee !important; }
+    .email-ink { color: #F6F3EE !important; }
     .email-muted { color: #d9cfc4 !important; }
     .email-footer { background-color: #120e0d !important; }
   }
   [data-ogsc] .email-bg { background-color: #1a1412 !important; }
   [data-ogsc] .email-card { background-color: #2a211e !important; }
-  [data-ogsc] .email-ink { color: #f7f3ee !important; }
+  [data-ogsc] .email-ink { color: #F6F3EE !important; }
   [data-ogsc] .email-muted { color: #d9cfc4 !important; }
 </style>
 </head>
@@ -118,10 +117,7 @@ function renderHtml(email: BrandedEmail): string {
       <table role="presentation" width="560" cellpadding="0" cellspacing="0" class="email-card" bgcolor="${WHITE}" style="width:560px;max-width:560px;background:${WHITE};border:1px solid ${STONE};border-radius:24px;">
         <tr>
           <td style="padding:28px 32px 4px;">
-            <table role="presentation" cellpadding="0" cellspacing="0"><tr>
-              <td style="vertical-align:middle;"><img src="${escapeAttr(logo)}" width="36" height="36" alt="${escapeAttr(SITE_NAME)}" style="display:block;border:0;border-radius:8px;"></td>
-              <td class="email-ink" style="padding-left:10px;vertical-align:middle;font-family:${SERIF};font-size:22px;line-height:1;color:${INK};">${escapeHtml(SITE_NAME)}</td>
-            </tr></table>
+            <img src="${escapeAttr(logo)}" width="240" height="56" alt="Chateaux Rouge" style="display:block;border:0;width:240px;height:56px;">
           </td>
         </tr>
         ${
@@ -130,7 +126,7 @@ function renderHtml(email: BrandedEmail): string {
             : ''
         }
         <tr>
-          <td class="email-ink" style="padding:8px 32px 0;font-family:${SERIF};font-size:32px;line-height:1.15;color:${INK};">${escapeHtml(email.heading)}</td>
+          <td class="email-ink" style="padding:8px 32px 0;font-family:${SERIF};font-size:32px;font-weight:800;letter-spacing:-0.025em;line-height:1.15;color:${INK};">${escapeHtml(email.heading)}</td>
         </tr>
         <tr>
           <td style="padding:16px 32px 8px;">
@@ -142,7 +138,7 @@ function renderHtml(email: BrandedEmail): string {
         </tr>
         <tr>
           <td class="email-footer" bgcolor="${INK}" style="padding:22px 32px;background:${INK};border-radius:0 0 24px 24px;">
-            <p style="margin:0 0 8px;font-family:${SERIF};font-size:16px;color:${IVORY};">${escapeHtml(SITE_NAME)}</p>
+            <p style="margin:0 0 12px;"><img src="${escapeAttr(footerLogo)}" width="180" height="42" alt="Chateaux Rouge" style="display:block;border:0;width:180px;height:42px;"></p>
             <p style="margin:0;font-family:${SANS};font-size:12px;line-height:1.6;color:${IVORY};">${footerLinks}</p>
           </td>
         </tr>

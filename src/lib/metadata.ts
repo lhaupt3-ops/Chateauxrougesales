@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { BRAND_OG_URL } from './brand'
 import { absoluteUrl, getSiteUrl, isProductionIndexable, SITE_NAME } from './site'
 
 export function pageMetadata({
@@ -18,7 +19,7 @@ export function pageMetadata({
 }): Metadata {
   const indexable = isProductionIndexable() && !noindex
   const canonical = absoluteUrl(path)
-  const og = image || `/og?title=${encodeURIComponent(title)}&eyebrow=${encodeURIComponent(SITE_NAME)}`
+  const og = image || '/brand/social/og-image-1200x630.png'
   return {
     title: { absolute: title },
     description,
@@ -49,6 +50,21 @@ export function rootMetadata(): Metadata {
       'A managed sales team for founders who have outgrown taking every call. Setters, closers and a sales lead. Honest calls. You keep the data.',
     applicationName: SITE_NAME,
     authors: [{ name: SITE_NAME, url: getSiteUrl() }],
-    openGraph: { siteName: SITE_NAME, type: 'website' },
+    icons: {
+      icon: [
+        { url: '/brand/favicon/favicon.ico', sizes: '48x48' },
+        { url: '/brand/favicon/icon.svg', type: 'image/svg+xml' },
+        { url: '/brand/favicon/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+        { url: '/brand/favicon/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
+      ],
+      apple: [{ url: '/brand/favicon/apple-touch-icon.png', sizes: '180x180' }],
+    },
+    manifest: '/manifest.webmanifest',
+    openGraph: {
+      siteName: SITE_NAME,
+      type: 'website',
+      images: [{ url: BRAND_OG_URL, width: 1200, height: 630, alt: SITE_NAME }],
+    },
+    twitter: { card: 'summary_large_image', images: [BRAND_OG_URL] },
   }
 }

@@ -1,20 +1,24 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-rouge: #b3122e;
+  --color-rouge: #B01430;
   --color-wine: #5e0b1a;
-  --color-ink: #111114;
-  --color-ivory: #f7f3ee;
+  --color-ink: #1C1C1C;
+  --color-ivory: #F6F3EE;
   --color-stone: #e7e1d8;
   --color-gold: #b89b5e;
   --color-muted: #5c5852;
-  --font-serif: var(--font-fraunces), 'Iowan Old Style', Palatino, Georgia, serif;
+  --font-serif: var(--font-inter), 'Helvetica Neue', Arial, sans-serif;
   --font-sans: var(--font-inter), 'Helvetica Neue', Arial, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
   overflow-x: clip;
+}
+
+.font-serif {
+  font-weight: 800;
 }
 
 body {
@@ -56,7 +60,7 @@ header button {
 }
 
 :focus-visible {
-  outline: 2px solid #b3122e;
+  outline: 2px solid #B01430;
   outline-offset: 3px;
 }
 

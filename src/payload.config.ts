@@ -75,6 +75,14 @@ export default buildConfig({
     },
     meta: {
       titleSuffix: '· Chateaux Rouge',
+      icons: [
+        { rel: 'icon', type: 'image/svg+xml', url: '/brand/favicon/icon.svg' },
+        { rel: 'icon', type: 'image/png', url: '/brand/favicon/favicon-32x32.png', sizes: '32x32' },
+        { rel: 'apple-touch-icon', url: '/brand/favicon/apple-touch-icon.png' },
+      ],
+      openGraph: {
+        images: [{ url: '/brand/social/og-image-1200x630.png' }],
+      },
     },
     components: {
       graphics: {

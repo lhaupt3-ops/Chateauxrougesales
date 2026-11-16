@@ -3,6 +3,7 @@
 import { DECISION_OPTIONS, labelFor } from '@/lib/options'
 import { explainReasons } from '@/lib/reason-labels'
 import { nextAction, scoreBandLabel } from '@/lib/lead-desk'
+import { AdminBrand } from './Logo'
 import { useFormData } from './useFormData'
 
 export default function LeadSummary() {
@@ -30,6 +31,7 @@ export default function LeadSummary() {
     <section className="cr-dash">
       <header className="cr-dash-head">
         <div>
+          <AdminBrand />
           <p className="cr-dash-kicker">Lead summary</p>
           <h2>{name}</h2>
           <p className="cr-dash-note">{text(data.company) || 'No company'}</p>

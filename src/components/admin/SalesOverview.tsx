@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getPayloadClient } from '@/lib/payload'
 import { leadName, salesQueue, type QueueLead } from '@/lib/sales-queue'
+import { AdminBrand } from './Logo'
 import { SalesStatusForm } from './SalesStatusForm'
 
 export async function SalesOverview({ previousLoginAt }: { previousLoginAt?: string | null }) {
@@ -17,6 +18,7 @@ export async function SalesOverview({ previousLoginAt }: { previousLoginAt?: str
     <section className="cr-dash">
       <header className="cr-dash-head">
         <div>
+          <AdminBrand />
           <p className="cr-dash-kicker">Pipeline</p>
           <h2>Who needs a next step.</h2>
         </div>

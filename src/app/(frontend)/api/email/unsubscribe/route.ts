@@ -31,7 +31,7 @@ export async function GET(request: Request) {
     }
   }
   return new Response(
-    '<!doctype html><title>Unsubscribed</title><body style="font-family:Georgia,serif;background:#f7f3ee;color:#111114;padding:48px"><h1>You are unsubscribed.</h1><p>We will not send the nurture or follow-up sequence to this address.</p></body>',
+    '<!doctype html><title>Unsubscribed</title><body style="font-family:Inter,Arial,sans-serif;background:#F6F3EE;color:#1C1C1C;padding:48px"><img src="https://chateauxrouge.com/brand/transparent/lockup-horizontal-light.png" width="240" height="56" alt="Chateaux Rouge"><h1>You are unsubscribed.</h1><p>We will not send the nurture or follow-up sequence to this address.</p></body>',
     { headers: { 'content-type': 'text/html; charset=utf-8' } },
   )
 }
