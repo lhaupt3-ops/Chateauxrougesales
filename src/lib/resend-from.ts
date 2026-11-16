@@ -1,6 +1,13 @@
 const DEFAULT_FROM_NAME = 'Chateaux Rouge'
 const DEFAULT_FROM_ADDRESS = 'onboarding@resend.dev'
 
+/** CMS values that still point at Resend's sandbox are ignored in favour of the env sender. */
+export function usableResendFrom(cmsValue: string | null | undefined, fallback: string): string {
+  const value = cmsValue?.trim() ?? ''
+  if (!value || value.toLowerCase().includes('@resend.dev')) return fallback
+  return value
+}
+
 export function resendFromIdentity(value: string | null | undefined): { name: string; address: string } {
   const raw = value?.trim() || ''
   if (!raw) return { name: DEFAULT_FROM_NAME, address: DEFAULT_FROM_ADDRESS }
