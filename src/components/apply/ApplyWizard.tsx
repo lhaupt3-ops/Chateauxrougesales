@@ -6,6 +6,7 @@ import { identifyApplication, readPostSlug, setPersonProperties, track } from '@
 import { sanitizeStepAnswer } from '@/lib/funnel-analytics'
 import { emailDomainType } from '@/lib/site'
 import {
+  dialFromLocale,
   CONVERSATION_OPTIONS,
   DIAL_CODES,
   NEED_OPTIONS,
@@ -27,12 +28,12 @@ export function ApplyWizard({
   initialId = '',
   initialStep = '1',
   entry = 'apply_page',
-  defaultDial,
+  defaultDial = '+1',
 }: {
   initialId?: string
   initialStep?: string
   entry?: string
-  defaultDial: string
+  defaultDial?: string
 }) {
   const [index, setIndex] = useState(initialStep === '2' && initialId ? 1 : 0)
   const [id, setId] = useState(initialId)
@@ -62,10 +63,23 @@ export function ApplyWizard({
   useEffect(() => {
     if (viewed.current) return
     viewed.current = true
-    track('apply_started', { entry, variant: 'email_first', post_slug: readPostSlug() })
-    track('apply_step_viewed', { step_id: STEPS[index], step_index: index })
+    const params = new URLSearchParams(window.location.search)
+    const fromUrl = params.get('id') || ''
+    const step = params.get('step') || initialStep
+    const urlEntry = params.get('entry') || entry
+    if (!initialId && fromUrl) {
+      idRef.current = fromUrl
+      const openContact = step === '2'
+      if (openContact) indexRef.current = 1
+      queueMicrotask(() => {
+        setId(fromUrl)
+        if (openContact) setIndex(1)
+      })
+    }
+    track('apply_started', { entry: urlEntry, variant: 'email_first', post_slug: readPostSlug() })
+    track('apply_step_viewed', { step_id: STEPS[indexRef.current], step_index: indexRef.current })
     const stored = window.localStorage.getItem('cr_application_id')
-    const resumeId = initialId || stored || ''
+    const resumeId = initialId || fromUrl || stored || ''
     if (resumeId) stitch(resumeId)
     if (!resumeId) return
     void fetch(`/api/apply/resume?id=${resumeId}`)
@@ -105,11 +119,18 @@ export function ApplyWizard({
         }
       })
       .catch(() => undefined)
-  }, [entry, index, initialId, stitch])
+  }, [entry, initialId, initialStep, stitch])
 
   useEffect(() => {
     if (id) idRef.current = id
   }, [id])
+
+  useEffect(() => {
+    if (window.sessionStorage.getItem('cr_apply_draft')) return
+    const region = dialFromLocale(navigator.language)
+    if (region === defaultDial) return
+    queueMicrotask(() => setDial(region))
+  }, [defaultDial])
 
   useEffect(() => {
     const raw = window.sessionStorage.getItem('cr_apply_draft')

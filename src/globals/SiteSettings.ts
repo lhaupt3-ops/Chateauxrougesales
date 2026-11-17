@@ -1,4 +1,4 @@
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import type { GlobalAfterChangeHook, GlobalConfig } from 'payload'
 import { isAdmin, isAdminField, roleOf } from '@/access/roles'
 
@@ -7,6 +7,7 @@ const revalidateSiteSettings: GlobalAfterChangeHook = () => {
     revalidatePath('/')
     revalidatePath('/pricing')
     revalidatePath('/', 'layout')
+    revalidateTag('site-settings', 'max')
   } catch (error) {
     const message = error instanceof Error ? error.message : ''
     if (!message.includes('static generation store missing')) console.error('[revalidate] site settings', error)

@@ -1,3 +1,4 @@
+import { revalidateTag } from 'next/cache'
 import type { CollectionConfig } from 'payload'
 import { hideFromSales, isAdminOrEditor, publishedOrContentTeam } from '@/access/roles'
 import { pingIndexNow } from '@/lib/indexnow'
@@ -94,6 +95,12 @@ export const CaseStudies: CollectionConfig = {
     ],
     afterChange: [
       ({ doc }) => {
+        try {
+          revalidateTag('proof', 'max')
+        } catch (error) {
+          const message = error instanceof Error ? error.message : ''
+          if (!message.includes('static generation store missing')) console.error('[revalidate] proof', error)
+        }
         if (doc?._status === 'published' && doc.illustrative !== true && doc.seo?.noindex !== true && typeof doc.slug === 'string') {
           void pingIndexNow([`/results/${doc.slug}`, '/results'])
         }

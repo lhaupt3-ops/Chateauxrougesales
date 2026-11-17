@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from 'next'
 import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
 import { Inter } from 'next/font/google'
 import { AttributionCapture } from '@/components/analytics/Analytics'
+import { DeferredAnalytics } from '@/components/analytics/DeferredAnalytics'
 import { StickyApply } from '@/components/blog/StickyApply'
 import { Footer, Header } from '@/components/site/chrome'
+import { NavigationProgress } from '@/components/site/NavigationProgress'
 import { JsonLd } from '@/components/site/JsonLd'
 import { getLatestPosts } from '@/lib/content'
 import { rootMetadata } from '@/lib/metadata'
@@ -14,8 +17,6 @@ import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800'], display: 'swap', preload: true, adjustFontFallback: true, variable: '--font-inter' })
 
-const Analytics = dynamic(() => import('@/components/analytics/Analytics').then((mod) => mod.Analytics))
-const ConsentBanner = dynamic(() => import('@/components/analytics/Analytics').then((mod) => mod.ConsentBanner))
 const VercelAnalytics = dynamic(() => import('@vercel/analytics/next').then((mod) => mod.Analytics))
 const SpeedInsights = dynamic(() => import('@vercel/speed-insights/next').then((mod) => mod.SpeedInsights))
 
@@ -41,6 +42,9 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   return (
     <html lang="en" className={inter.variable}>
       <body className="font-sans antialiased">
+        <Suspense fallback={null}>
+          <NavigationProgress />
+        </Suspense>
         <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-3 focus:py-2">
           Skip to content
         </a>
@@ -72,8 +76,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
         <Footer posts={posts} socials={socials} />
         <StickyApply />
         <AttributionCapture />
-        <Analytics />
-        <ConsentBanner />
+        <DeferredAnalytics />
         <VercelAnalytics />
         <SpeedInsights />
       </body>

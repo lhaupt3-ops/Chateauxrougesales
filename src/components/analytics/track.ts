@@ -1,7 +1,8 @@
 'use client'
 
-import posthog from 'posthog-js'
 import { emailDomainType } from '@/lib/site'
+
+type PostHog = typeof import('posthog-js').default
 
 const KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY
 const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com'
@@ -13,30 +14,67 @@ type TrackOptions = {
   transport?: 'sendBeacon'
 }
 
+let client: PostHog | null = null
+let loading: Promise<PostHog | null> | null = null
+const queue: Array<(posthog: PostHog) => void> = []
+
 function consentGranted(): boolean {
   return typeof document !== 'undefined' && document.cookie.includes('cr_consent=granted')
 }
 
-/** Loads PostHog only after analytics consent. Persistence stays localStorage+cookie. */
-export function ensurePosthog(): boolean {
-  if (typeof window === 'undefined' || !consentGranted() || !KEY) return false
-  if (!posthog.__loaded) {
-    posthog.init(KEY, {
-      api_host: HOST,
-      capture_pageview: false,
-      persistence: 'localStorage+cookie',
-    })
+function flush(posthog: PostHog) {
+  const pending = queue.splice(0)
+  for (const job of pending) job(posthog)
+}
+
+function loadAfterConsent(): Promise<PostHog | null> {
+  if (typeof window === 'undefined' || !consentGranted() || !KEY) return Promise.resolve(null)
+  if (client) return Promise.resolve(client)
+  if (!loading) {
+    loading = import('posthog-js')
+      .then((mod) => {
+        const posthog = mod.default
+        if (!posthog.__loaded) {
+          posthog.init(KEY, {
+            api_host: HOST,
+            capture_pageview: false,
+            persistence: 'localStorage+cookie',
+          })
+        }
+        client = posthog
+        flush(posthog)
+        return posthog
+      })
+      .catch(() => {
+        loading = null
+        queue.splice(0)
+        return null
+      })
   }
-  return Boolean(posthog.__loaded)
+  return loading
+}
+
+function whenReady(job: (posthog: PostHog) => void) {
+  if (!consentGranted() || !KEY) return
+  if (client) {
+    job(client)
+    return
+  }
+  queue.push(job)
+  void loadAfterConsent()
+}
+
+/** True only once PostHog is already loaded. Events before consent are dropped. */
+export function ensurePosthog(): boolean {
+  if (!consentGranted() || !KEY) return false
+  void loadAfterConsent()
+  return Boolean(client?.__loaded)
 }
 
 export function track(event: string, properties?: Record<string, unknown>, options?: TrackOptions) {
-  if (!ensurePosthog()) return
-  posthog.capture(
-    event,
-    properties,
-    options?.transport ? { transport: options.transport, send_instantly: true } : undefined,
-  )
+  whenReady((posthog) => {
+    posthog.capture(event, properties, options?.transport ? { transport: options.transport, send_instantly: true } : undefined)
+  })
 }
 
 export function readPostSlug(): string {
@@ -45,23 +83,27 @@ export function readPostSlug(): string {
 }
 
 export function capturePageview(pathname: string) {
-  if (!ensurePosthog()) return
-  posthog.capture('$pageview', {
-    path: pathname,
-    $current_url: window.location.href,
+  whenReady((posthog) => {
+    posthog.capture('$pageview', {
+      path: pathname,
+      $current_url: window.location.href,
+    })
   })
 }
 
 export function identifyApplication(applicationId: string, email?: string): boolean {
-  if (!applicationId || !ensurePosthog()) return false
+  if (!applicationId || !consentGranted() || !KEY) return false
   const domainType = email && email.includes('@') ? emailDomainType(email) : undefined
-  posthog.identify(applicationId, domainType ? { email_domain_type: domainType } : undefined)
+  whenReady((posthog) => {
+    posthog.identify(applicationId, domainType ? { email_domain_type: domainType } : undefined)
+  })
   return true
 }
 
 export function setPersonProperties(properties: Record<string, unknown>) {
-  if (!ensurePosthog()) return
-  posthog.setPersonProperties(properties)
+  whenReady((posthog) => {
+    posthog.setPersonProperties(properties)
+  })
 }
 
 export function trackCta(location: CtaLocation) {

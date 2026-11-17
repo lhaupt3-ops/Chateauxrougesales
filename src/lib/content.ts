@@ -1,9 +1,10 @@
+import { unstable_cache } from 'next/cache'
 import { getPayloadClient } from './payload'
 import { fallbackFaqs, type Faq } from '@/content/faqs'
 
 type Doc = Record<string, unknown>
 
-export async function getFaqs(placement: string): Promise<Faq[]> {
+export const getFaqs = unstable_cache(async function getFaqs(placement: string): Promise<Faq[]> {
   try {
     const payload = await getPayloadClient()
     const result = await payload.find({
@@ -24,7 +25,7 @@ export async function getFaqs(placement: string): Promise<Faq[]> {
     console.error('[faqs]', error)
   }
   return fallbackFaqs[placement] || fallbackFaqs.home || []
-}
+}, ['faqs'], { tags: ['faqs'] })
 
 export type ProofResult = {
   metric: string
@@ -42,7 +43,7 @@ export type ProofStudy = {
   results: ProofResult[]
 }
 
-export async function getPublishedProof(): Promise<ProofStudy[]> {
+export const getPublishedProof = unstable_cache(async function getPublishedProof(): Promise<ProofStudy[]> {
   try {
     const payload = await getPayloadClient()
     const result = await payload.find({
@@ -89,9 +90,9 @@ export async function getPublishedProof(): Promise<ProofStudy[]> {
     console.error('[proof]', error)
     return []
   }
-}
+}, ['proof'], { tags: ['proof'] })
 
-export async function getLatestPosts(limit = 3): Promise<{ title: string; slug: string }[]> {
+export const getLatestPosts = unstable_cache(async function getLatestPosts(limit = 3): Promise<{ title: string; slug: string }[]> {
   try {
     const payload = await getPayloadClient()
     const result = await payload.find({
@@ -111,4 +112,4 @@ export async function getLatestPosts(limit = 3): Promise<{ title: string; slug: 
   } catch {
     return []
   }
-}
+}, ['posts'], { tags: ['posts'] })

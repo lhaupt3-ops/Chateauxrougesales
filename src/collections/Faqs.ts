@@ -1,3 +1,4 @@
+import { revalidateTag } from 'next/cache'
 import type { CollectionConfig } from 'payload'
 import { hideFromSales, isAdminOrEditor } from '@/access/roles'
 
@@ -38,4 +39,16 @@ export const Faqs: CollectionConfig = {
     },
     { name: 'order', type: 'number', defaultValue: 0 },
   ],
+  hooks: {
+    afterChange: [
+      () => {
+        try {
+          revalidateTag('faqs', 'max')
+        } catch (error) {
+          const message = error instanceof Error ? error.message : ''
+          if (!message.includes('static generation store missing')) console.error('[revalidate] faqs', error)
+        }
+      },
+    ],
+  },
 }

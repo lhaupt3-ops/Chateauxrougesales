@@ -1,3 +1,4 @@
+import { unstable_cache } from 'next/cache'
 import { getPayloadClient } from './payload'
 import { usableResendFrom } from './resend-from'
 
@@ -93,7 +94,7 @@ function text(value: unknown, fallback: string): string {
   return typeof value === 'string' && value.trim() ? value : fallback
 }
 
-export async function getSettings(): Promise<SiteSettings> {
+export const getSettings = unstable_cache(async function getSettings(): Promise<SiteSettings> {
   try {
     const payload = await getPayloadClient()
     const global = (await payload.findGlobal({
@@ -143,7 +144,7 @@ export async function getSettings(): Promise<SiteSettings> {
     console.error('[settings] using defaults', error)
     return defaultSettings
   }
-}
+}, ['site-settings'], { tags: ['site-settings'] })
 
 export function confirmedOrPending(value: string, isPlaceholder: boolean): string {
   const trimmed = value.trim()
