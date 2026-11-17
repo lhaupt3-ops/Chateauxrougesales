@@ -1,10 +1,7 @@
 import { ScorecardGate } from '@/components/site/ScorecardGate'
 import { Breadcrumbs } from '@/components/site/ui'
-import { findByPublicId } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
 import { SEO } from '@/lib/seo-titles'
-
-export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
   title: SEO.scorecard.title,
@@ -13,10 +10,7 @@ export const metadata = pageMetadata({
   noindex: true,
 })
 
-export default async function ScorecardPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
-  const { id = '' } = await searchParams
-  const doc = id ? await findByPublicId(id) : null
-  const unlocked = Boolean(doc && doc.resourceSlug === 'closer-readiness-scorecard')
+export default function ScorecardPage() {
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
       <Breadcrumbs
@@ -31,7 +25,13 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
       <p className="mt-4 text-lg leading-8 text-muted">
         The same eight checks as the free guide, on one page you can score and print. It does not predict revenue.
       </p>
-      <ScorecardGate unlocked={unlocked} publicId={id} />
+      <script
+        dangerouslySetInnerHTML={{
+          __html:
+            "(function(){try{var q=new URLSearchParams(location.search).get('id');var s=localStorage.getItem('cr_application_id');if((q&&q.trim())||(s&&s.trim()))document.documentElement.dataset.scorecard='checking';}catch(e){}})();",
+        }}
+      />
+      <ScorecardGate />
     </article>
   )
 }

@@ -160,6 +160,18 @@ summary::-webkit-details-marker {
   }
 }
 
+.scorecard-gate-pending {
+  display: none;
+}
+
+html[data-scorecard='checking'] .scorecard-gate-form {
+  display: none;
+}
+
+html[data-scorecard='checking'] .scorecard-gate-pending {
+  display: block;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -8,14 +8,24 @@ export function ApplyLink({
   className,
   children,
   dataCta,
+  onClick,
 }: {
   location: CtaLocation
   className?: string
   children: React.ReactNode
   dataCta?: string
+  onClick?: () => void
 }) {
   return (
-    <Link href="/apply" className={className} data-cta={dataCta || location} onClick={() => trackCta(location)}>
+    <Link
+      href="/apply"
+      className={className}
+      data-cta={dataCta || location}
+      onClick={() => {
+        onClick?.()
+        trackCta(location)
+      }}
+    >
       {children}
     </Link>
   )

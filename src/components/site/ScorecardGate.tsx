@@ -1,16 +1,71 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { SCORECARD_PATH, SCORECARD_QUESTIONS, interpretYesCount } from '@/content/scorecard'
 import { consentGranted } from './EmailCapture'
 import { track } from '@/components/analytics/track'
 
-export function ScorecardGate({ unlocked, publicId }: { unlocked: boolean; publicId: string }) {
+type Access = 'form' | 'checking' | 'open'
+
+function candidateId(): string {
+  const fromUrl = new URLSearchParams(window.location.search).get('id')?.trim() || ''
+  const stored = window.localStorage.getItem('cr_application_id')?.trim() || ''
+  return fromUrl || stored
+}
+
+async function fetchUnlocked(id: string): Promise<boolean> {
+  const response = await fetch(`/api/apply/scorecard-access?id=${encodeURIComponent(id)}`, { cache: 'no-store' })
+  const data = (await response.json().catch(() => null)) as { unlocked?: boolean } | null
+  return data?.unlocked === true
+}
+
+function ScorecardSkeleton({ pending = false }: { pending?: boolean }) {
+  return (
+    <div className={`${pending ? 'scorecard-gate-pending ' : ''}mt-8 space-y-3`} aria-busy="true">
+      <span className="sr-only">Loading</span>
+      <div className="animate-pulse space-y-3 rounded-2xl border border-stone bg-white p-5 motion-reduce:animate-none">
+        <div className="h-5 w-full rounded-2xl bg-stone" />
+        <div className="h-5 w-4/5 rounded-2xl bg-stone" />
+        <div className="h-12 w-full rounded-full bg-stone" />
+        <div className="h-12 w-48 rounded-full bg-stone" />
+      </div>
+      <div className="animate-pulse h-28 rounded-2xl bg-stone motion-reduce:animate-none" />
+      <div className="animate-pulse h-28 rounded-2xl bg-stone motion-reduce:animate-none" />
+    </div>
+  )
+}
+
+export function ScorecardGate() {
   const [error, setError] = useState('')
   const [pending, setPending] = useState(false)
   const [answers, setAnswers] = useState<Record<number, boolean>>({})
+  const [access, setAccess] = useState<Access>('form')
+  const [publicId, setPublicId] = useState('')
   const router = useRouter()
+
+  useEffect(() => {
+    const id = candidateId()
+    if (!id) {
+      document.documentElement.removeAttribute('data-scorecard')
+      return
+    }
+    let cancel = false
+    void fetchUnlocked(id)
+      .then((unlocked) => {
+        if (cancel) return
+        document.documentElement.removeAttribute('data-scorecard')
+        if (!unlocked) return
+        setPublicId(id)
+        setAccess('open')
+      })
+      .catch(() => {
+        if (!cancel) document.documentElement.removeAttribute('data-scorecard')
+      })
+    return () => {
+      cancel = true
+    }
+  }, [])
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -38,13 +93,19 @@ export function ScorecardGate({ unlocked, publicId }: { unlocked: boolean; publi
       return
     }
     track('lead_magnet_optin', { resource: 'closer-readiness-scorecard', page: SCORECARD_PATH })
+    setPublicId(data.id)
+    setAccess('checking')
     router.replace(`${SCORECARD_PATH}?id=${data.id}`)
-    router.refresh()
+    setAccess((await fetchUnlocked(data.id)) ? 'open' : 'form')
   }
 
-  if (!unlocked) {
+  if (access === 'checking') return <ScorecardSkeleton />
+
+  if (access !== 'open') {
     return (
-      <form onSubmit={onSubmit} className="mt-8 space-y-3 rounded-2xl border border-stone bg-white p-5">
+      <>
+      <ScorecardSkeleton pending />
+      <form onSubmit={onSubmit} className="scorecard-gate-form mt-8 space-y-3 rounded-2xl border border-stone bg-white p-5">
         <p className="text-base leading-7 text-muted">The guide is free to read. This page is the one-page scorecard. Leave an email and we will send the link. You can print it or download the PDF.</p>
         <label className="block text-base" htmlFor="scorecard-email">
           Email
@@ -59,6 +120,7 @@ export function ScorecardGate({ unlocked, publicId }: { unlocked: boolean; publi
         </button>
         {error && <p className="text-base text-wine" role="alert">{error}</p>}
       </form>
+      </>
     )
   }
 
