@@ -16,7 +16,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-stone/80 bg-ivory/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-        <Logo />
+        <Logo priority />
         <nav className="hidden items-center gap-6 text-sm text-muted md:flex" aria-label="Primary">
           {NAV.map((item) => (
             <Link key={item.href} href={item.href} className="hover:text-ink">
@@ -144,7 +144,7 @@ export function ApplyHeader() {
   return (
     <header className="border-b border-stone/80 bg-ivory">
       <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-4">
-        <Logo />
+        <Logo priority />
         <p className="text-xs text-muted">Private · about 90 seconds</p>
       </div>
     </header>

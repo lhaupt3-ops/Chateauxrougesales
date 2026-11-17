@@ -114,6 +114,11 @@ export function dialFromCountry(country: string | null | undefined): string {
   return COUNTRY_DIAL[country.toUpperCase()] || '+1'
 }
 
+export function dialFromLocale(locale: string | null | undefined): string {
+  const region = locale?.split('-')[1]
+  return dialFromCountry(region)
+}
+
 export function labelFor(options: Option[], value: string | null | undefined): string {
   if (!value) return ''
   return options.find((option) => option.value === value)?.label || value

@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from 'next'
+import { Suspense } from 'react'
 import { Inter } from 'next/font/google'
-import { Analytics, AttributionCapture, ConsentBanner } from '@/components/analytics/Analytics'
+import { AttributionCapture } from '@/components/analytics/Analytics'
+import { DeferredAnalytics } from '@/components/analytics/DeferredAnalytics'
 import { ApplyHeader } from '@/components/site/chrome'
+import { NavigationProgress } from '@/components/site/NavigationProgress'
 import { rootMetadata } from '@/lib/metadata'
 import '../(frontend)/globals.css'
 
@@ -20,11 +23,13 @@ export default function ApplyLayout({ children }: { children: React.ReactNode })
   return (
     <html lang="en" className={inter.variable}>
       <body className="font-sans antialiased">
+        <Suspense fallback={null}>
+          <NavigationProgress />
+        </Suspense>
         <ApplyHeader />
         <main id="content">{children}</main>
         <AttributionCapture />
-        <Analytics />
-        <ConsentBanner />
+        <DeferredAnalytics />
       </body>
     </html>
   )

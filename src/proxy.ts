@@ -43,7 +43,14 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith('/_next') ||
     pathname.includes('.')
   ) {
-    return NextResponse.next({ request: { headers: requestHeaders } })
+    const response = NextResponse.next({ request: { headers: requestHeaders } })
+    if (pathname.startsWith('/admin')) {
+      const vary = response.headers.get('Vary') || ''
+      if (!vary.toLowerCase().includes('sec-ch-prefers-color-scheme')) {
+        response.headers.append('Vary', 'Sec-CH-Prefers-Color-Scheme')
+      }
+    }
+    return response
   }
 
   try {
