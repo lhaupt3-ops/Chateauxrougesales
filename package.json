@@ -35,7 +35,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "cross-env": "^10.1.0",
     "graphql": "^16.11.0",
-    "next": "16.4.2",
+    "next": "16.4.6",
     "payload": "3.93.0",
     "posthog-js": "^1.304.0",
     "posthog-node": "^5.17.2",
@@ -50,7 +50,7 @@
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
     "eslint": "^9.39.1",
-    "eslint-config-next": "16.4.2",
+    "eslint-config-next": "16.4.6",
     "tsx": "^4.20.6",
     "typescript": "5.9.3"
   }
