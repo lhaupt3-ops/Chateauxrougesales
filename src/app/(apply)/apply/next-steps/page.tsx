@@ -6,6 +6,7 @@ import { WaitlistForm } from '@/components/apply/WaitlistForm'
 import { findByPublicId } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
 import { SEO } from '@/lib/seo-titles'
+import { getFunnel } from '@/lib/funnel-copy'
 import { getSettings } from '@/lib/settings'
 
 export const dynamic = 'force-dynamic'
@@ -23,7 +24,7 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
   const id = params.id || jar.get('cr_application')?.value || ''
   const doc = await findByPublicId(id)
   if (!doc) redirect('/apply')
-  const settings = await getSettings()
+  const [settings, funnel] = await Promise.all([getSettings(), getFunnel()])
   const reviewWithoutCall = doc.tier === 'review' && !settings.discoveryCallEnabled
 
   const advice = reviewWithoutCall
@@ -57,8 +58,8 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
                   body: 'You will learn the objections, the price and the delivery load. Those notes are what a team needs. Without them, we would be guessing on your calls.',
                 }
               : {
-                  title: 'Not the moment for a full team',
-                  body: 'The answers say a managed team would cost more than it returns right now. That is a useful result, not a brush-off. The application is saved if you want to try again.',
+                  title: funnel.resultTitle,
+                  body: funnel.resultBody,
                 }
 
   return (
@@ -68,7 +69,7 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
       <p className="mt-4 text-lg leading-8 text-muted">{advice.body}</p>
       <div className="mt-8 grid gap-3">
         <Link className="rounded-2xl border border-stone p-4 hover:border-ink" href="/resources/are-you-ready-for-closers">
-          <span className="block font-medium">Are you actually ready for closers?</span>
+          <span className="block font-medium">{funnel.resultCta}</span>
           <span className="mt-1 block text-sm text-muted">The free guide. A scorecard, the two conversations, and what to fix before you hire.</span>
         </Link>
       </div>

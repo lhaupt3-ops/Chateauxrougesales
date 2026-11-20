@@ -12,7 +12,7 @@ import {
   resultPath,
   setApplicationCookie,
 } from '@/lib/apply-server'
-import { captureServer, withApplicationContext } from '@/lib/analytics-server'
+import { captureFunnel, captureServer, withApplicationContext } from '@/lib/analytics-server'
 import { leadTimeHours } from '@/lib/funnel-analytics'
 import { emailDomainType, isDisposableEmail, isValidEmail, normalizeWebsite } from '@/lib/site'
 import { getPayloadClient } from '@/lib/payload'
@@ -94,6 +94,10 @@ async function start(request: Request, body: Body) {
       lastUtmCampaign: attribution.lastUtmCampaign || '',
       referrer: attribution.referrer || '',
       landingPage: attribution.landingPage || '',
+      lastTouchPage: attribution.lastTouchPage || '',
+      gclid: attribution.gclid || '',
+      fbclid: attribution.fbclid || '',
+      liFatId: attribution.liFatId || '',
       lastBlogPost: attribution.lastBlogPost || '',
       device: attribution.device || '',
       ipAddress: request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '',
@@ -195,7 +199,7 @@ async function complete(body: Body) {
   await notifyApplication(updated as never, 'complete')
   await notifyApplicant(updated as never, 'complete')
   const consent = Boolean(data.analyticsConsent || doc.analyticsConsent)
-  await captureServer(
+  await captureFunnel(
     String(doc.publicId),
     'application_submitted',
     withApplicationContext(doc, {
@@ -214,6 +218,12 @@ async function complete(body: Body) {
     String(doc.publicId),
     'route_assigned',
     withApplicationContext(doc, { tier: scored.tier, reasons: scored.reasons }),
+    consent,
+  )
+  await captureFunnel(
+    String(doc.publicId),
+    scored.tier === 'qualified' ? 'qualified' : 'not_qualified',
+    { tier: scored.tier },
     consent,
   )
   return NextResponse.json({ ok: true, tier: scored.tier, score: scored.score, next })

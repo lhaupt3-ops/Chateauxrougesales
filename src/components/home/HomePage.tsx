@@ -5,6 +5,8 @@ import { FaqList, Placeholder, SectionHeading } from '@/components/site/ui'
 import type { Faq } from '@/content/faqs'
 import type { ProofStudy } from '@/lib/content'
 import { publicCopy } from '@/lib/indexing'
+import type { FunnelCopy } from '@/lib/funnel-copy'
+import { FUNNEL_DEFAULTS } from '@/lib/funnel-copy'
 import { isOperatorPlaceholder, type SiteSettings } from '@/lib/settings'
 
 const PAINS = [
@@ -29,7 +31,8 @@ const STAGES = [
   ['04 Review', 'A weekly look at show rate, close rate and cash collected, plus the calls themselves.'],
 ]
 
-export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSettings; faqs: Faq[]; proof?: ProofStudy[] }) {
+export function HomePage({ settings, faqs, proof = [], funnel }: { settings: SiteSettings; faqs: Faq[]; proof?: ProofStudy[]; funnel?: FunnelCopy }) {
+  const copy = funnel || { ...FUNNEL_DEFAULTS, questions: [] }
   const quotes = proof.filter((study) => study.quote)
   const results = proof.flatMap((study) => study.results.map((result) => ({ ...result, slug: study.slug, illustrative: study.illustrative })))
   const guarantee = settings.guaranteeIsPlaceholder || isOperatorPlaceholder(settings.guaranteeText) ? '' : publicCopy(settings.guaranteeText)
@@ -39,19 +42,19 @@ export function HomePage({ settings, faqs, proof = [] }: { settings: SiteSetting
     <>
       <section className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 md:grid-cols-[1.2fr_0.8fr] md:py-24">
         <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-wine">A managed sales function</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-wine">{copy.eyebrow}</p>
           <h1 className="mt-4 font-serif text-5xl leading-[1.02] tracking-[-0.045em] md:text-6xl">
-            Your high-ticket sales team, installed and run.
+            {copy.headline}
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-8 text-muted">
-            Setters, closers and a sales lead who run the pipeline from the first reply to cash collected. The calls are honest. A no is an acceptable outcome. You keep the offer, the data and the recordings.
+            {copy.subhead}
           </p>
           <div className="mt-8 max-w-xl">
-            <EmailCapture location="hero" entry="hero_inline" />
+            <EmailCapture location="hero" entry="hero_inline" button={copy.cta} />
             <p className="mt-3 text-sm text-muted">
               A short application. See if we&apos;re a fit. A clear no is a useful answer.{' '}
               <ApplyLink location="hero" className="underline">
-                See if we&apos;re a fit
+                {copy.cta}
               </ApplyLink>
             </p>
           </div>

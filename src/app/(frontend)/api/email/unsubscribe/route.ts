@@ -29,6 +29,21 @@ export async function GET(request: Request) {
         data: { emailUnsubscribed: true },
       })
     }
+    const subscribers = await payload.find({
+      collection: 'subscribers',
+      where: { email: { equals: email } },
+      limit: 20,
+      overrideAccess: true,
+      depth: 0,
+    })
+    for (const subscriber of subscribers.docs) {
+      await payload.update({
+        collection: 'subscribers',
+        id: subscriber.id,
+        overrideAccess: true,
+        data: { unsubscribed: true },
+      })
+    }
   }
   return new Response(
     '<!doctype html><title>Unsubscribed</title><body style="font-family:Inter,Arial,sans-serif;background:#F6F3EE;color:#1C1C1C;padding:48px"><img src="https://chateauxrouge.com/brand/transparent/lockup-horizontal-light.png" width="240" height="56" alt="Chateaux Rouge"><h1>You are unsubscribed.</h1><p>We will not send the nurture or follow-up sequence to this address.</p></body>',

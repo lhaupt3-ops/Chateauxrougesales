@@ -70,7 +70,17 @@ export function CalendlyEmbed({
       const data = event.data as { event?: string; payload?: { event?: { uri?: string }; invitee?: { uri?: string } } }
       if (!data?.event) return
       if (data.event === 'calendly.event_type_viewed') track('calendly_viewed', { event_type: eventType })
-      if (data.event === 'calendly.date_and_time_selected') track('calendly_time_selected', { event_type: eventType })
+      if (data.event === 'calendly.date_and_time_selected') {
+        track('calendly_time_selected', { event_type: eventType })
+        track('booking_clicked', { event_type: eventType })
+        if (!document.cookie.includes('cr_consent=granted')) {
+          void fetch('/api/track', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ event: 'booking_clicked', path: '/apply/book' }),
+          })
+        }
+      }
       if (data.event === 'calendly.event_scheduled') {
         track('call_booked', { event_type: eventType, source: 'embed' })
         void fetch('/api/apply/booked', {

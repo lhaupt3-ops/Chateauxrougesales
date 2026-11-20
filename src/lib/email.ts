@@ -31,11 +31,12 @@ export async function sendEmail(input: EmailInput): Promise<{ sent: boolean; ski
 
   try {
     const resend = new Resend(key)
+    const text = input.text?.trim() || input.html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
     const { data, error } = await resend.emails.send({
       from,
       to: recipients,
       subject: input.subject,
-      text: input.text,
+      text,
       html: input.html,
       replyTo: input.replyTo || undefined,
       headers: input.headers,

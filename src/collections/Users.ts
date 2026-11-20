@@ -77,6 +77,7 @@ export const Users: CollectionConfig = {
         { label: 'Admin', value: 'admin' },
         { label: 'Editor', value: 'editor' },
         { label: 'Sales', value: 'sales' },
+        { label: 'Manager', value: 'manager' },
       ],
       access: { update: isAdminField },
       admin: {

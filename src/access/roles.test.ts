@@ -12,9 +12,10 @@ test('an admin stays an admin no matter how many users exist', () => {
   assert.equal(hasAdminAccess(user('admin'), 4), true)
 })
 
-test('editor and sales stay non-admin even when they are the only user', () => {
+test('editor, sales, and manager stay non-admin even when they are the only user', () => {
   assert.equal(hasAdminAccess(user('editor'), 1), false)
   assert.equal(hasAdminAccess(user('sales'), 1), false)
+  assert.equal(hasAdminAccess(user('manager'), 1), false)
 })
 
 test('a user with no role is an admin only while they are the sole account', () => {

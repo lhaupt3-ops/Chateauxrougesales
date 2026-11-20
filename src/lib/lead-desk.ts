@@ -164,6 +164,17 @@ export function subscriberFromApplication(doc: Record<string, unknown>): {
   kind: 'waitlist' | 'guide' | 'marketing'
   unsubscribed: boolean
   source: string
+  utmSource: string
+  utmMedium: string
+  utmCampaign: string
+  utmTerm: string
+  utmContent: string
+  gclid: string
+  fbclid: string
+  liFatId: string
+  referrer: string
+  landingPage: string
+  lastTouchPage: string
 } | null {
   const email = textOrEmpty(doc.email)
   if (!email) return null
@@ -178,6 +189,17 @@ export function subscriberFromApplication(doc: Record<string, unknown>): {
     kind,
     unsubscribed: doc.emailUnsubscribed === true,
     source: textOrEmpty(doc.source),
+    utmSource: textOrEmpty(doc.utmSource),
+    utmMedium: textOrEmpty(doc.utmMedium),
+    utmCampaign: textOrEmpty(doc.utmCampaign),
+    utmTerm: textOrEmpty(doc.utmTerm),
+    utmContent: textOrEmpty(doc.utmContent),
+    gclid: textOrEmpty(doc.gclid),
+    fbclid: textOrEmpty(doc.fbclid),
+    liFatId: textOrEmpty(doc.liFatId),
+    referrer: textOrEmpty(doc.referrer),
+    landingPage: textOrEmpty(doc.landingPage),
+    lastTouchPage: textOrEmpty(doc.lastTouchPage),
   }
 }
 

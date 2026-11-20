@@ -1,11 +1,11 @@
 import type { Access, FieldAccess, PayloadRequest } from 'payload'
 
-export type Role = 'admin' | 'editor' | 'sales'
+export type Role = 'admin' | 'editor' | 'sales' | 'manager'
 
 export function roleOf(user: PayloadRequest['user']): Role | undefined {
   if (!user || typeof user !== 'object' || !('role' in user)) return undefined
   const role = (user as { role?: string }).role
-  if (role === 'admin' || role === 'editor' || role === 'sales') return role
+  if (role === 'admin' || role === 'editor' || role === 'sales' || role === 'manager') return role
   return undefined
 }
 
@@ -38,12 +38,22 @@ export const isAdminField: FieldAccess = ({ req }) => userIsAdmin(req)
 
 export const isAdminOrEditor: Access = ({ req }) => {
   const role = roleOf(req.user)
-  return role === 'admin' || role === 'editor'
+  return role === 'admin' || role === 'editor' || role === 'manager'
 }
 
 export const isAdminOrSales: Access = ({ req }) => {
   const role = roleOf(req.user)
-  return role === 'admin' || role === 'sales'
+  return role === 'admin' || role === 'sales' || role === 'manager'
+}
+
+export const canEditFunnel: Access = ({ req }) => {
+  const role = roleOf(req.user)
+  return role === 'admin' || role === 'editor' || role === 'manager'
+}
+
+export const canReadFunnel: Access = ({ req }) => {
+  const role = roleOf(req.user)
+  return role === 'admin' || role === 'editor' || role === 'sales' || role === 'manager'
 }
 
 export const isAdminOrSalesField: FieldAccess = ({ req }) => {
@@ -53,7 +63,7 @@ export const isAdminOrSalesField: FieldAccess = ({ req }) => {
 
 export const publishedOrContentTeam: Access = ({ req }) => {
   const role = roleOf(req.user)
-  if (role === 'admin' || role === 'editor') return true
+  if (role === 'admin' || role === 'editor' || role === 'manager') return true
   if (role === 'sales') return false
   return {
     _status: {

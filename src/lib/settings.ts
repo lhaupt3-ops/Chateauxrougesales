@@ -47,6 +47,13 @@ export type SiteSettings = {
   youtube: string
   xUrl: string
   instagram: string
+  metaAdsEnabled: boolean
+  metaPixelId: string
+  linkedinAdsEnabled: boolean
+  linkedinPartnerId: string
+  googleAdsEnabled: boolean
+  googleAdsId: string
+  googleConversionLabel: string
 }
 
 export const defaultSettings: SiteSettings = {
@@ -88,6 +95,13 @@ export const defaultSettings: SiteSettings = {
   youtube: '',
   xUrl: '',
   instagram: '',
+  metaAdsEnabled: false,
+  metaPixelId: '',
+  linkedinAdsEnabled: false,
+  linkedinPartnerId: '',
+  googleAdsEnabled: false,
+  googleAdsId: '',
+  googleConversionLabel: '',
 }
 
 function text(value: unknown, fallback: string): string {
@@ -139,6 +153,13 @@ export const getSettings = unstable_cache(async function getSettings(): Promise<
       youtube: text(global.youtube, ''),
       xUrl: text(global.xUrl, ''),
       instagram: text(global.instagram, ''),
+      metaAdsEnabled: global.metaAdsEnabled === true && Boolean(text(global.metaPixelId, '')),
+      metaPixelId: text(global.metaPixelId, ''),
+      linkedinAdsEnabled: global.linkedinAdsEnabled === true && Boolean(text(global.linkedinPartnerId, '')),
+      linkedinPartnerId: text(global.linkedinPartnerId, ''),
+      googleAdsEnabled: global.googleAdsEnabled === true && Boolean(text(global.googleAdsId, '')),
+      googleAdsId: text(global.googleAdsId, ''),
+      googleConversionLabel: text(global.googleConversionLabel, ''),
     }
   } catch (error) {
     console.error('[settings] using defaults', error)

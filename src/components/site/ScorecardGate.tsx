@@ -36,7 +36,7 @@ function ScorecardSkeleton({ pending = false }: { pending?: boolean }) {
   )
 }
 
-export function ScorecardGate() {
+export function ScorecardGate({ questions = SCORECARD_QUESTIONS }: { questions?: [string, string][] }) {
   const [error, setError] = useState('')
   const [pending, setPending] = useState(false)
   const [answers, setAnswers] = useState<Record<number, boolean>>({})
@@ -126,7 +126,7 @@ export function ScorecardGate() {
 
   const yesCount = Object.values(answers).filter(Boolean).length
   const answered = Object.keys(answers).length
-  const reading = answered === SCORECARD_QUESTIONS.length ? interpretYesCount(yesCount) : null
+  const reading = answered === questions.length ? interpretYesCount(yesCount) : null
 
   return (
     <div className="scorecard-sheet mt-8">
@@ -139,7 +139,7 @@ export function ScorecardGate() {
         </button>
       </div>
       <ol className="mt-6 space-y-3">
-        {SCORECARD_QUESTIONS.map(([title, body], index) => (
+        {questions.map(([title, body], index) => (
           <li key={title} className="rounded-2xl border border-stone bg-white p-4">
             <p className="font-medium">{index + 1}. {title}</p>
             <p className="mt-1 text-base leading-6 text-muted">{body}</p>
@@ -156,7 +156,7 @@ export function ScorecardGate() {
       </ol>
       <section className="mt-6 rounded-2xl border border-stone p-4">
         <h2 className="font-serif text-2xl">Your score</h2>
-        <p className="mt-2 text-base text-muted">{answered} of {SCORECARD_QUESTIONS.length} answered. Yes count: {yesCount}.</p>
+        <p className="mt-2 text-base text-muted">{answered} of {questions.length} answered. Yes count: {yesCount}.</p>
         {reading ? (
           <>
             <p className="mt-3 font-medium">{reading.heading}</p>
