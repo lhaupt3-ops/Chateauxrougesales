@@ -70,13 +70,13 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
       <div className="mt-8 grid gap-3">
         <Link className="rounded-2xl border border-stone p-4 hover:border-ink" href="/resources/are-you-ready-for-closers">
           <span className="block font-medium">{funnel.resultCta}</span>
-          <span className="mt-1 block text-sm text-muted">The free guide. A scorecard, the two conversations, and what to fix before you hire.</span>
+          <span className="mt-1 block text-sm text-muted">{funnel.resultGuideBody}</span>
         </Link>
       </div>
       <WaitlistForm id={String(doc.publicId)} reason={advice.title} />
       <p className="mt-8 text-sm text-muted">
         <Link className="underline" href={`/apply?id=${doc.publicId}`}>
-          Reapply when the numbers have moved
+          {funnel.reapplyLabel}
         </Link>
         .
         {settings.discoveryCallEnabled && doc.tier === 'not_yet' && (
@@ -84,7 +84,7 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
             {' '}
             Think we got it wrong?{' '}
             <Link className="underline" href={`/apply/book?id=${doc.publicId}&override=1`}>
-              Book a 15-minute fit call
+              {funnel.fitCallLabel}
             </Link>
             .
           </>

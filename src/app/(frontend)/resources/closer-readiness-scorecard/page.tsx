@@ -33,7 +33,20 @@ export default async function ScorecardPage() {
             "(function(){try{var q=new URLSearchParams(location.search).get('id');var s=localStorage.getItem('cr_application_id');if((q&&q.trim())||(s&&s.trim()))document.documentElement.dataset.scorecard='checking';}catch(e){}})();",
         }}
       />
-      <ScorecardGate questions={funnel.questions} />
+      <ScorecardGate
+        questions={funnel.questions}
+        labels={{
+          yes: funnel.yesLabel,
+          no: funnel.noLabel,
+          scoreHeading: funnel.scoreHeading,
+          progressHint: funnel.progressHint,
+          passHeading: funnel.passHeading,
+          passBody: funnel.passBody,
+          failHeading: funnel.failHeading,
+          failBody: funnel.failBody,
+          passMaxNos: funnel.passMaxNos,
+        }}
+      />
     </article>
   )
 }

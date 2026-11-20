@@ -11,6 +11,7 @@ import * as migration_20261116_140000_commission_copy from './20261116_140000_co
 import * as migration_20261116_063511_closer_desk from './20261116_063511_closer_desk';
 import * as migration_20261116_065147_decision_makers_and_careers_index from './20261116_065147_decision_makers_and_careers_index';
 import * as migration_20261120_155505_deliverability_funnel_manager from './20261120_155505_deliverability_funnel_manager';
+import * as migration_20261120_170000_funnel_offer_scorecard from './20261120_170000_funnel_offer_scorecard';
 
 export const migrations = [
   {
@@ -77,5 +78,10 @@ export const migrations = [
     up: migration_20261120_155505_deliverability_funnel_manager.up,
     down: migration_20261120_155505_deliverability_funnel_manager.down,
     name: '20261120_155505_deliverability_funnel_manager'
+  },
+  {
+    up: migration_20261120_170000_funnel_offer_scorecard.up,
+    down: migration_20261120_170000_funnel_offer_scorecard.down,
+    name: '20261120_170000_funnel_offer_scorecard',
   },
 ];

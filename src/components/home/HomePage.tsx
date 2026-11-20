@@ -95,12 +95,9 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
         <div className="mx-auto grid max-w-6xl gap-4 px-4 py-8 md:grid-cols-3">
           {quotes.length === 0 ? (
             <>
-              <Placeholder
-                title="Founder track record"
-                body="Add only figures you can attribute. This block stays empty until Site settings or a real case study has them."
-              />
-              <Placeholder title="Client marks" body="No logos until a client has agreed to be named. We will not borrow recognition." />
-              <Placeholder title="Named results" body="Cash collected, close rate before and after, and the time window. Not an average we cannot show." />
+              <Placeholder title={copy.proofFounderTitle} body={copy.proofFounderBody} />
+              <Placeholder title={copy.proofMarksTitle} body={copy.proofMarksBody} />
+              <Placeholder title={copy.proofNamedTitle} body={copy.proofNamedBody} />
             </>
           ) : (
             quotes.map((study) => (
@@ -115,7 +112,7 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
-        <SectionHeading eyebrow="The cost of waiting" title="The work piles up in three places." />
+        <SectionHeading eyebrow={copy.painsEyebrow} title={copy.painsTitle} />
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           {PAINS.map((pain) => (
             <article key={pain.title} className="rounded-2xl border border-stone bg-white/70 p-6">
@@ -136,8 +133,8 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
       <section className="bg-ink text-ivory">
         <div className="mx-auto max-w-6xl px-4 py-16">
           <SectionHeading
-            eyebrow="The system"
-            title="Four stages. Then it is a weekly habit."
+            eyebrow={copy.systemEyebrow}
+            title={copy.systemTitle}
             body={publicCopy(settings.timelineText)}
             tone="light"
           />
@@ -289,7 +286,7 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
 
       <section className={`mx-auto grid max-w-6xl gap-8 px-4 pb-16 ${guarantee || notice || termsAreDraft ? 'md:grid-cols-2' : ''}`}>
         <div>
-          <SectionHeading title="How we charge" body="A one-off setup fee, then commission on cash collected. There is no monthly retainer. The setup amount and the commission percentage are to be confirmed in the agreement." />
+          <SectionHeading title={copy.chargeTitle} body={copy.chargeBody} />
           <Link href="/pricing" className="mt-4 inline-block text-sm underline">
             Read the pricing page
           </Link>
@@ -300,15 +297,13 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
         {termsAreDraft && (
           <div className="rounded-2xl border border-dashed border-gold bg-white/70 p-6">
             <p className="text-xs uppercase tracking-[0.16em] text-wine">Draft</p>
-            <h2 className="mt-2 font-serif text-3xl">Guarantee and terms are not confirmed</h2>
-            <p className="mt-4 leading-7 text-muted">
-              To be confirmed. Nothing on this page is a guarantee, a contract length, or a notice period. The agreement is what you can rely on.
-            </p>
+            <h2 className="mt-2 font-serif text-3xl">{copy.draftGuaranteeTitle}</h2>
+            <p className="mt-4 leading-7 text-muted">{copy.draftGuaranteeBody}</p>
           </div>
         )}
         {!termsAreDraft && (guarantee || notice) && (
         <div className="rounded-2xl bg-wine p-6 text-ivory">
-          <h2 className="font-serif text-3xl">The guarantee, in words we can keep</h2>
+          <h2 className="font-serif text-3xl">{copy.guaranteeHeading}</h2>
           {guarantee && <p className="mt-4 leading-7 text-ivory/85">{guarantee}</p>}
           {notice && <p className="mt-4 text-sm text-ivory/70">{notice}</p>}
         </div>

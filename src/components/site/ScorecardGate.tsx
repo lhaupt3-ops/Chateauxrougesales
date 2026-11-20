@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { SCORECARD_PATH, SCORECARD_QUESTIONS, interpretYesCount } from '@/content/scorecard'
+import { SCORECARD_PATH, SCORECARD_QUESTIONS } from '@/content/scorecard'
 import { consentGranted } from './EmailCapture'
 import { track } from '@/components/analytics/track'
 
@@ -36,7 +36,34 @@ function ScorecardSkeleton({ pending = false }: { pending?: boolean }) {
   )
 }
 
-export function ScorecardGate({ questions = SCORECARD_QUESTIONS }: { questions?: [string, string][] }) {
+export function ScorecardGate({
+  questions = SCORECARD_QUESTIONS,
+  labels,
+}: {
+  questions?: [string, string][]
+  labels?: {
+    yes: string
+    no: string
+    scoreHeading: string
+    progressHint: string
+    passHeading: string
+    passBody: string
+    failHeading: string
+    failBody: string
+    passMaxNos: number
+  }
+}) {
+  const copy = labels || {
+    yes: 'Yes',
+    no: 'No',
+    scoreHeading: 'Your score',
+    progressHint: 'Answer every row. Seven or eight yeses means a closer can be the next look. Two or more nos means fix those first.',
+    passHeading: 'A closer can be the next look',
+    passBody: 'One no, or none. The process is mostly in place. A closer is a reasonable next conversation if delivery can take the work and a setup fee is possible.',
+    failHeading: 'Fix the nos first',
+    failBody: 'Two or more nos means a closer will not fix the week. Write the price, the people it is not for, and where a maybe goes. Then look at a setter if the gap is conversations, or a closer if the gap is the decision.',
+    passMaxNos: 1,
+  }
   const [error, setError] = useState('')
   const [pending, setPending] = useState(false)
   const [answers, setAnswers] = useState<Record<number, boolean>>({})
@@ -126,7 +153,12 @@ export function ScorecardGate({ questions = SCORECARD_QUESTIONS }: { questions?:
 
   const yesCount = Object.values(answers).filter(Boolean).length
   const answered = Object.keys(answers).length
-  const reading = answered === questions.length ? interpretYesCount(yesCount) : null
+  const nos = questions.length - yesCount
+  const reading = answered === questions.length
+    ? nos <= copy.passMaxNos
+      ? { heading: copy.passHeading, body: copy.passBody }
+      : { heading: copy.failHeading, body: copy.failBody }
+    : null
 
   return (
     <div className="scorecard-sheet mt-8">
@@ -145,17 +177,17 @@ export function ScorecardGate({ questions = SCORECARD_QUESTIONS }: { questions?:
             <p className="mt-1 text-base leading-6 text-muted">{body}</p>
             <div className="mt-3 flex gap-2">
               <button type="button" className={`inline-flex h-11 min-w-11 items-center rounded-full border px-4 ${answers[index] === true ? 'border-ink bg-ink text-ivory' : 'border-stone'}`} aria-pressed={answers[index] === true} onClick={() => setAnswers((current) => ({ ...current, [index]: true }))}>
-                Yes
+                {copy.yes}
               </button>
               <button type="button" className={`inline-flex h-11 min-w-11 items-center rounded-full border px-4 ${answers[index] === false ? 'border-ink bg-ink text-ivory' : 'border-stone'}`} aria-pressed={answers[index] === false} onClick={() => setAnswers((current) => ({ ...current, [index]: false }))}>
-                No
+                {copy.no}
               </button>
             </div>
           </li>
         ))}
       </ol>
       <section className="mt-6 rounded-2xl border border-stone p-4">
-        <h2 className="font-serif text-2xl">Your score</h2>
+        <h2 className="font-serif text-2xl">{copy.scoreHeading}</h2>
         <p className="mt-2 text-base text-muted">{answered} of {questions.length} answered. Yes count: {yesCount}.</p>
         {reading ? (
           <>
@@ -163,7 +195,7 @@ export function ScorecardGate({ questions = SCORECARD_QUESTIONS }: { questions?:
             <p className="mt-2 text-base leading-7 text-muted">{reading.body}</p>
           </>
         ) : (
-          <p className="mt-3 text-base leading-7 text-muted">Answer every row. Seven or eight yeses means a closer can be the next look. Two or more nos means fix those first.</p>
+          <p className="mt-3 text-base leading-7 text-muted">{copy.progressHint}</p>
         )}
       </section>
     </div>
