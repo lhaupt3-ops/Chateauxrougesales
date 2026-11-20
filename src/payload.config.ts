@@ -23,6 +23,7 @@ import { Resources } from './collections/Resources'
 import { Tags } from './collections/Tags'
 import { Users } from './collections/Users'
 import { EmailSequences } from './globals/EmailSequences'
+import { Funnel } from './globals/Funnel'
 import { SiteSettings } from './globals/SiteSettings'
 import { migrations } from './migrations'
 import { plainTextFromHtml } from './lib/email-layout'
@@ -41,7 +42,7 @@ for (const collection of collections) {
     beforeDelete: [...(collection.hooks?.beforeDelete || []), blockDeleteUntilPassword],
   }
 }
-for (const global of [SiteSettings, EmailSequences]) {
+for (const global of [SiteSettings, EmailSequences, Funnel]) {
   global.hooks = {
     ...global.hooks,
     beforeChange: [...(global.hooks?.beforeChange || []), blockGlobalWritesUntilPassword],
@@ -107,7 +108,7 @@ export default buildConfig({
     },
   },
   collections,
-  globals: [SiteSettings, EmailSequences],
+  globals: [SiteSettings, EmailSequences, Funnel],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'dev-only-secret-replace-in-every-environment',
   typescript: {

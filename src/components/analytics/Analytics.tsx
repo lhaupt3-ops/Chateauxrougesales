@@ -9,6 +9,14 @@ export function Analytics() {
 
   useEffect(() => {
     capturePageview(pathname)
+    const funnel = ['/', '/apply', '/apply/book', '/apply/next-steps', '/resources/closer-readiness-scorecard', '/resources/are-you-ready-for-closers']
+    if (funnel.includes(pathname) && !document.cookie.includes('cr_consent=granted')) {
+      void fetch('/api/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ event: 'page_view', path: pathname }),
+      })
+    }
     if (!document.cookie.includes('cr_consent=granted') || !process.env.NEXT_PUBLIC_POSTHOG_KEY) return
     if (pathname.startsWith('/blog/') && pathname.split('/').length === 3) {
       const slug = pathname.split('/')[2]
@@ -30,13 +38,17 @@ export function AttributionCapture() {
       utmCampaign: params.get('utm_campaign') || '',
       utmTerm: params.get('utm_term') || '',
       utmContent: params.get('utm_content') || '',
+      gclid: params.get('gclid') || '',
+      fbclid: params.get('fbclid') || '',
+      liFatId: params.get('li_fat_id') || '',
       referrer: document.referrer || '',
       landingPage: `${window.location.pathname}${window.location.search}`,
+      lastTouchPage: `${window.location.pathname}${window.location.search}`,
     }
     if (!window.localStorage.getItem('cr_first_touch')) {
       window.localStorage.setItem('cr_first_touch', JSON.stringify(touch))
     }
-    if (touch.utmSource) window.localStorage.setItem('cr_last_touch', JSON.stringify(touch))
+    window.localStorage.setItem('cr_last_touch', JSON.stringify(touch))
   }, [])
   return null
 }

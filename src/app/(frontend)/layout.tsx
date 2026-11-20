@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import { Inter } from 'next/font/google'
 import { AttributionCapture } from '@/components/analytics/Analytics'
+import { AdTags } from '@/components/analytics/AdTags'
 import { DeferredAnalytics } from '@/components/analytics/DeferredAnalytics'
 import { StickyApply } from '@/components/blog/StickyApply'
 import { Footer, Header } from '@/components/site/chrome'
@@ -76,6 +77,14 @@ export default async function FrontendLayout({ children }: { children: React.Rea
         <Footer posts={posts} socials={socials} />
         <StickyApply />
         <AttributionCapture />
+        {settings.metaAdsEnabled || settings.linkedinAdsEnabled || settings.googleAdsEnabled ? (
+          <AdTags
+            metaPixelId={settings.metaAdsEnabled ? settings.metaPixelId : ''}
+            linkedinPartnerId={settings.linkedinAdsEnabled ? settings.linkedinPartnerId : ''}
+            googleAdsId={settings.googleAdsEnabled ? settings.googleAdsId : ''}
+            googleConversionLabel={settings.googleAdsEnabled ? settings.googleConversionLabel : ''}
+          />
+        ) : null}
         <DeferredAnalytics />
         <VercelAnalytics />
         <SpeedInsights />

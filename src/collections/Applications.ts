@@ -225,6 +225,12 @@ export const Applications: CollectionConfig = {
                   { name: 'referrer', type: 'text', admin: locked },
                 ] },
                 { name: 'landingPage', type: 'text', admin: locked },
+                { name: 'lastTouchPage', type: 'text', admin: locked },
+                { type: 'row', fields: [
+                  { name: 'gclid', type: 'text', admin: locked },
+                  { name: 'fbclid', type: 'text', admin: locked },
+                  { name: 'liFatId', type: 'text', label: 'li_fat_id', admin: locked },
+                ] },
                 { name: 'lastBlogPost', type: 'text', admin: locked },
                 { name: 'ipAddress', type: 'text', admin: { ...locked, description: 'IP address captured when they started the application.' } },
                 { name: 'userAgent', type: 'text', admin: { ...locked, description: 'Browser captured when they started the application.' } },

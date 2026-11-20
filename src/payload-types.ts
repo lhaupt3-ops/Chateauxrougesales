@@ -114,10 +114,12 @@ export interface Config {
   globals: {
     'site-settings': SiteSetting;
     'email-sequences': EmailSequence;
+    funnel: Funnel;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     'email-sequences': EmailSequencesSelect<false> | EmailSequencesSelect<true>;
+    funnel: FunnelSelect<false> | FunnelSelect<true>;
   };
   locale: null;
   widgets: {
@@ -165,7 +167,7 @@ export interface User {
   /**
    * Admins manage the whole back office. Editors run the journal. Sales can read and update applications only.
    */
-  role: 'admin' | 'editor' | 'sales';
+  role: 'admin' | 'editor' | 'sales' | 'manager';
   /**
    * On for people an admin creates. They choose a new password before they can change anything else.
    */
@@ -205,7 +207,6 @@ export interface Media {
    * Required. Describe the image for screen readers and search.
    */
   alt: string;
-  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -759,6 +760,22 @@ export interface Application {
   /**
    * Set by the application. Closers do not edit this.
    */
+  lastTouchPage?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  gclid?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  fbclid?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
+  liFatId?: string | null;
+  /**
+   * Set by the application. Closers do not edit this.
+   */
   lastBlogPost?: string | null;
   /**
    * IP address captured when they started the application.
@@ -955,6 +972,17 @@ export interface Subscriber {
    * Where the address came from. Read-only.
    */
   source?: string | null;
+  utmSource?: string | null;
+  utmMedium?: string | null;
+  utmCampaign?: string | null;
+  utmTerm?: string | null;
+  utmContent?: string | null;
+  gclid?: string | null;
+  fbclid?: string | null;
+  liFatId?: string | null;
+  referrer?: string | null;
+  landingPage?: string | null;
+  lastTouchPage?: string | null;
   /**
    * The application this address belongs to, when there is one.
    */
@@ -1234,7 +1262,6 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
-  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1515,6 +1542,10 @@ export interface ApplicationsSelect<T extends boolean = true> {
   utmContent?: T;
   referrer?: T;
   landingPage?: T;
+  lastTouchPage?: T;
+  gclid?: T;
+  fbclid?: T;
+  liFatId?: T;
   lastBlogPost?: T;
   ipAddress?: T;
   userAgent?: T;
@@ -1574,6 +1605,17 @@ export interface SubscribersSelect<T extends boolean = true> {
   kind?: T;
   unsubscribed?: T;
   source?: T;
+  utmSource?: T;
+  utmMedium?: T;
+  utmCampaign?: T;
+  utmTerm?: T;
+  utmContent?: T;
+  gclid?: T;
+  fbclid?: T;
+  liFatId?: T;
+  referrer?: T;
+  landingPage?: T;
+  lastTouchPage?: T;
   application?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1770,6 +1812,15 @@ export interface SiteSetting {
   youtube?: string | null;
   xUrl?: string | null;
   instagram?: string | null;
+  metaAdsEnabled?: boolean | null;
+  metaPixelId?: string | null;
+  metaAccessToken?: string | null;
+  linkedinAdsEnabled?: boolean | null;
+  linkedinPartnerId?: string | null;
+  linkedinAccessToken?: string | null;
+  googleAdsEnabled?: boolean | null;
+  googleAdsId?: string | null;
+  googleConversionLabel?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1809,6 +1860,35 @@ export interface EmailSequence {
         id?: string | null;
       }[]
     | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Conversion copy. Empty fields fall back to the live wording, so clearing a field does not blank the page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "funnel".
+ */
+export interface Funnel {
+  id: number;
+  eyebrow?: string | null;
+  headline: string;
+  subhead: string;
+  cta: string;
+  guaranteeNote?: string | null;
+  questions?:
+    | {
+        title: string;
+        body: string;
+        id?: string | null;
+      }[]
+    | null;
+  resultTitle?: string | null;
+  resultBody?: string | null;
+  resultCta?: string | null;
+  bookingQualified?: string | null;
+  bookingNotQualified?: string | null;
+  unsubscribeLine?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1853,6 +1933,15 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   youtube?: T;
   xUrl?: T;
   instagram?: T;
+  metaAdsEnabled?: T;
+  metaPixelId?: T;
+  metaAccessToken?: T;
+  linkedinAdsEnabled?: T;
+  linkedinPartnerId?: T;
+  linkedinAccessToken?: T;
+  googleAdsEnabled?: T;
+  googleAdsId?: T;
+  googleConversionLabel?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -1872,6 +1961,33 @@ export interface EmailSequencesSelect<T extends boolean = true> {
         body?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "funnel_select".
+ */
+export interface FunnelSelect<T extends boolean = true> {
+  eyebrow?: T;
+  headline?: T;
+  subhead?: T;
+  cta?: T;
+  guaranteeNote?: T;
+  questions?:
+    | T
+    | {
+        title?: T;
+        body?: T;
+        id?: T;
+      };
+  resultTitle?: T;
+  resultBody?: T;
+  resultCta?: T;
+  bookingQualified?: T;
+  bookingNotQualified?: T;
+  unsubscribeLine?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

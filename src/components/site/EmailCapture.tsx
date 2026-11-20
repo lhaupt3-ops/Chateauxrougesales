@@ -96,6 +96,9 @@ export function readAttribution() {
         utmContent: params.get('utm_content') || '',
         referrer: document.referrer || '',
         landingPage: `${window.location.pathname}${window.location.search}`,
+        gclid: params.get('gclid') || '',
+        fbclid: params.get('fbclid') || '',
+        liFatId: params.get('li_fat_id') || '',
       }),
     )
   }
@@ -106,8 +109,12 @@ export function readAttribution() {
     lastUtmSource: last.utmSource || '',
     lastUtmMedium: last.utmMedium || '',
     lastUtmCampaign: last.utmCampaign || '',
+    gclid: first.gclid || last.gclid || '',
+    fbclid: first.fbclid || last.fbclid || '',
+    liFatId: first.liFatId || last.liFatId || '',
     referrer: first.referrer || document.referrer || '',
     landingPage: first.landingPage || '',
+    lastTouchPage: last.lastTouchPage || `${window.location.pathname}${window.location.search}`,
     lastBlogPost: window.localStorage.getItem('cr_last_post') || '',
     device: window.innerWidth < 768 ? 'mobile' : 'desktop',
   }

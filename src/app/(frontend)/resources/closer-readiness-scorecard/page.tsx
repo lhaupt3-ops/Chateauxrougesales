@@ -1,4 +1,5 @@
 import { ScorecardGate } from '@/components/site/ScorecardGate'
+import { getFunnel } from '@/lib/funnel-copy'
 import { Breadcrumbs } from '@/components/site/ui'
 import { pageMetadata } from '@/lib/metadata'
 import { SEO } from '@/lib/seo-titles'
@@ -10,7 +11,8 @@ export const metadata = pageMetadata({
   noindex: true,
 })
 
-export default function ScorecardPage() {
+export default async function ScorecardPage() {
+  const funnel = await getFunnel()
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
       <Breadcrumbs
@@ -31,7 +33,20 @@ export default function ScorecardPage() {
             "(function(){try{var q=new URLSearchParams(location.search).get('id');var s=localStorage.getItem('cr_application_id');if((q&&q.trim())||(s&&s.trim()))document.documentElement.dataset.scorecard='checking';}catch(e){}})();",
         }}
       />
-      <ScorecardGate />
+      <ScorecardGate
+        questions={funnel.questions}
+        labels={{
+          yes: funnel.yesLabel,
+          no: funnel.noLabel,
+          scoreHeading: funnel.scoreHeading,
+          progressHint: funnel.progressHint,
+          passHeading: funnel.passHeading,
+          passBody: funnel.passBody,
+          failHeading: funnel.failHeading,
+          failBody: funnel.failBody,
+          passMaxNos: funnel.passMaxNos,
+        }}
+      />
     </article>
   )
 }

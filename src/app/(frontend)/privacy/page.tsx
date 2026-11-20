@@ -41,6 +41,9 @@ export default async function PrivacyPage() {
         <li>Resend, for email.</li>
         <li>Calendly, when you book.</li>
         <li>PostHog in the United States, only if you consent to analytics.</li>
+        {settings.metaAdsEnabled ? <li>Meta, for ad measurement, only after you allow analytics and only while that switch is on.</li> : null}
+        {settings.linkedinAdsEnabled ? <li>LinkedIn, for ad measurement, only after you allow analytics and only while that switch is on.</li> : null}
+        {settings.googleAdsEnabled ? <li>Google Ads, for conversion measurement, only after you allow analytics and only while that switch is on.</li> : null}
       </ul>
       <p>
         Sending information overseas is allowed where we reasonably believe the recipient is subject to a law or scheme that is substantially similar to the Australian Privacy Principles, or where you consent. Using the application form, booking a call, or ticking the guide box is that consent for the providers who have to receive the information to do the thing you asked for. Analytics stay off until the consent cookie is set.

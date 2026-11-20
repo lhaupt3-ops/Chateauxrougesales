@@ -6,6 +6,7 @@ import { OutcomeViewed } from '@/components/apply/OutcomeViewed'
 import { answerSummary, findByPublicId, isCalendlyUrl } from '@/lib/apply-server'
 import { pageMetadata } from '@/lib/metadata'
 import { SEO } from '@/lib/seo-titles'
+import { getFunnel } from '@/lib/funnel-copy'
 import { configuredStrategistName, getSettings } from '@/lib/settings'
 
 export const dynamic = 'force-dynamic'
@@ -29,7 +30,7 @@ export default async function BookPage({
   if (!doc) redirect('/apply')
   if (doc.status === 'booked') redirect(`/apply/confirmed?id=${doc.publicId}`)
   if (doc.status !== 'complete' && doc.status !== 'nurture') redirect(`/apply?id=${doc.publicId}`)
-  const settings = await getSettings()
+  const [settings, funnel] = await Promise.all([getSettings(), getFunnel()])
   const allowFitOverride = params.override === '1' && doc.tier === 'not_yet'
   if (doc.tier === 'not_yet' && !allowFitOverride) redirect(`/apply/next-steps?id=${doc.publicId}`)
   if (doc.tier === 'review' && !settings.discoveryCallEnabled && !allowFitOverride) {
@@ -47,8 +48,8 @@ export default async function BookPage({
       <div>
         <h1 className="font-serif text-4xl tracking-[-0.04em]">
           {eventType === 'strategy'
-            ? `${doc.firstName || 'You'}, the answers look workable. Pick a time to get clear.`
-            : 'A few details are still open. Pick a short call so we can both decide.'}
+            ? `${doc.firstName || 'You'}, ${funnel.bookingQualified}`
+            : funnel.bookingNotQualified}
         </h1>
         <ul className="mt-6 list-disc space-y-2 pl-5 text-muted">
           <li>The point of the call is clarity. Not a fit is a perfectly good outcome.</li>

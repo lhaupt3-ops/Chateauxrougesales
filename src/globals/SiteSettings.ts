@@ -116,5 +116,21 @@ export const SiteSettings: GlobalConfig = {
     { name: 'youtube', type: 'text' },
     { name: 'xUrl', type: 'text', label: 'X / Twitter' },
     { name: 'instagram', type: 'text' },
+    {
+      type: 'collapsible',
+      label: 'Ad conversion (off until an ID is saved)',
+      admin: { initCollapsed: true },
+      fields: [
+        { name: 'metaAdsEnabled', type: 'checkbox', defaultValue: false, access: { read: isAdminField, update: isAdminField } },
+        { name: 'metaPixelId', type: 'text', access: { read: isAdminField, update: isAdminField } },
+        { name: 'metaAccessToken', type: 'text', access: { read: isAdminField, update: isAdminField } },
+        { name: 'linkedinAdsEnabled', type: 'checkbox', defaultValue: false, access: { read: isAdminField, update: isAdminField } },
+        { name: 'linkedinPartnerId', type: 'text', access: { read: isAdminField, update: isAdminField } },
+        { name: 'linkedinAccessToken', type: 'text', access: { read: isAdminField, update: isAdminField } },
+        { name: 'googleAdsEnabled', type: 'checkbox', defaultValue: false, access: { read: isAdminField, update: isAdminField } },
+        { name: 'googleAdsId', type: 'text', access: { read: isAdminField, update: isAdminField } },
+        { name: 'googleConversionLabel', type: 'text', access: { read: isAdminField, update: isAdminField } },
+      ],
+    },
   ],
 }
