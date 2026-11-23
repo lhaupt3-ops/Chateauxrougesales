@@ -46,6 +46,9 @@ h3.font-serif {
   font-weight: 500;
   letter-spacing: 0.01em;
   text-transform: none;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
   color: var(--color-wine);
 }
 
