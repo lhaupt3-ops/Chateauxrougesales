@@ -60,7 +60,7 @@ export default async function ResourcePage({
           { name: String(resource.title), path: `/resources/${slug}` },
         ]}
       />
-      <p className="mt-8 text-xs uppercase tracking-[0.16em] text-wine">Note</p>
+      <p className="mt-8 kicker">Note</p>
       <h1 className="mt-3 font-serif text-5xl">{resource.title}</h1>
       <p className="mt-4 text-lg leading-8 text-muted">{resource.description}</p>
       <ResourceGate slug={slug} scorecard={resource.kind === 'scorecard'} title={resource.title} unlocked={unlocked}>

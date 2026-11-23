@@ -30,7 +30,7 @@ export function StickyApply() {
             post_slug: readPostSlug(),
           })
         }
-        className="flex h-12 items-center justify-center rounded-full bg-rouge text-center text-base font-medium text-white"
+        className="flex h-12 items-center justify-center rounded-xl bg-rouge text-center text-base font-medium text-white"
       >
         See if we&apos;re a fit
       </Link>

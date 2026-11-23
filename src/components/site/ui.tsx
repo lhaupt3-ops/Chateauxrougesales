@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { publicCopy } from '@/lib/indexing'
 import { JsonLd } from './JsonLd'
@@ -44,7 +45,7 @@ export function FaqList({ faqs, includeSchema = true }: { faqs: { question: stri
   if (!clean.length) return null
   return (
     <section className="mt-16">
-      <h2 className="font-serif text-3xl tracking-[-0.03em]">Questions worth asking first</h2>
+      <h2 className="font-serif text-3xl">Questions worth asking first</h2>
       {includeSchema && (
         <JsonLd
           data={{
@@ -70,10 +71,19 @@ export function FaqList({ faqs, includeSchema = true }: { faqs: { question: stri
   )
 }
 
+export function NotYet({ children }: { children: ReactNode }) {
+  return (
+    <div className="max-w-2xl">
+      <p className="kicker">Not yet</p>
+      <p className="mt-2 text-sm leading-6 text-muted">{children}</p>
+    </div>
+  )
+}
+
 export function Placeholder({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-2xl border border-dashed border-gold/80 bg-white/60 p-5">
-      <p className="text-xs uppercase tracking-[0.16em] text-wine">To be confirmed</p>
+    <div className="rounded-2xl border border-stone bg-white/70 p-5">
+      <p className="kicker">Not yet</p>
       <p className="mt-2 font-medium">{title}</p>
       <p className="mt-2 text-sm leading-6 text-muted">{body}</p>
     </div>
@@ -94,9 +104,9 @@ export function SectionHeading({
   return (
     <div className="max-w-3xl">
       {eyebrow && (
-        <p className={`text-xs uppercase tracking-[0.16em] ${tone === 'light' ? 'text-gold' : 'text-wine'}`}>{eyebrow}</p>
+        <p className={`kicker ${tone === 'light' ? 'text-gold' : ''}`}>{eyebrow}</p>
       )}
-      <h2 className={`mt-2 font-serif text-3xl tracking-[-0.03em] md:text-4xl ${tone === 'light' ? 'text-ivory' : ''}`}>{title}</h2>
+      <h2 className={`mt-2 font-serif text-3xl md:text-4xl ${tone === 'light' ? 'text-ivory' : ''}`}>{title}</h2>
       {body && <p className={`mt-3 text-lg leading-8 ${tone === 'light' ? 'text-ivory/75' : 'text-muted'}`}>{body}</p>}
     </div>
   )

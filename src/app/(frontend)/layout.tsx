@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
-import { Inter } from 'next/font/google'
+import { fontVariables } from '@/app/fonts'
 import { AttributionCapture } from '@/components/analytics/Analytics'
 import { AdTags } from '@/components/analytics/AdTags'
 import { DeferredAnalytics } from '@/components/analytics/DeferredAnalytics'
@@ -15,8 +15,6 @@ import { getSettings } from '@/lib/settings'
 import { BRAND_ICON_URL } from '@/lib/brand'
 import { absoluteUrl, SITE_NAME } from '@/lib/site'
 import './globals.css'
-
-const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800'], display: 'swap', preload: true, adjustFontFallback: true, variable: '--font-inter' })
 
 const VercelAnalytics = dynamic(() => import('@vercel/analytics/next').then((mod) => mod.Analytics))
 const SpeedInsights = dynamic(() => import('@vercel/speed-insights/next').then((mod) => mod.SpeedInsights))
@@ -41,7 +39,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   ].filter((item): item is { href: string; label: string } => Boolean(item))
 
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={fontVariables}>
       <body className="font-sans antialiased">
         <Suspense fallback={null}>
           <NavigationProgress />

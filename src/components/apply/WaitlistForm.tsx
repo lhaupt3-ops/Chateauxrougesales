@@ -23,7 +23,7 @@ export function WaitlistForm({ id, reason }: { id: string; reason: string }) {
     <form onSubmit={onSubmit} className="mt-8 rounded-2xl bg-ink p-5 text-ivory">
       <h2 className="font-serif text-2xl">Stay on the list</h2>
       <p className="mt-2 text-sm text-ivory/75">Optional. We will write when the offer, the revenue or the lead flow has moved. You can ignore it. We will not chase.</p>
-      <button className="mt-4 h-11 rounded-full bg-ivory px-4 text-sm text-ink">Keep my place</button>
+      <button className="mt-4 h-11 rounded-xl bg-ivory px-4 text-sm text-ink">Keep my place</button>
     </form>
   )
 }

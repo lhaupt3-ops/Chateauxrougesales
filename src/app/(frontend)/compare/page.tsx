@@ -14,7 +14,7 @@ export default function ComparePage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
       <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Compare', path: '/compare' }]} />
-      <h1 className="mt-8 font-serif text-5xl tracking-[-0.04em]">Comparisons</h1>
+      <h1 className="mt-8 font-serif text-5xl">Comparisons</h1>
       <p className="mt-4 max-w-2xl text-lg leading-8 text-muted">
         Three decisions founders actually make. None of them include a fake savings calculator.
       </p>

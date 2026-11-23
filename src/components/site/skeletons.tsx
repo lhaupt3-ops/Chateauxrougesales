@@ -21,7 +21,7 @@ export function MarketingSkeleton() {
           <Block className="mt-3 h-12 w-4/5 max-w-lg" />
           <Block className="mt-5 h-5 w-full max-w-xl" />
           <Block className="mt-2 h-5 w-3/4 max-w-md" />
-          <Block className="mt-8 h-12 w-56 rounded-full" />
+          <Block className="mt-8 h-12 w-56 rounded-xl" />
         </div>
         <Block className="h-64 rounded-3xl" />
       </div>
@@ -72,7 +72,7 @@ export function ApplySkeleton() {
       <Block className="mt-8 h-10 w-4/5" />
       <Block className="mt-4 h-5 w-full" />
       <Block className="mt-6 h-12 w-full" />
-      <Block className="mt-4 h-12 w-48 rounded-full" />
+      <Block className="mt-4 h-12 w-48 rounded-xl" />
     </Frame>
   )
 }

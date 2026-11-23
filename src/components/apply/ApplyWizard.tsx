@@ -320,11 +320,11 @@ export function ApplyWizard({
   return (
     <div>
       <div className="mb-6">
-        <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.14em] text-muted">
-          <span>
+        <div className="mb-2 flex items-center justify-between text-muted">
+          <span className="kicker text-muted">
             Step {index + 1} of {STEPS.length}
           </span>
-          <span>{Math.round(((index + 1) / STEPS.length) * 100)}%</span>
+          <span className="kicker tabular-nums text-muted">{Math.round(((index + 1) / STEPS.length) * 100)}%</span>
         </div>
         <div
           className="h-1.5 overflow-hidden rounded-full bg-stone"
@@ -334,7 +334,10 @@ export function ApplyWizard({
           aria-valuenow={index + 1}
           aria-label="Application progress"
         >
-          <div className="h-full bg-rouge transition-[width] duration-200" style={{ width: `${((index + 1) / STEPS.length) * 100}%` }} />
+          <div
+            className="h-full w-full origin-left bg-rouge transition-transform duration-200"
+            style={{ transform: `scaleX(${(index + 1) / STEPS.length})` }}
+          />
         </div>
       </div>
 
@@ -353,16 +356,16 @@ export function ApplyWizard({
 
       {step === 'email' && (
         <form onSubmit={submitEmail} className="space-y-4">
-          <h1 className="font-serif text-4xl tracking-[-0.04em]">See if we&apos;re a fit.</h1>
+          <h1 className="font-serif text-4xl">See if we&apos;re a fit</h1>
           <p className="text-lg text-muted">Where should we send the result? A no is a useful answer.</p>
           <label className="block text-sm" htmlFor="email">
             Email
           </label>
           <input id="email" name="email" type="email" autoComplete="email" inputMode="email" enterKeyHint="next" required defaultValue={String(answers.email || '')} className="h-12 w-full rounded-2xl border border-stone bg-white px-4 text-base" />
-          <button className="inline-flex h-12 min-w-11 items-center rounded-full bg-rouge px-5 text-base font-medium text-white" disabled={pending}>
+          <button className="inline-flex h-12 min-w-11 items-center rounded-xl bg-rouge px-5 text-base font-medium text-white" disabled={pending}>
             Start my application
           </button>
-          <p className="text-sm text-muted">About 90 seconds. A few quick taps.</p>
+          <p className="text-sm text-muted">A few quick taps.</p>
         </form>
       )}
 
@@ -381,7 +384,7 @@ export function ApplyWizard({
             What is it? Optional.
           </label>
           <input id="offerOther" value={otherText} onChange={(event) => setOtherText(event.target.value)} enterKeyHint="next" className="h-12 w-full rounded-2xl border border-stone px-4 text-base" />
-          <button className="h-12 rounded-full bg-rouge px-5 text-sm text-white">Continue</button>
+          <button className="h-12 rounded-xl bg-rouge px-5 text-sm text-white">Continue</button>
         </form>
       )}
 
@@ -399,7 +402,7 @@ export function ApplyWizard({
       {step === 'setup' && <Step title="Who runs those conversations today?" options={SETUP_OPTIONS} selected={String(answers.salesSetup || '')} onChoose={choose} />}
       {step === 'needs' && (
         <div>
-          <h1 className="font-serif text-4xl tracking-[-0.04em]">What would you like off your plate?</h1>
+          <h1 className="font-serif text-4xl">What would you like off your plate?</h1>
           <p className="mt-2 text-muted">Choose any that apply.</p>
           <div className="mt-6 grid gap-3">
             {NEED_OPTIONS.map((option, optionIndex) => {
@@ -420,7 +423,7 @@ export function ApplyWizard({
           </div>
           <button
             type="button"
-            className="mt-4 inline-flex h-12 min-w-11 items-center rounded-full bg-rouge px-5 text-base text-white"
+            className="mt-4 inline-flex h-12 min-w-11 items-center rounded-xl bg-rouge px-5 text-base text-white"
             onClick={() => {
               const needs = Array.isArray(answers.needs) ? answers.needs : []
               if (!needs.length) {
@@ -437,7 +440,7 @@ export function ApplyWizard({
       {step === 'timeline' && <Step title="When would you want this in place?" hint="Researching is an honest answer. It changes the route, not the respect." options={TIMELINE_OPTIONS} selected={String(answers.timeline || '')} onChoose={choose} />}
       {step === 'setupFee' && (
         <div>
-          <h1 className="font-serif text-4xl tracking-[-0.04em]">Can you pay a one-off setup fee?</h1>
+          <h1 className="font-serif text-4xl">Can you pay a one-off setup fee?</h1>
           <p className="mt-3 max-w-xl leading-7 text-muted">
             After that, the model is commission on cash collected. There is no monthly retainer. The setup amount and the commission percentage are still to be confirmed, in writing, before you pay.
           </p>
@@ -454,7 +457,7 @@ export function ApplyWizard({
       )}
       {step === 'contact' && (
         <form onSubmit={finish} className="space-y-4">
-          <h1 className="font-serif text-4xl tracking-[-0.04em]">How should we reach you?</h1>
+          <h1 className="font-serif text-4xl">How should we reach you?</h1>
           <p className="text-muted">So we can confirm a time, if the fit is there. No sequence of chase messages.</p>
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="First name" name="firstName" autoComplete="given-name" />
@@ -496,7 +499,7 @@ export function ApplyWizard({
             <span>Send the occasional note on sales team design. Optional.</span>
           </label>
           <input name="company_fax" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
-          <button className="h-12 rounded-full bg-rouge px-5 text-sm font-medium text-white" disabled={pending}>
+          <button className="h-12 rounded-xl bg-rouge px-5 text-sm font-medium text-white" disabled={pending}>
             {pending ? 'Scoring…' : 'See my result'}
           </button>
         </form>
@@ -504,7 +507,7 @@ export function ApplyWizard({
 
       {options && step !== 'offer' && step !== 'needs' && step !== 'setupFee' ? null : null}
       {error && <p className="mt-4 text-sm text-wine">{error}</p>}
-      <p className="mt-10 text-xs leading-5 text-muted">Your answers are private. No spam. Takes about 90 seconds.</p>
+      <p className="mt-10 text-xs leading-5 text-muted">Your answers are private. No spam.</p>
     </div>
   )
 }
@@ -524,7 +527,7 @@ function Step({
 }) {
   return (
     <div>
-      <h1 className="font-serif text-4xl tracking-[-0.04em]">{title}</h1>
+      <h1 className="font-serif text-4xl">{title}</h1>
       {hint && <p className="mt-2 text-muted">{hint}</p>}
       <OptionList options={options} selected={selected} onChoose={onChoose} />
     </div>

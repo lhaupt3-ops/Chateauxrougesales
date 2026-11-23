@@ -26,18 +26,18 @@ export default async function PricingPage() {
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
       <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Pricing', path: '/pricing' }]} />
-      <h1 className="mt-8 font-serif text-5xl tracking-[-0.04em]">How we charge.</h1>
+      <h1 className="mt-8 font-serif text-5xl">How we charge</h1>
       <p className="mt-4 text-lg leading-8 text-muted">
         A one-off setup fee, then commission on cash collected. There is no monthly retainer. You see the shape before you book. The numbers are confirmed in writing before you pay.
       </p>
       <dl className="mt-8 grid gap-4 sm:grid-cols-2">
         <div className="rounded-2xl border border-stone bg-white p-5">
-          <dt className="text-xs uppercase tracking-[0.16em] text-wine">Setup fee</dt>
-          <dd className="mt-2 font-serif text-3xl">{setup}</dd>
+          <dt className="kicker">Setup fee</dt>
+          <dd className="mt-2 font-serif text-3xl tabular-nums">{setup}</dd>
         </div>
         <div className="rounded-2xl border border-stone bg-white p-5">
-          <dt className="text-xs uppercase tracking-[0.16em] text-wine">Then commission</dt>
-          <dd className="mt-2 font-serif text-3xl">{commission}</dd>
+          <dt className="kicker">Then commission</dt>
+          <dd className="mt-2 font-serif text-3xl tabular-nums">{commission}</dd>
         </div>
       </dl>
       <p className="mt-4 text-sm text-muted">Neither figure is a quote while it reads “to be confirmed”.</p>

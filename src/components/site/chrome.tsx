@@ -28,7 +28,7 @@ export function Header() {
           <ApplyLink
             location="header"
             dataCta="nav"
-            className="hidden h-11 items-center rounded-full bg-rouge px-4 text-base font-medium text-white hover:bg-wine md:inline-flex"
+            className="hidden h-11 items-center rounded-xl bg-rouge px-4 text-base font-medium text-white hover:bg-wine md:inline-flex"
           >
             See if we&apos;re a fit
           </ApplyLink>
@@ -91,7 +91,7 @@ export function Footer({
         </div>
         {FOOTER.map((column) => (
           <div key={column.title}>
-            <p className="text-xs uppercase tracking-[0.16em] text-gold">{column.title}</p>
+            <p className="kicker text-gold">{column.title}</p>
             <ul className="mt-3 space-y-2 text-sm">
               {column.links.map(([href, label]) => (
                 <li key={href}>
@@ -106,7 +106,7 @@ export function Footer({
       </div>
       {posts.length > 0 && (
         <div className="mx-auto max-w-6xl px-4 pb-8 text-sm text-ivory/70">
-          <p className="text-xs uppercase tracking-[0.16em] text-gold">Latest from the journal</p>
+          <p className="kicker text-gold">Latest from the journal</p>
           <ul className="mt-3 flex flex-col gap-2">
             {posts.map((post) => (
               <li key={post.slug}>

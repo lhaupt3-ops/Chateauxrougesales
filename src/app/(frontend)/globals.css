@@ -7,9 +7,12 @@
   --color-ivory: #F6F3EE;
   --color-stone: #e7e1d8;
   --color-gold: #b89b5e;
+  --color-gold-ink: #7d632c;
   --color-muted: #5c5852;
-  --font-serif: var(--font-inter), 'Helvetica Neue', Arial, sans-serif;
   --font-sans: var(--font-inter), 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: var(--font-display), var(--font-inter), 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --radius-control: 0.625rem;
 }
 
 html {
@@ -18,7 +21,47 @@ html {
 }
 
 .font-serif {
-  font-weight: 800;
+  font-weight: 500;
+}
+
+h1.font-serif {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  h1.font-serif {
+    letter-spacing: -0.03em;
+  }
+}
+
+h2.font-serif,
+h3.font-serif {
+  letter-spacing: -0.02em;
+}
+
+.kicker {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--color-wine);
+}
+
+.tabular-figures {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+html.consent-open body {
+  padding-bottom: 8rem;
+}
+
+@media (min-width: 640px) {
+  html.consent-open body {
+    padding-bottom: 5.5rem;
+  }
 }
 
 body {
@@ -71,8 +114,8 @@ summary::-webkit-details-marker {
 .rich h2,
 .rich h3 {
   font-family: var(--font-serif);
-  font-weight: 460;
-  letter-spacing: -0.03em;
+  font-weight: 500;
+  letter-spacing: -0.02em;
   color: var(--color-ink);
 }
 

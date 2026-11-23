@@ -65,7 +65,7 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
       <OutcomeViewed tier={typeof doc.tier === 'string' ? doc.tier : ''} page="next-steps" />
-      <h1 className="font-serif text-4xl tracking-[-0.04em]">{advice.title}</h1>
+      <h1 className="font-serif text-4xl">{advice.title}</h1>
       <p className="mt-4 text-lg leading-8 text-muted">{advice.body}</p>
       <div className="mt-8 grid gap-3">
         <Link className="rounded-2xl border border-stone p-4 hover:border-ink" href="/resources/are-you-ready-for-closers">

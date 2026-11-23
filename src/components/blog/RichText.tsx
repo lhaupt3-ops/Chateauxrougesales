@@ -25,7 +25,7 @@ export function TableOfContents({ data }: { data: unknown }) {
   if (headings.length < 2) return null
   return (
     <nav aria-label="On this page" className="rounded-2xl border border-stone p-4 text-sm">
-      <p className="text-xs uppercase tracking-[0.14em] text-wine">On this page</p>
+      <p className="kicker">On this page</p>
       <ol className="mt-3 space-y-2">
         {headings.map((heading) => (
           <li key={heading.id}>
@@ -88,7 +88,7 @@ function BlockView({ fields }: { fields: Record<string, unknown> }) {
     const items = Array.isArray(fields.items) ? (fields.items as { text?: string }[]) : []
     return (
       <div className="mt-4 rounded-2xl bg-ink p-5 text-ivory">
-        <p className="text-xs uppercase tracking-[0.14em] text-gold">Key takeaways</p>
+        <p className="kicker text-gold-ink">Key takeaways</p>
         <ul className="mt-3 list-disc space-y-1 pl-5">
           {items.map((item) => (
             <li key={item.text}>{item.text}</li>
@@ -166,11 +166,11 @@ function Cta({ fields }: { fields: Record<string, unknown> }) {
       <h3 className="font-serif text-2xl">{String(fields.heading || "See if we're a fit")}</h3>
       {fields.body ? <p className="mt-2 text-ivory/80">{String(fields.body)}</p> : null}
       {slug ? (
-        <Link href={`/resources/${slug}`} className="mt-4 inline-block rounded-full bg-ivory px-4 py-2 text-sm text-ink">
+        <Link href={`/resources/${slug}`} className="mt-4 inline-block rounded-xl bg-ivory px-4 py-2 text-sm text-ink">
           Get the guide
         </Link>
       ) : (
-        <Link href="/resources/are-you-ready-for-closers" className="mt-4 inline-flex h-11 items-center rounded-full bg-ivory px-4 text-base text-ink">
+        <Link href="/resources/are-you-ready-for-closers" className="mt-4 inline-flex h-11 items-center rounded-xl bg-ivory px-4 text-base text-ink">
           Read the free guide
         </Link>
       )}

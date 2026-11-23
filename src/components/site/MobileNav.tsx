@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ApplyLink } from './ApplyLink'
+import { Logo } from './Logo'
 
 export function MobileNav({ items }: { items: { href: string; label: string }[] }) {
   const [open, setOpen] = useState(false)
@@ -89,22 +90,23 @@ export function MobileNav({ items }: { items: { href: string; label: string }[] 
 
   const menu = open
     ? createPortal(
-        <div className="fixed inset-0 z-[80] h-[100dvh] bg-ink/40" onClick={close}>
+        <div className="fixed inset-0 z-[80] h-[100dvh] bg-ivory" onClick={close}>
           <div
             ref={panel}
             id={titleId}
             role="dialog"
             aria-modal="true"
             aria-label="Menu"
-            className="absolute inset-x-0 top-0 max-h-[100dvh] overflow-y-auto overscroll-contain bg-ivory px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))] shadow-sm"
+            className="flex h-full flex-col overflow-y-auto overscroll-contain px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))]"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="flex justify-end">
-              <button type="button" className="inline-flex h-11 min-w-11 items-center justify-center rounded-full border border-stone px-3" onClick={close}>
+            <div className="flex items-center justify-between gap-4">
+              <Logo />
+              <button type="button" className="inline-flex h-11 min-w-11 items-center justify-center rounded-xl border border-stone px-3" onClick={close}>
                 Close
               </button>
             </div>
-            <nav className="mt-4 flex flex-col gap-2" aria-label="Mobile">
+            <nav className="mt-8 flex flex-1 flex-col gap-2" aria-label="Mobile">
               {items.map((item) => (
                 <Link key={item.href} href={item.href} className="flex min-h-11 items-center rounded-xl px-3 text-base hover:bg-white" onClick={close}>
                   {item.label}
@@ -113,7 +115,7 @@ export function MobileNav({ items }: { items: { href: string; label: string }[] 
               <ApplyLink
                 location="mobile_nav"
                 onClick={close}
-                className="flex min-h-11 items-center justify-center rounded-full bg-rouge px-3 text-base font-medium text-white"
+                className="mt-4 flex min-h-11 items-center justify-center rounded-xl bg-rouge px-3 text-base font-medium text-white"
               >
                 See if we&apos;re a fit
               </ApplyLink>
@@ -129,7 +131,7 @@ export function MobileNav({ items }: { items: { href: string; label: string }[] 
       <button
         ref={button}
         type="button"
-        className="inline-flex h-11 min-w-11 items-center justify-center rounded-full border border-stone px-3 text-base"
+        className="inline-flex h-11 min-w-11 items-center justify-center rounded-xl border border-stone px-3 text-base"
         aria-expanded={open}
         aria-controls={titleId}
         onClick={() => setOpen((value) => !value)}

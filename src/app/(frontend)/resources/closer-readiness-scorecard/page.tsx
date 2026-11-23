@@ -22,10 +22,10 @@ export default async function ScorecardPage() {
           { name: 'Closer readiness scorecard', path: '/resources/closer-readiness-scorecard' },
         ]}
       />
-      <p className="mt-8 text-xs uppercase tracking-[0.16em] text-wine">Scorecard</p>
-      <h1 className="mt-3 font-serif text-4xl tracking-[-0.04em] md:text-5xl">Closer readiness scorecard</h1>
+      <p className="mt-8 kicker">Scorecard</p>
+      <h1 className="mt-3 font-serif text-4xl md:text-5xl">Closer readiness scorecard</h1>
       <p className="mt-4 text-lg leading-8 text-muted">
-        The same eight checks as the free guide, on one page you can score and print. It does not predict revenue.
+        The same eight checks as the free guide. Leave an email and you can score them on this page, print the page, or download the PDF. It does not predict revenue.
       </p>
       <script
         dangerouslySetInnerHTML={{

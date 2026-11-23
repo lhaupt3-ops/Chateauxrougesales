@@ -68,12 +68,12 @@ export function EmailCapture({
         value={email}
         onChange={(event) => setEmail(event.target.value)}
         placeholder="Email"
-        className="h-12 w-full rounded-full border border-stone bg-white px-4 text-base outline-none"
+        className="h-12 w-full rounded-xl border border-stone bg-white px-4 text-base outline-none"
       />
       <button
         type="submit"
         disabled={pending}
-        className="h-12 shrink-0 rounded-full bg-rouge px-5 text-sm font-medium text-white hover:bg-wine disabled:opacity-60"
+        className="h-12 shrink-0 rounded-xl bg-rouge px-5 text-sm font-medium text-white hover:bg-wine disabled:opacity-60"
       >
         {pending ? 'Starting…' : button}
       </button>
