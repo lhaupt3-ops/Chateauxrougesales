@@ -49,6 +49,22 @@ h3.font-serif {
   color: var(--color-wine);
 }
 
+.kicker.text-gold {
+  color: var(--color-gold);
+}
+
+.kicker.text-gold-ink {
+  color: var(--color-gold-ink);
+}
+
+.kicker.text-muted {
+  color: var(--color-muted);
+}
+
+.kicker.text-ivory {
+  color: var(--color-ivory);
+}
+
 .tabular-figures {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
