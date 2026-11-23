@@ -43,8 +43,8 @@ export default async function ConfirmedPage({ searchParams }: { searchParams: Pr
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <OutcomeViewed tier={typeof doc.tier === 'string' ? doc.tier : ''} page="confirmed" />
-      <p className="text-xs uppercase tracking-[0.16em] text-wine">Tentatively scheduled</p>
-      <h1 className="mt-3 font-serif text-4xl tracking-[-0.04em] md:text-5xl">
+      <p className="kicker">Tentatively scheduled</p>
+      <h1 className="mt-3 font-serif text-4xl md:text-5xl">
         You are booked, {String(doc.firstName || 'there')}. {hasVideo ? 'Two quick steps to lock it in.' : 'One quick step to lock it in.'}
       </h1>
       {validWhen && <p className="mt-4 text-lg text-muted">{validWhen.toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' })}</p>}

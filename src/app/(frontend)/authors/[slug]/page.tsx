@@ -58,7 +58,7 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
           },
         }}
       />
-      <p className="text-xs uppercase tracking-[0.16em] text-wine">{author.role}</p>
+      <p className="kicker">{author.role}</p>
       <h1 className="mt-3 font-serif text-5xl">{author.name}</h1>
       <p className="mt-4 leading-8 text-muted">{author.bio}</p>
       {author.credentials && <p className="mt-4 text-sm text-muted">{author.credentials}</p>}

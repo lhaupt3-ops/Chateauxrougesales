@@ -42,8 +42,8 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
     <>
       <section className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 md:grid-cols-[1.2fr_0.8fr] md:py-24">
         <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-wine">{copy.eyebrow}</p>
-          <h1 className="mt-4 font-serif text-5xl leading-[1.02] tracking-[-0.045em] md:text-6xl">
+          <p className="kicker">{copy.eyebrow}</p>
+          <h1 className="mt-4 font-serif text-4xl leading-[1.08] md:text-6xl md:leading-[1.05]">
             {copy.headline}
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-8 text-muted">
@@ -51,72 +51,65 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
           </p>
           <div className="mt-8 max-w-xl">
             <EmailCapture location="hero" entry="hero_inline" button={copy.cta} />
-            <p className="mt-3 text-sm text-muted">
-              A short application. See if we&apos;re a fit. A clear no is a useful answer.{' '}
-              <ApplyLink location="hero" className="underline">
-                {copy.cta}
-              </ApplyLink>
-            </p>
+            <p className="mt-3 text-sm text-muted">A short application. A clear no is a useful answer.</p>
           </div>
         </div>
-        <div className="rounded-3xl border border-stone bg-white/80 p-5 shadow-sm" aria-hidden="true">
-          <div className="flex items-center justify-between text-xs uppercase tracking-[0.14em] text-muted">
-            <span>This week</span>
-            <span className="text-wine">Illustrative layout</span>
-          </div>
-          <div className="mt-6 grid grid-cols-3 gap-3">
+        <figure className="rounded-3xl border border-stone bg-white p-5 shadow-[0_8px_24px_rgba(28,28,28,0.06)]">
+          <figcaption className="flex items-center justify-between gap-3">
+            <span className="kicker text-muted">This week</span>
+            <span className="kicker">Illustrative</span>
+          </figcaption>
+          <div className="mt-5 grid grid-cols-3 gap-3">
             {[
-              ['Show rate', '—'],
-              ['Close rate', '—'],
-              ['Collected', '—'],
-            ].map(([label, value]) => (
-              <div key={label} className="rounded-2xl bg-ivory p-3">
-                <p className="text-[11px] uppercase tracking-wider text-muted">{label}</p>
-                <p className="mt-2 font-serif text-2xl">{value}</p>
+              ['Show rate', '71%', false],
+              ['Close rate', '24%', true],
+              ['Collected', '$41k', false],
+            ].map(([label, value, accent]) => (
+              <div key={String(label)} className="rounded-2xl bg-ivory px-3 py-3">
+                <p className="kicker text-muted">{label}</p>
+                <p className={`mt-2 font-mono text-2xl tabular-nums leading-none ${accent ? 'text-rouge' : 'text-ink'}`}>{value}</p>
               </div>
             ))}
           </div>
           <div className="mt-4 space-y-2">
-            {['New conversation', 'No-show, rescheduled', 'Proposal, waiting'].map((row, index) => (
-              <div key={row} className="flex items-center gap-3 rounded-2xl border border-stone px-3 py-3 text-sm">
-                <span className="h-2 w-2 rounded-full bg-rouge" />
+            {[
+              ['New conversation', 'setter'],
+              ['No-show, rescheduled', 'closer'],
+              ['Proposal, waiting', 'closer'],
+            ].map(([row, role]) => (
+              <div key={row} className="flex items-center gap-3 rounded-xl border border-stone px-3 py-3 text-sm">
+                <span className="h-2 w-2 shrink-0 rounded-xl bg-rouge" />
                 <span className="flex-1">{row}</span>
-                <span className="text-muted">{index === 0 ? 'setter' : 'closer'}</span>
+                <span className="font-mono text-xs text-muted">{role}</span>
               </div>
             ))}
           </div>
-          <p className="mt-4 text-xs leading-5 text-muted">
-            A picture of the board, not a claim. Your numbers go here when they are yours.
-          </p>
-        </div>
+          <p className="mt-4 text-xs leading-5 text-muted">A picture of the board, not a claim. The figures are sample only.</p>
+        </figure>
       </section>
 
-      <section className="border-y border-stone bg-white/50">
-        <div className="mx-auto grid max-w-6xl gap-4 px-4 py-8 md:grid-cols-3">
-          {quotes.length === 0 ? (
-            <>
-              <Placeholder title={copy.proofFounderTitle} body={copy.proofFounderBody} />
-              <Placeholder title={copy.proofMarksTitle} body={copy.proofMarksBody} />
-              <Placeholder title={copy.proofNamedTitle} body={copy.proofNamedBody} />
-            </>
-          ) : (
-            quotes.map((study) => (
-              <Link key={study.slug} href={`/results/${study.slug}`} className="rounded-2xl border border-stone bg-white/80 p-5">
-                {study.illustrative && <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-wine">Illustrative example</p>}
-                <blockquote className={`${study.illustrative ? 'mt-2 ' : ''}font-serif text-2xl leading-snug tracking-[-0.03em]`}>“{study.quote}”</blockquote>
-                {study.person && <p className="mt-4 text-sm text-muted">{study.person}</p>}
-              </Link>
-            ))
-          )}
-        </div>
-      </section>
+      {quotes.length > 0 && (
+        <section className="border-y border-stone bg-white/50">
+          <div className="mx-auto max-w-6xl px-4 py-8">
+            <div className="grid gap-4 md:grid-cols-3">
+              {quotes.map((study) => (
+                <Link key={study.slug} href={`/results/${study.slug}`} className="rounded-2xl border border-stone bg-white/80 p-5">
+                  {study.illustrative && <p className="kicker">Illustrative example</p>}
+                  <blockquote className={`${study.illustrative ? 'mt-2 ' : ''}font-serif text-2xl leading-snug`}>“{study.quote}”</blockquote>
+                  {study.person && <p className="mt-4 text-sm text-muted">{study.person}</p>}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="mx-auto max-w-6xl px-4 py-16">
         <SectionHeading eyebrow={copy.painsEyebrow} title={copy.painsTitle} />
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           {PAINS.map((pain) => (
             <article key={pain.title} className="rounded-2xl border border-stone bg-white/70 p-6">
-              <h3 className="font-serif text-2xl tracking-[-0.03em]">{pain.title}</h3>
+              <h3 className="font-serif text-2xl">{pain.title}</h3>
               <p className="mt-3 leading-7 text-muted">{pain.body}</p>
             </article>
           ))}
@@ -203,24 +196,22 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
 
       <section className="mx-auto max-w-6xl px-4">
         <SectionHeading title="Results will be named, or they will not be here." body="The card format is ready. The stories are not invented." />
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {results.length === 0
-            ? ['Offer type', 'Cash collected', 'Close rate, before and after'].map((label) => (
-                <Placeholder key={label} title={label} body="This card links to a case study once a client has approved the numbers and their name." />
-              ))
-            : results.map((result) => (
-                <Link
-                  key={`${result.slug}-${result.metric}-${result.after}`}
-                  href={`/results/${result.slug}`}
-                  className="rounded-2xl border border-stone bg-white/70 p-5"
-                >
-                  {result.illustrative && <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-wine">Illustrative example</p>}
-                  <p className={`${result.illustrative ? 'mt-2 ' : ''}text-[11px] uppercase tracking-wider text-muted`}>{result.metric}</p>
-                  <p className="mt-2 font-serif text-2xl">{result.before ? `${result.before} → ${result.after}` : result.after}</p>
-                  {result.timeframe && <p className="mt-2 text-sm text-muted">{result.timeframe}</p>}
-                </Link>
-              ))}
-        </div>
+        {results.length > 0 && (
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {results.map((result) => (
+              <Link
+                key={`${result.slug}-${result.metric}-${result.after}`}
+                href={`/results/${result.slug}`}
+                className="rounded-2xl border border-stone bg-white/70 p-5"
+              >
+                {result.illustrative && <p className="kicker">Illustrative example</p>}
+                <p className={`${result.illustrative ? 'mt-2 ' : ''}kicker text-muted`}>{result.metric}</p>
+                <p className="mt-2 font-serif text-2xl">{result.before ? `${result.before} → ${result.after}` : result.after}</p>
+                {result.timeframe && <p className="mt-2 text-sm text-muted">{result.timeframe}</p>}
+              </Link>
+            ))}
+          </div>
+        )}
         <Link href="/results" className="mt-6 inline-block text-sm underline">
           See the results page
         </Link>
@@ -295,8 +286,8 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
           </ApplyLink>
         </div>
         {termsAreDraft && (
-          <div className="rounded-2xl border border-dashed border-gold bg-white/70 p-6">
-            <p className="text-xs uppercase tracking-[0.16em] text-wine">Draft</p>
+          <div className="rounded-2xl border border-stone bg-white/70 p-6">
+            <p className="kicker">Not yet</p>
             <h2 className="mt-2 font-serif text-3xl">{copy.draftGuaranteeTitle}</h2>
             <p className="mt-4 leading-7 text-muted">{copy.draftGuaranteeBody}</p>
           </div>
@@ -312,12 +303,12 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
 
       <section className="mx-auto max-w-6xl px-4 pb-16">
         <div className="rounded-3xl bg-ink px-8 py-10 text-ivory md:px-12">
-          <p className="text-xs uppercase tracking-[0.16em] text-gold">Free guide</p>
-          <h2 className="mt-3 max-w-2xl font-serif text-4xl tracking-[-0.03em]">Are you actually ready for closers?</h2>
+          <p className="kicker text-gold">Free guide</p>
+          <h2 className="mt-3 max-w-2xl font-serif text-4xl">Are you actually ready for closers?</h2>
           <p className="mt-4 max-w-2xl leading-7 text-ivory/80">
             A self-audit for founders of coaching, consulting, course and high-ticket offers. Two conversations, setter versus closer, a call shape, working KPI targets, and the red flags that show up when a hire is early.
           </p>
-          <Link href="/resources/are-you-ready-for-closers" className="mt-6 inline-block rounded-full bg-ivory px-5 py-3 text-sm font-medium text-ink">
+          <Link href="/resources/are-you-ready-for-closers" className="mt-6 inline-block rounded-xl bg-ivory px-5 py-3 text-sm font-medium text-ink">
             Read the guide
           </Link>
         </div>
@@ -340,7 +331,7 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
 
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="rounded-3xl border border-stone bg-white/80 p-8 md:p-12">
-          <h2 className="font-serif text-4xl tracking-[-0.03em]">See if we&apos;re a fit.</h2>
+          <h2 className="font-serif text-4xl">See if we&apos;re a fit</h2>
           <p className="mt-3 max-w-xl text-muted">Same two minutes as the top of the page. If you would rather read first, the free guide is open on the site. The one-page scorecard is the piece we email.</p>
           <div className="mt-6 max-w-xl">
             <EmailCapture location="footer" entry="footer_inline" />

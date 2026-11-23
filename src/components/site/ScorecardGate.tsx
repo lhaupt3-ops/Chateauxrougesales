@@ -27,8 +27,8 @@ function ScorecardSkeleton({ pending = false }: { pending?: boolean }) {
       <div className="animate-pulse space-y-3 rounded-2xl border border-stone bg-white p-5 motion-reduce:animate-none">
         <div className="h-5 w-full rounded-2xl bg-stone" />
         <div className="h-5 w-4/5 rounded-2xl bg-stone" />
-        <div className="h-12 w-full rounded-full bg-stone" />
-        <div className="h-12 w-48 rounded-full bg-stone" />
+        <div className="h-12 w-full rounded-xl bg-stone" />
+        <div className="h-12 w-48 rounded-xl bg-stone" />
       </div>
       <div className="animate-pulse h-28 rounded-2xl bg-stone motion-reduce:animate-none" />
       <div className="animate-pulse h-28 rounded-2xl bg-stone motion-reduce:animate-none" />
@@ -133,16 +133,16 @@ export function ScorecardGate({
       <>
       <ScorecardSkeleton pending />
       <form onSubmit={onSubmit} className="scorecard-gate-form mt-8 space-y-3 rounded-2xl border border-stone bg-white p-5">
-        <p className="text-base leading-7 text-muted">The guide is free to read. This page is the one-page scorecard. Leave an email and we will send the link. You can print it or download the PDF.</p>
+        <p className="text-base leading-7 text-muted">The guide is free to read. Leave an email and you can score the eight checks on this page, print it, or download the PDF.</p>
         <label className="block text-base" htmlFor="scorecard-email">
           Email
-          <input id="scorecard-email" name="email" type="email" required autoComplete="email" inputMode="email" enterKeyHint="send" placeholder="Email" className="mt-1 h-12 w-full rounded-full border border-stone px-4 text-base" />
+          <input id="scorecard-email" name="email" type="email" required autoComplete="email" inputMode="email" enterKeyHint="send" placeholder="Email" className="mt-1 h-12 w-full rounded-xl border border-stone px-4 text-base" />
         </label>
         <label className="flex min-h-11 items-start gap-3 text-base leading-6 text-muted">
           <input name="consent" type="checkbox" value="yes" className="mt-1 size-5" />
           <span>Email me this scorecard. I can unsubscribe in one click. This is separate from analytics cookies.</span>
         </label>
-        <button className="inline-flex h-12 min-w-11 items-center rounded-full bg-rouge px-5 text-base text-white" disabled={pending}>
+        <button className="inline-flex h-12 min-w-11 items-center rounded-xl bg-rouge px-5 text-base text-white" disabled={pending}>
           {pending ? 'Sending…' : 'Email me the scorecard'}
         </button>
         {error && <p className="text-base text-wine" role="alert">{error}</p>}
@@ -163,10 +163,10 @@ export function ScorecardGate({
   return (
     <div className="scorecard-sheet mt-8">
       <div className="flex flex-wrap gap-3 print:hidden">
-        <a className="inline-flex h-12 items-center rounded-full bg-ink px-5 text-base text-ivory" href={`${SCORECARD_PATH}/pdf?id=${publicId}`}>
+        <a className="inline-flex h-12 items-center rounded-xl bg-ink px-5 text-base text-ivory" href={`${SCORECARD_PATH}/pdf?id=${publicId}`}>
           Download the PDF
         </a>
-        <button type="button" className="inline-flex h-12 items-center rounded-full border border-stone px-5 text-base" onClick={() => window.print()}>
+        <button type="button" className="inline-flex h-12 items-center rounded-xl border border-stone px-5 text-base" onClick={() => window.print()}>
           Print this page
         </button>
       </div>
@@ -176,10 +176,10 @@ export function ScorecardGate({
             <p className="font-medium">{index + 1}. {title}</p>
             <p className="mt-1 text-base leading-6 text-muted">{body}</p>
             <div className="mt-3 flex gap-2">
-              <button type="button" className={`inline-flex h-11 min-w-11 items-center rounded-full border px-4 ${answers[index] === true ? 'border-ink bg-ink text-ivory' : 'border-stone'}`} aria-pressed={answers[index] === true} onClick={() => setAnswers((current) => ({ ...current, [index]: true }))}>
+              <button type="button" className={`inline-flex h-11 min-w-11 items-center rounded-xl border px-4 ${answers[index] === true ? 'border-ink bg-ink text-ivory' : 'border-stone'}`} aria-pressed={answers[index] === true} onClick={() => setAnswers((current) => ({ ...current, [index]: true }))}>
                 {copy.yes}
               </button>
-              <button type="button" className={`inline-flex h-11 min-w-11 items-center rounded-full border px-4 ${answers[index] === false ? 'border-ink bg-ink text-ivory' : 'border-stone'}`} aria-pressed={answers[index] === false} onClick={() => setAnswers((current) => ({ ...current, [index]: false }))}>
+              <button type="button" className={`inline-flex h-11 min-w-11 items-center rounded-xl border px-4 ${answers[index] === false ? 'border-ink bg-ink text-ivory' : 'border-stone'}`} aria-pressed={answers[index] === false} onClick={() => setAnswers((current) => ({ ...current, [index]: false }))}>
                 {copy.no}
               </button>
             </div>

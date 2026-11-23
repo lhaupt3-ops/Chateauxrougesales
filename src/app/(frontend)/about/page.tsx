@@ -21,7 +21,7 @@ export default function AboutPage() {
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
       <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }]} />
-      <h1 className="mt-8 font-serif text-5xl tracking-[-0.04em]">A standard for how the calls are run.</h1>
+      <h1 className="mt-8 font-serif text-5xl">A standard for how the calls are run</h1>
       <p className="mt-4 text-lg leading-8 text-muted">
         Chateaux Rouge installs and runs a sales team for founders. The same standard governs two conversations: the one we have with you, and the one our closers have with your buyers. A closer’s job is to find what is actually true and help the person decide. Yes, not yet, or no.
       </p>

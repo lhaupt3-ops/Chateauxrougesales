@@ -28,12 +28,12 @@ export default async function BlogIndex() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
       <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Journal', path: '/blog' }]} />
-      <h1 className="mt-8 font-serif text-5xl tracking-[-0.04em]">Journal</h1>
+      <h1 className="mt-8 font-serif text-5xl">Journal</h1>
       <p className="mt-4 max-w-2xl text-lg leading-8 text-muted">
         Buyer guides only. Drafts stay in the back office until a real author publishes them. Nothing here is a closer job ad.
       </p>
       {posts.docs.length === 0 ? (
-        <p className="mt-10 rounded-2xl border border-dashed border-gold p-6 text-muted">
+        <p className="mt-10 rounded-2xl border border-stone p-6 text-muted">
           No published essays yet.
         </p>
       ) : (

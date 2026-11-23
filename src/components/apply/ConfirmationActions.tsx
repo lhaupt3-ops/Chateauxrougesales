@@ -25,7 +25,7 @@ export function ConfirmationActions({
         {!playing && (
           <button
             type="button"
-            className="h-12 rounded-full bg-ink px-5 text-sm text-ivory"
+            className="h-12 rounded-xl bg-ink px-5 text-sm text-ivory"
             onClick={() => {
               setPlaying(true)
               track('confirmation_video_played', { video_id: 'intro', percent: 0 })
@@ -49,13 +49,13 @@ export function ConfirmationActions({
 
   return (
     <div className="mt-4 flex flex-wrap gap-2">
-      <a className="rounded-full border border-stone px-4 py-2 text-sm" href={google} onClick={() => track('calendar_added', { provider: 'google' })}>
+      <a className="rounded-xl border border-stone px-4 py-2 text-sm" href={google} onClick={() => track('calendar_added', { provider: 'google' })}>
         Google
       </a>
-      <a className="rounded-full border border-stone px-4 py-2 text-sm" href={outlook} onClick={() => track('calendar_added', { provider: 'outlook' })}>
+      <a className="rounded-xl border border-stone px-4 py-2 text-sm" href={outlook} onClick={() => track('calendar_added', { provider: 'outlook' })}>
         Outlook
       </a>
-      <a className="rounded-full border border-stone px-4 py-2 text-sm" href={`/api/apply/ics?id=${applicationId}`} onClick={() => track('calendar_added', { provider: 'ics' })}>
+      <a className="rounded-xl border border-stone px-4 py-2 text-sm" href={`/api/apply/ics?id=${applicationId}`} onClick={() => track('calendar_added', { provider: 'ics' })}>
         .ics file
       </a>
     </div>

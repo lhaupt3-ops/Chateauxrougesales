@@ -31,8 +31,8 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
       <h1 className="font-serif text-5xl">Search</h1>
       <form className="mt-6 flex gap-2" action="/search">
         <label className="sr-only" htmlFor="q">Search</label>
-        <input id="q" name="q" defaultValue={query} className="h-12 flex-1 rounded-full border border-stone px-4" />
-        <button className="h-12 rounded-full bg-ink px-5 text-sm text-ivory">Search</button>
+        <input id="q" name="q" defaultValue={query} className="h-12 flex-1 rounded-xl border border-stone px-4" />
+        <button className="h-12 rounded-xl bg-ink px-5 text-sm text-ivory">Search</button>
       </form>
       {query && posts.length === 0 && pages.length === 0 && <p className="mt-8 text-muted">Nothing published matches that.</p>}
       <ul className="mt-8 space-y-3">

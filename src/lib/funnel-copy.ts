@@ -1,6 +1,6 @@
 export const FUNNEL_DEFAULTS = {
   eyebrow: 'A managed sales function',
-  headline: 'Your high-ticket sales team, installed and run.',
+  headline: 'Your high-ticket sales team, installed and run',
   subhead:
     'Setters, closers and a sales lead who run the pipeline from the first reply to cash collected. The calls are honest. A no is an acceptable outcome. You keep the offer, the data and the recordings.',
   cta: "See if we're a fit",
@@ -20,7 +20,7 @@ export const FUNNEL_DEFAULTS = {
   proofNamedTitle: 'Named results',
   proofNamedBody: 'Cash collected, close rate before and after, and the time window. Not an average we cannot show.',
   painsEyebrow: 'The cost of waiting',
-  painsTitle: 'The work piles up in three places.',
+  painsTitle: 'The work piles up in three places',
   systemEyebrow: 'The system',
   systemTitle: 'Four stages. Then it is a weekly habit.',
   chargeTitle: 'How we charge',

@@ -113,10 +113,10 @@ export function CalendlyEmbed({
 
   if (preview) {
     return (
-      <div className="flex min-h-[720px] flex-col justify-between rounded-3xl border border-dashed border-gold bg-white p-6">
+      <div className="flex min-h-[720px] flex-col justify-between rounded-3xl border border-stone bg-white p-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.16em] text-wine">Calendar</p>
-          <h2 className="mt-3 font-serif text-3xl">Times are not on this page yet.</h2>
+          <p className="kicker">Calendar</p>
+          <h2 className="mt-3 font-serif text-3xl">Times are not on this page yet</h2>
           <p className="mt-3 leading-7 text-muted">
             We will email you a link to choose a time for the {eventType === 'fit' ? '15-minute fit call' : 'strategy call'}. Your name, email and answers are already saved.
           </p>
@@ -126,7 +126,7 @@ export function CalendlyEmbed({
             <div><dt className="text-muted">Answers</dt><dd className="leading-6">{prefill.a1}</dd></div>
           </dl>
         </div>
-        <button type="button" onClick={previewBook} className="mt-6 h-12 rounded-full bg-ink px-5 text-sm text-ivory">
+        <button type="button" onClick={previewBook} className="mt-6 h-12 rounded-xl bg-ink px-5 text-sm text-ivory">
           Preview the confirmation page
         </button>
       </div>

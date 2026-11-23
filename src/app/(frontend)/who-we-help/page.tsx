@@ -14,7 +14,7 @@ export default function WhoWeHelpPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
       <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Who we help', path: '/who-we-help' }]} />
-      <h1 className="mt-8 font-serif text-5xl tracking-[-0.04em]">Who we help</h1>
+      <h1 className="mt-8 font-serif text-5xl">Who we help</h1>
       <p className="mt-4 max-w-2xl text-lg leading-8 text-muted">
         The offer changes. The problem is usually the same: the founder is still the sales department. These pages say how the work differs by market.
       </p>

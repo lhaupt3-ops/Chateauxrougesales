@@ -55,9 +55,9 @@ export function PostView({ post, related }: { post: Post; related: { title?: str
         }}
       />
       {String(post._status) === 'draft' && (
-        <p className="mt-6 rounded-full bg-gold/30 px-3 py-1 text-xs uppercase tracking-[0.14em]">Draft preview. Not published.</p>
+        <p className="mt-6 rounded-xl bg-gold/30 px-3 py-1 kicker">Draft preview. Not published.</p>
       )}
-      <h1 className="mt-6 font-serif text-4xl tracking-[-0.04em] md:text-5xl">{title}</h1>
+      <h1 className="mt-6 font-serif text-4xl md:text-5xl">{title}</h1>
       <p className="mt-4 text-lg leading-8 text-muted">{String(post.excerpt || '')}</p>
       <p className="mt-4 text-sm text-muted">
         {authors.map((author) => (
@@ -75,7 +75,7 @@ export function PostView({ post, related }: { post: Post; related: { title?: str
       )}
       {takeaways.length > 0 && (
         <div className="mt-8 rounded-2xl bg-ink p-5 text-ivory">
-          <p className="text-xs uppercase tracking-[0.14em] text-gold">In short</p>
+          <p className="kicker text-gold-ink">In short</p>
           <ul className="mt-3 list-disc space-y-1 pl-5">
             {takeaways.map((item) => (
               <li key={item.text}>{item.text}</li>

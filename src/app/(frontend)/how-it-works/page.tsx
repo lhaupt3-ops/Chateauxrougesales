@@ -32,7 +32,7 @@ export default async function HowItWorksPage() {
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
       <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'How it works', path: '/how-it-works' }]} />
-      <h1 className="mt-8 font-serif text-5xl tracking-[-0.04em]">How the work actually runs.</h1>
+      <h1 className="mt-8 font-serif text-5xl">How the work actually runs</h1>
       <p className="mt-4 text-lg leading-8 text-muted">
         First we install a team around your offer. Then that team runs your buyers’ calls to a written standard. {publicCopy(timeline) || 'A start date appears here only after it is confirmed.'}
       </p>

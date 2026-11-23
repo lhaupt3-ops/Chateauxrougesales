@@ -36,8 +36,8 @@ export default function ReadyForClosersPage() {
           { name: 'Are you ready for closers?', path: '/resources/are-you-ready-for-closers' },
         ]}
       />
-      <p className="mt-8 text-xs uppercase tracking-[0.16em] text-wine">Free guide</p>
-      <h1 className="mt-3 font-serif text-5xl tracking-[-0.04em]">Are you actually ready for closers?</h1>
+      <p className="mt-8 kicker">Free guide</p>
+      <h1 className="mt-3 font-serif text-5xl">Are you actually ready for closers?</h1>
       <p className="mt-4 text-lg leading-8 text-muted">
         For founders of coaching, consulting, course and other high-ticket offers who are thinking about a sales team. This is a self-audit. It does not predict your revenue, and it does not use anyone else’s results as yours.
       </p>

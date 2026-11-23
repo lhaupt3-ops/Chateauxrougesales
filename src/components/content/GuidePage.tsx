@@ -32,8 +32,8 @@ export function GuidePage({ guide }: { guide: Guide }) {
           areaServed: ['AU', 'GB', 'US'],
         }}
       />
-      <p className="mt-8 text-xs uppercase tracking-[0.16em] text-wine">{guide.eyebrow}</p>
-      <h1 className="mt-3 max-w-4xl font-serif text-4xl tracking-[-0.04em] md:text-6xl">{guide.h1}</h1>
+      <p className="mt-8 kicker">{guide.eyebrow}</p>
+      <h1 className="mt-3 max-w-4xl font-serif text-4xl md:text-6xl">{guide.h1}</h1>
       <p className="mt-5 max-w-3xl text-lg leading-8 text-muted">{guide.dek}</p>
       {guide.kind === 'service' && <CallOutline />}
       <div className="mt-8 max-w-xl">
@@ -43,7 +43,7 @@ export function GuidePage({ guide }: { guide: Guide }) {
       <div className="mt-12 max-w-3xl">
         {guide.sections.map((section) => (
           <section key={section.heading} className="mt-10">
-            <h2 className="font-serif text-3xl tracking-[-0.03em]">{section.heading}</h2>
+            <h2 className="font-serif text-3xl">{section.heading}</h2>
             {section.paragraphs.map((paragraph) => (
               <p key={paragraph} className="mt-3 leading-8 text-muted">
                 {paragraph}
@@ -60,7 +60,7 @@ export function GuidePage({ guide }: { guide: Guide }) {
         ))}
       </div>
       <section className="mt-14">
-        <h2 className="font-serif text-3xl tracking-[-0.03em]">Go deeper</h2>
+        <h2 className="font-serif text-3xl">Go deeper</h2>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           {guide.related.map((item) =>
             item.href === '/apply' ? (
@@ -79,11 +79,11 @@ export function GuidePage({ guide }: { guide: Guide }) {
       </section>
       <FaqList faqs={guide.faqs} />
       <div className="mt-14 max-w-xl">
-        <h2 className="font-serif text-3xl tracking-[-0.03em]">See if we&apos;re a fit.</h2>
+        <h2 className="font-serif text-3xl">See if we&apos;re a fit</h2>
         <p className="mt-3 text-muted">About 90 seconds. No pitch deck. You keep the recordings.</p>
         <ApplyLink
           location="guide_footer"
-          className="mt-6 inline-flex h-12 items-center rounded-full bg-rouge px-5 text-sm font-medium text-white hover:bg-wine"
+          className="mt-6 inline-flex h-12 items-center rounded-xl bg-rouge px-5 text-sm font-medium text-white hover:bg-wine"
         >
           See if we&apos;re a fit
         </ApplyLink>
