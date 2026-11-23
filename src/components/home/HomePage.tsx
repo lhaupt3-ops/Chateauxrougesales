@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ApplyLink } from '@/components/site/ApplyLink'
 import { EmailCapture } from '@/components/site/EmailCapture'
-import { FaqList, NotYet, Placeholder, SectionHeading } from '@/components/site/ui'
+import { FaqList, Placeholder, SectionHeading } from '@/components/site/ui'
 import type { Faq } from '@/content/faqs'
 import type { ProofStudy } from '@/lib/content'
 import { publicCopy } from '@/lib/indexing'
@@ -88,13 +88,9 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
         </figure>
       </section>
 
-      <section className="border-y border-stone bg-white/50">
-        <div className="mx-auto max-w-6xl px-4 py-8">
-          {quotes.length === 0 ? (
-            <NotYet>
-              Named results, client marks and a founder track record will sit here when a client has approved them in writing. We will not invent them.
-            </NotYet>
-          ) : (
+      {quotes.length > 0 && (
+        <section className="border-y border-stone bg-white/50">
+          <div className="mx-auto max-w-6xl px-4 py-8">
             <div className="grid gap-4 md:grid-cols-3">
               {quotes.map((study) => (
                 <Link key={study.slug} href={`/results/${study.slug}`} className="rounded-2xl border border-stone bg-white/80 p-5">
@@ -104,9 +100,9 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
                 </Link>
               ))}
             </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       <section className="mx-auto max-w-6xl px-4 py-16">
         <SectionHeading eyebrow={copy.painsEyebrow} title={copy.painsTitle} />
@@ -200,11 +196,7 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
 
       <section className="mx-auto max-w-6xl px-4">
         <SectionHeading title="Results will be named, or they will not be here." body="The card format is ready. The stories are not invented." />
-        {results.length === 0 ? (
-          <div className="mt-8">
-            <NotYet>A case appears here only after a client approves the name, the metric and the time window.</NotYet>
-          </div>
-        ) : (
+        {results.length > 0 && (
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {results.map((result) => (
               <Link

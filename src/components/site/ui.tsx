@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { publicCopy } from '@/lib/indexing'
 import { JsonLd } from './JsonLd'
@@ -68,15 +67,6 @@ export function FaqList({ faqs, includeSchema = true }: { faqs: { question: stri
         ))}
       </div>
     </section>
-  )
-}
-
-export function NotYet({ children }: { children: ReactNode }) {
-  return (
-    <div className="max-w-2xl">
-      <p className="kicker">Not yet</p>
-      <p className="mt-2 text-sm leading-6 text-muted">{children}</p>
-    </div>
   )
 }
 

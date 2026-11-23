@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Breadcrumbs, NotYet } from '@/components/site/ui'
+import { Breadcrumbs } from '@/components/site/ui'
 import { countRealResults } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
 import { SEO } from '@/lib/seo-titles'
@@ -40,11 +40,7 @@ export default async function ResultsPage() {
       <p className="mt-4 max-w-2xl text-lg leading-8 text-muted">
         Nothing here is a result yet. A card needs a client name, a metric, a before and after, and the time window, all approved in writing.
       </p>
-      {studies.length === 0 ? (
-        <div className="mt-8">
-          <NotYet>Those cards will appear here when a client has approved them. We will not invent a name, a figure, or a portrait.</NotYet>
-        </div>
-      ) : (
+      {studies.length > 0 && (
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           {studies.map((study) => (
             <Link key={study.slug} href={`/results/${study.slug}`} className="rounded-2xl border border-stone p-5">
