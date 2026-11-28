@@ -32,3 +32,14 @@ These stay editable in Site settings, or as empty proof blocks. Do not publish t
 - Named results, logos, portraits and testimonials. Case studies stay unpublished, and the illustrative label stays available.
 - Intro video, strategist name, and SMS. The confirmation page hides those until they are set.
 - Lawyer review of refund and consumer-rights wording for each market. The site says a change-of-mind policy does not replace legal rights. It does not state a policy.
+
+## v1 honest offer (branch `v1-honest-offer`)
+
+The site now describes what exists today: one founder who installs the call process and takes the calls himself. A team is described as later, not as a product.
+
+- Offer shape: optional paid sales audit, then a pilot (one-off setup fee, then commission on cash collected, no retainer). Setting, lead generation and a staffed team are named as not offered yet.
+- Numbers: the setup fee and commission still come from Site settings and read “To be confirmed” while their placeholder flags are on. The audit fee, the audit credit window and the pilot length live in `src/content/offer.ts` and render as “To be confirmed” while empty. Filling them in needs a code change and no database change.
+- Homepage, pricing, services (index and the four pages), about, how it works, FAQs, funnel defaults, SEO titles, JSON-LD, llms.txt, footer and the apply next-steps/book pages are first person and no longer mention setters, a sales lead or a staffed team as existing.
+- Services pages for a full team and for appointment setting are marked `status: 'later'`, are `noindex`, and hide the apply prompts.
+- The hero card no longer shows invented sample figures. It shows a blank weekly report.
+- Copy stored in the database (Funnel global, Faqs collection, Site settings) overrides these defaults when present. Check the admin after deploy.

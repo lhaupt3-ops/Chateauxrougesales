@@ -54,7 +54,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
             name: SITE_NAME,
             url: absoluteUrl('/'),
             logo: BRAND_ICON_URL,
-            description: 'A managed sales team for high-ticket offers. The client keeps the CRM, the data and the recordings.',
+            description: 'A founder-led sales service for high-ticket offers: the founder installs the call process and takes the calls. The client keeps the CRM, the data and the recordings.',
             email: settings.contactEmail || undefined,
             contactPoint: settings.contactEmail
               ? { '@type': 'ContactPoint', email: settings.contactEmail, contactType: 'customer support' }

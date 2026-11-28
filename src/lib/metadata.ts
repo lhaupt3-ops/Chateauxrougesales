@@ -45,9 +45,9 @@ export function pageMetadata({
 export function rootMetadata(): Metadata {
   return {
     metadataBase: new URL(getSiteUrl()),
-    title: { absolute: 'Outsourced high-ticket closing for founders | Chateaux Rouge' },
+    title: { absolute: 'Founder-led closing for high-ticket offers | Chateaux Rouge' },
     description:
-      'A managed sales team for founders who have outgrown taking every call. Setters, closers and a sales lead. Honest calls. You keep the data.',
+      'A founder who installs your sales call process and takes the calls on commission. Honest calls. You keep the data.',
     applicationName: SITE_NAME,
     authors: [{ name: SITE_NAME, url: getSiteUrl() }],
     icons: {

@@ -7,7 +7,7 @@ import { answerSummary, findByPublicId, isCalendlyUrl } from '@/lib/apply-server
 import { pageMetadata } from '@/lib/metadata'
 import { SEO } from '@/lib/seo-titles'
 import { getFunnel } from '@/lib/funnel-copy'
-import { configuredStrategistName, getSettings } from '@/lib/settings'
+import { getSettings } from '@/lib/settings'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,7 +36,6 @@ export default async function BookPage({
   if (doc.tier === 'review' && !settings.discoveryCallEnabled && !allowFitOverride) {
     redirect(`/apply/next-steps?id=${doc.publicId}&path=guide`)
   }
-  const strategist = configuredStrategistName(settings)
   const eventType = doc.tier === 'qualified' && !allowFitOverride ? 'strategy' : 'fit'
   const url = eventType === 'strategy' ? settings.calendlyStrategyUrl : settings.calendlyFitUrl
   const name = [doc.firstName, doc.lastName].filter(Boolean).join(' ')
@@ -55,7 +54,7 @@ export default async function BookPage({
           <li>The point of the call is clarity. Not a fit is a perfectly good outcome.</li>
           <li>Bring the person who can say yes. If someone else decides with you, they should be there.</li>
           <li>{eventType === 'strategy' ? 'Plan on 30 minutes.' : 'Plan on about 15 minutes.'} We will look at the offer and, if you have them, the recordings.</li>
-          <li>{strategist ? `You meet ${strategist}${settings.closerRole && settings.closerRole !== 'Sales lead' ? `, ${settings.closerRole}` : ''}. No deck.` : 'You meet the person running the call. No deck.'}</li>
+          <li>You talk with Lasse, the founder, who would be the one taking your calls. No deck.</li>
         </ul>
         {typeof doc.decisionMakers === 'string' && doc.decisionMakers !== 'just_me' && (
           <p className="mt-4 text-muted">Bring the other person who would decide. The call is more useful if they can hear it.</p>

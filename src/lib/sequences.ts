@@ -75,10 +75,10 @@ export const SEQUENCE_STEPS: SequenceStep[] = [
   {
     key: 'nurture-5',
     delayHours: 504,
-    subject: 'When a managed team is worth another look',
+    subject: 'When outsourced closing is worth another look',
     heading: 'Reapply when the process can hold a person',
     paragraphs: [
-      'A managed team is a fit when conversations are already happening, the offer price can carry a closer, and you can pay a one-off setup fee. After that, the model is commission on cash collected. There is no monthly retainer.',
+      'Outsourced closing is a fit when conversations are already happening, the offer price can carry a closer, and you can pay a one-off setup fee. After that, the model is commission on cash collected. There is no monthly retainer.',
       'The setup amount and the commission percentage are still to be confirmed in writing. Nothing on the site is a quote.',
       'If that describes you now, the application is open. If it does not, keep the guide and come back when it does.',
     ],

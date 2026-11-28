@@ -12,7 +12,7 @@ export default function NotFound() {
         <button className="h-12 rounded-xl bg-ink px-4 text-sm text-ivory">Search</button>
       </form>
       <ul className="mt-6 space-y-2 text-sm">
-        <li><Link className="underline" href="/services/done-for-you-sales-team">Done-for-you sales team</Link></li>
+        <li><Link className="underline" href="/services/high-ticket-closers">Founder-led closing</Link></li>
         <li><Link className="underline" href="/services/high-ticket-closers">High-ticket closers</Link></li>
         <li><Link className="underline" href="/pricing">How we charge</Link></li>
         <li><Link className="underline" href="/blog">Journal</Link></li>

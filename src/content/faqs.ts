@@ -3,71 +3,86 @@ export type Faq = { question: string; answer: string }
 export const fallbackFaqs: Record<string, Faq[]> = {
   home: [
     {
-      question: 'Will the closers sound like my brand?',
+      question: 'Is it just you?',
       answer:
-        'They sell from your offer document, your call recordings and your rules. You hear real calls in the first weeks and you can pull a closer who does not fit. We do not use a generic script and hope you like it.',
+        'Yes, for now. I install the process and take the calls myself. If the work grows I may add closers or setters, and I would tell you before anyone else joined your calls.',
     },
     {
-      question: 'What if they are pushy?',
+      question: 'Will you sound like my brand?',
       answer:
-        'Pressure is a failed call, not a style. Call review is part of the management. What happens to a closer who does not fit is written in the agreement, not invented on this page.',
+        'I work from your offer document and your own call recordings, not a generic script. You hear the early calls, and you can change what I say or stop at any point. I tell buyers I am working with you. I do not pretend to be an employee or invent a title.',
+    },
+    {
+      question: 'What if you come across as pushy?',
+      answer:
+        'Pressure is a failed call. You get the recordings, so you can hear for yourself. I would rather lose a sale than win one the buyer regrets.',
     },
     {
       question: 'Who owns the data and the recordings?',
       answer:
-        'You do. The CRM stays yours, the notes stay yours, and the recordings stay yours if you leave. The exact wording is in the written agreement.',
+        'You do. The CRM stays yours, the notes stay yours, and the recordings stay yours if we stop. The exact wording is in the written agreement.',
     },
     {
       question: 'How fast can this be live?',
       answer:
-        'To be confirmed. We will not print a start date until it is a date we can keep.',
+        'To be confirmed. After I have seen your offer and a few calls I will give you a date in writing, and only one I can keep.',
     },
     {
       question: 'What does it cost?',
       answer:
-        'A one-off setup fee, then commission on cash collected. There is no monthly retainer. The setup amount and the commission percentage are to be confirmed in the written agreement.',
+        'A paid sales audit if you want a diagnosis first. A pilot is a one-off setup fee, then commission on cash collected. There is no monthly retainer. The amounts are confirmed in writing before you pay anything.',
     },
     {
       question: 'What do I need in place?',
       answer:
-        'An offer you have already sold, a price that can carry a team, and a way to deliver if more people say yes. If the conversations are not there yet, say so. We would rather add setters than pretend the calls exist.',
+        'An offer you have already sold, a price that can pay for the work, calls that are already booked or about to be, and a way to deliver if more people say yes. If the conversations are not there yet, I will say so instead of taking your money.',
     },
     {
-      question: 'Do you only close, or do you book the calls too?',
+      question: 'Do you book the calls as well as run them?',
       answer:
-        'Both, under one sales lead. Setters book and qualify. Closers run the conversations. Follow-up on no-shows and maybes is part of the same system.',
+        'No. I take the calls that are booked. Appointment setting and lead generation are not part of what I offer today. They may come later, with other people.',
     },
     {
-      question: 'What if a closer is a bad fit?',
+      question: 'What if it is not working?',
       answer:
-        'The agreement is the place for that promise. We will not print a replacement guarantee here until it is wording we can keep. We do not promise revenue.',
+        'The pilot has a defined length, and either of us can stop on the notice in the written agreement. I do not promise revenue. If the first calls show the offer or the lead flow is the problem, I will tell you that plainly.',
     },
     {
       question: 'Is this a long contract?',
       answer:
-        'The term and the notice period are in the written agreement. Until that agreement exists, both are to be confirmed.',
+        'The pilot length and the notice period are in the written agreement. Until that agreement exists, both are to be confirmed.',
     },
     {
       question: 'Who is this not for?',
       answer:
-        'Offers that have never sold, prices too small to carry a team, and anyone who wants a promised close rate. Job seekers use Careers, so this page can stay about buying.',
+        'Offers that have never sold, prices too small to pay for the work, and anyone who wants a promised close rate. Job seekers use Careers, so this page can stay about buying.',
     },
   ],
   pricing: [
     {
       question: 'Why not publish one price?',
       answer:
-        'The fee moves with the offer, the lead flow and how much of the function we take. We publish the model now. A starting figure appears here only after it is a number we will honour.',
+        'I have not set the figures yet, and I would rather say so than guess. They will appear here once they are numbers I will honour, and you will see them in writing before you pay.',
     },
     {
-      question: 'Do you work commission only?',
+      question: 'Why a setup fee as well as commission?',
       answer:
-        'Commission on cash collected is part of the model, after a one-off setup fee. The amounts are to be confirmed in the written agreement.',
+        'The first weeks are spent reading your offer and calls, writing the call shape and setting up follow-up. That work happens before any sale. Commission alone would mean doing it for nothing, and it would also push me to take only easy offers.',
+    },
+    {
+      question: 'Is there a monthly retainer?',
+      answer:
+        'No. After the one-off setup fee, I am paid commission on cash you have collected. If that changes, this page changes first.',
     },
     {
       question: 'What is the sales audit?',
       answer:
-        'A paid review of the offer, the calls and the follow-up, for founders who want a diagnosis before a team.',
+        'A paid review of your offer, at least five real calls and your follow-up, with a short written brief and a call to talk it through. It is for founders who want a diagnosis before they decide anything else. It is not a way into a retainer.',
+    },
+    {
+      question: 'What happens to commission on a refund?',
+      answer:
+        'It is written in the agreement before we start, alongside how payment plans are handled. A change-of-mind policy does not replace anyone’s legal consumer rights.',
     },
   ],
 }

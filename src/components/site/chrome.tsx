@@ -43,10 +43,9 @@ const FOOTER = [
   {
     title: 'Services',
     links: [
-      ['/services/done-for-you-sales-team', 'Done-for-you sales team'],
-      ['/services/high-ticket-closers', 'High-ticket closers'],
-      ['/services/appointment-setting', 'Appointment setting'],
       ['/services/sales-audit', 'Sales audit'],
+      ['/services/high-ticket-closers', 'Founder-led closing'],
+      ['/services/done-for-you-sales-team', 'A team, later'],
     ],
   },
   {
@@ -86,7 +85,7 @@ export function Footer({
         <div>
           <Logo tone="ivory" />
           <p className="mt-4 max-w-xs text-sm leading-6 text-ivory/75">
-            Setters, closers and a sales lead, installed and run for high-ticket offers.
+            A founder-led sales service. I install the process and take the calls for high-ticket offers.
           </p>
         </div>
         {FOOTER.map((column) => (

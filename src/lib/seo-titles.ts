@@ -2,32 +2,32 @@ export type SeoEntry = { title: string; description: string }
 
 export const SEO = {
   home: {
-    title: 'Outsourced high-ticket closing for founders | Chateaux Rouge',
-    description: 'A managed sales team for founders who still take the sales calls. Setters, closers and a lead. You keep the offer, the data and the recordings.',
+    title: 'Founder-led closing for high-ticket offers | Chateaux Rouge',
+    description: 'A founder who installs your sales call process and takes the calls on commission. You keep the offer, the CRM and the recordings.',
   },
   services: {
-    title: 'Sales teams for founders who still close | Chateaux Rouge',
-    description: 'Done-for-you sales teams, high-ticket closers, appointment setting and a sales audit. One unit for founders outsourcing the calls.',
+    title: 'Sales audit and founder-led closing | Chateaux Rouge',
+    description: 'A paid sales audit, and a pilot where I install your call process and take the calls. A team and appointment setting come later.',
   },
   who: {
     title: 'Founders we install a sales team for | Chateaux Rouge',
     description: 'Outsourced closing for coaches, course creators, and agencies or B2B firms who already sell a high-ticket offer and want off the calls.',
   },
   how: {
-    title: 'How founders hand the calls to a team | Chateaux Rouge',
-    description: 'How a managed sales team is installed for a founder, and how the closers run a buyer call: listen, qualify, then decide.',
+    title: 'How founders hand over the sales calls | Chateaux Rouge',
+    description: 'How I install a call process for a founder and run the calls: read, install, run, review. On the call: listen, qualify, then decide.',
   },
   pricing: {
     title: 'What founders pay to outsource closing | Chateaux Rouge',
-    description: 'A one-off setup fee, then commission on cash collected. For founders hiring a team. The amounts are confirmed in the written agreement.',
+    description: 'An optional paid sales audit, then a pilot: a one-off setup fee and commission on cash collected. No retainer. Figures are confirmed in writing.',
   },
   results: {
     title: 'Results for founders who outsource sales | Chateaux Rouge',
     description: 'Named client results for founders who hired an outsourced sales team. Published only with permission, a metric, and a time window.',
   },
   about: {
-    title: 'How we sell for founders who hire us | Chateaux Rouge',
-    description: 'The standard on our calls and on the calls we run for founders. No fake urgency, no invented results, and a no is an acceptable answer.',
+    title: 'About Lasse Haupt and how I sell | Chateaux Rouge',
+    description: 'A founder-led sales service. The standard on my calls and on the calls I run for founders: no fake urgency, no invented results, a no is fine.',
   },
   compare: {
     title: 'Outsourced or in-house sales, for founders | Chateaux Rouge',
@@ -46,8 +46,8 @@ export const SEO = {
     description: 'A free guide for founders thinking about setters and closers. Two conversations, eight yes or no checks, and the red flags that mean you should wait.',
   },
   careers: {
-    title: 'We staff sales teams. Not a job board | Chateaux Rouge',
-    description: 'This page is not a listing for people looking for closer jobs. Founders who want a team start with the application, not a careers form.',
+    title: 'Not a job board | Chateaux Rouge',
+    description: 'This page is not a listing for people looking for closer jobs. Founders who want help with sales calls start with the application.',
   },
   privacy: {
     title: 'Privacy for founders using this site | Chateaux Rouge',

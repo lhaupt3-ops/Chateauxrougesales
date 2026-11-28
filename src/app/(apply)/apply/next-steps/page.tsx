@@ -34,8 +34,8 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
       }
     : doc.pricePoint === 'under_1000'
       ? {
-          title: 'The price is too small for this team',
-          body: 'A sub-$1,000 offer does not carry setters and closers. Raise the price, or bundle the work so one yes can pay for the seat. Then come back. This threshold is a working rule, not a published promise.',
+          title: 'The price is too small for outsourced closing',
+          body: 'A sub-$1,000 offer does not pay for a closer’s time. Raise the price, or bundle the work so one yes can pay for it. Then come back. This threshold is a working rule, not a published promise.',
         }
       : doc.setupFee === 'no'
         ? {
@@ -50,12 +50,12 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
           : doc.monthlyConversations === 'none'
             ? {
                 title: 'There is nothing to close yet',
-                body: 'A closer cannot invent demand. Get a small, steady set of conversations first. Setters can join a later team. They still need a real offer to talk about.',
+                body: 'A closer cannot invent demand. Get a small, steady set of conversations first. I do not offer lead generation or setting today, and either would still need a real offer to talk about.',
               }
             : doc.monthlyRevenue === 'pre_revenue'
               ? {
                   title: 'Sell it yourself a few times first',
-                  body: 'You will learn the objections, the price and the delivery load. Those notes are what a team needs. Without them, we would be guessing on your calls.',
+                  body: 'You will learn the objections, the price and the delivery load. Those notes are what a closer needs. Without them, anyone taking your calls would be guessing.',
                 }
               : {
                   title: funnel.resultTitle,

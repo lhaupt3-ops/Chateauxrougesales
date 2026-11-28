@@ -35,11 +35,13 @@ export function GuidePage({ guide }: { guide: Guide }) {
       <p className="mt-8 kicker">{guide.eyebrow}</p>
       <h1 className="mt-3 max-w-4xl font-serif text-4xl md:text-6xl">{guide.h1}</h1>
       <p className="mt-5 max-w-3xl text-lg leading-8 text-muted">{guide.dek}</p>
-      {guide.kind === 'service' && <CallOutline />}
-      <div className="mt-8 max-w-xl">
-        <EmailCapture location="guide" entry="guide_inline" />
-        <p className="mt-2 text-sm text-muted">About 90 seconds. No pitch deck. You keep the recordings.</p>
-      </div>
+      {guide.kind === 'service' && guide.status !== 'later' && <CallOutline />}
+      {guide.status !== 'later' && (
+        <div className="mt-8 max-w-xl">
+          <EmailCapture location="guide" entry="guide_inline" />
+          <p className="mt-2 text-sm text-muted">About 90 seconds. No pitch deck. You keep the recordings.</p>
+        </div>
+      )}
       <div className="mt-12 max-w-3xl">
         {guide.sections.map((section) => (
           <section key={section.heading} className="mt-10">
