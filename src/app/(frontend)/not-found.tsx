@@ -14,7 +14,7 @@ export default function NotFound() {
       <ul className="mt-6 space-y-2 text-sm">
         <li><Link className="underline" href="/services/high-ticket-closers">Founder-led closing</Link></li>
         <li><Link className="underline" href="/services/high-ticket-closers">High-ticket closers</Link></li>
-        <li><Link className="underline" href="/pricing">How we charge</Link></li>
+        <li><Link className="underline" href="/pricing">How I charge</Link></li>
         <li><Link className="underline" href="/blog">Journal</Link></li>
       </ul>
     </div>

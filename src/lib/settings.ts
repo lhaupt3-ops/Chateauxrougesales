@@ -1,3 +1,4 @@
+import { OFFER, labelIsPublished, publishedLabel } from '@/content/offer'
 import { unstable_cache } from 'next/cache'
 import { getPayloadClient } from './payload'
 import { usableResendFrom } from './resend-from'
@@ -73,10 +74,10 @@ export const defaultSettings: SiteSettings = {
   bandHighLabel: '$10,000–$20,000/mo',
   bandTopLabel: '$20,000+/mo',
   bandsArePlaceholder: true,
-  setupFeeLabel: '',
-  setupFeeIsPlaceholder: true,
-  commissionLabel: '',
-  commissionIsPlaceholder: true,
+  setupFeeLabel: OFFER.setupFee,
+  setupFeeIsPlaceholder: false,
+  commissionLabel: OFFER.commission,
+  commissionIsPlaceholder: false,
   discoveryCallEnabled: false,
   nurtureEnabled: false,
   careersIsPlaceholder: true,
@@ -131,10 +132,10 @@ export const getSettings = unstable_cache(async function getSettings(): Promise<
       bandHighLabel: text(global.bandHighLabel, defaultSettings.bandHighLabel),
       bandTopLabel: text(global.bandTopLabel, defaultSettings.bandTopLabel),
       bandsArePlaceholder: global.bandsArePlaceholder !== false,
-      setupFeeLabel: text(global.setupFeeLabel, ''),
-      setupFeeIsPlaceholder: global.setupFeeIsPlaceholder !== false,
-      commissionLabel: text(global.commissionLabel, ''),
-      commissionIsPlaceholder: global.commissionIsPlaceholder !== false,
+      setupFeeLabel: publishedLabel(text(global.setupFeeLabel, ''), global.setupFeeIsPlaceholder !== false, OFFER.setupFee),
+      setupFeeIsPlaceholder: !labelIsPublished(text(global.setupFeeLabel, ''), global.setupFeeIsPlaceholder !== false, OFFER.setupFee),
+      commissionLabel: publishedLabel(text(global.commissionLabel, ''), global.commissionIsPlaceholder !== false, OFFER.commission),
+      commissionIsPlaceholder: !labelIsPublished(text(global.commissionLabel, ''), global.commissionIsPlaceholder !== false, OFFER.commission),
       discoveryCallEnabled: global.discoveryCallEnabled === true,
       nurtureEnabled: global.nurtureEnabled === true,
       careersIsPlaceholder: global.careersIsPlaceholder !== false,

@@ -29,10 +29,10 @@ export const services: Guide[] = [
     kind: 'service',
     status: 'available',
     metaTitle: 'Sales audit for founder-led sales',
-    metaDescription: 'A paid sales audit of your offer, your calls and your follow-up, done by the founder. A smaller first step than outsourcing the calls.',
+    metaDescription: 'A free sales audit of your offer, your calls and your follow-up, done by the founder. A smaller first step than outsourcing the calls.',
     eyebrow: 'Start here',
     h1: 'A sales audit before you hand over the calls.',
-    dek: 'A sales audit is a structured read of your offer, your live calls and your follow-up. You get a short written brief on what to fix, and a plain answer on whether outsourced closing would pay for itself. I do it myself.',
+    dek: 'A free, structured read of your offer, your live calls and your follow-up. You get a short written brief on what to fix, and a plain answer on whether a pilot would be a good next step. I do it myself.',
     sections: [
       {
         heading: 'What I review',
@@ -56,7 +56,7 @@ export const services: Guide[] = [
     faqs: [
       {
         question: 'What does the audit cost?',
-        answer: 'The figure is on the pricing page once it is set. Until then it reads “To be confirmed”, and you will get the number in writing before you pay anything.',
+        answer: 'Nothing. The audit is free. You get a written brief and a call to talk it through, and you do not have to continue after it.',
       },
       {
         question: 'Do you need recordings?',
@@ -70,7 +70,7 @@ export const services: Guide[] = [
     related: [
       { href: '/apply', label: "See if we're a fit", text: 'Say you want the audit first. The form has that option.' },
       { href: '/services/high-ticket-closers', label: 'Founder-led closing', text: 'What a pilot looks like if the audit points that way.' },
-      { href: '/pricing', label: 'How I charge', text: 'The shape of both steps, with numbers as soon as they are set.' },
+      { href: '/pricing', label: 'How I charge', text: 'No upfront fee. I am paid 10% of the cash I help collect.' },
     ],
   },
   {
@@ -82,7 +82,7 @@ export const services: Guide[] = [
     metaDescription: 'I install your sales call process and take your booked calls myself, on commission. For founders selling $2k to $15k offers on calls.',
     eyebrow: 'The pilot',
     h1: 'Founder-led closing: I set up the process, then take the calls.',
-    dek: 'You have an offer that sells on a call and calls that are already booked. I write down how the call should run, put the follow-up into your CRM, and take the calls myself. You pay a one-off setup fee, then commission on cash collected.',
+    dek: 'You have an offer that sells on a call and calls that are already booked. I write down how the call should run, put the follow-up into your CRM, and take the calls myself. There is no upfront fee. I am paid 10% of the cash I help collect.',
     sections: [
       {
         heading: 'What “closer for hire” means here',
@@ -104,7 +104,7 @@ export const services: Guide[] = [
       {
         heading: 'Commission only is not the same as free',
         paragraphs: [
-          'A commission-only closer lowers payroll and raises the management load. Someone still has to write the script, check the calls and follow up the maybes. In this model the setup fee pays for that work, and commission pays for the selling. There is no monthly retainer. The amounts are on the pricing page once they are set.',
+          'A commission-only closer lowers payroll and raises the management load. Someone still has to write the script, check the calls and follow up the maybes. In this model that work is part of the pilot, and I am paid 10% of the cash I help collect. There is no setup fee and no monthly retainer.',
         ],
       },
       {
@@ -143,7 +143,7 @@ export const services: Guide[] = [
       },
     ],
     related: [
-      { href: '/pricing', label: 'How I charge', text: 'A one-off setup fee, then commission on cash collected.' },
+      { href: '/pricing', label: 'How I charge', text: 'No upfront fee. I am paid 10% of the cash I help collect.' },
       { href: '/services/sales-audit', label: 'Audit first', text: 'If you want a diagnosis before a pilot.' },
       { href: '/compare/agency-vs-freelance-closer', label: 'Agency vs freelance', text: 'Who actually manages the person on the call.' },
     ],
@@ -191,7 +191,7 @@ export const services: Guide[] = [
     related: [
       { href: '/services/high-ticket-closers', label: 'Founder-led closing', text: 'What is available today.' },
       { href: '/services/sales-audit', label: 'Sales audit', text: 'A written read on your calls and follow-up.' },
-      { href: '/pricing', label: 'How I charge', text: 'Setup fee, then commission. No retainer.' },
+      { href: '/pricing', label: 'How I charge', text: 'No upfront fee. 10% of cash collected. No retainer.' },
     ],
   },
   {
@@ -231,7 +231,7 @@ export const services: Guide[] = [
     faqs: [
       {
         question: 'Is this pay per appointment?',
-        answer: 'No, and it is not offered. The model is a one-off setup fee, then commission on cash collected.',
+        answer: 'No, and it is not offered. There is no upfront fee. I am paid 10% of the cash I help collect.',
       },
       {
         question: 'Can you set appointments if I have no leads?',
@@ -287,7 +287,7 @@ export const verticals: Guide[] = [
       },
     ],
     related: [
-      { href: '/services/sales-audit', label: 'Sales audit', text: 'A paid read of your calls and follow-up, before anything else.' },
+      { href: '/services/sales-audit', label: 'Sales audit', text: 'A free read of your calls and follow-up, before anything else.' },
       { href: '/services/high-ticket-closers', label: 'Founder-led closing', text: 'If the calls exist and you only need them run.' },
       { href: '/compare/outsourced-vs-in-house-sales-team', label: 'In-house or outsourced', text: 'A practical comparison for a small firm.' },
     ],
@@ -525,7 +525,7 @@ export const comparisons: Guide[] = [
     ],
     related: [
       { href: '/services/high-ticket-closers', label: 'Founder-led closing', text: 'What the pilot looks like.' },
-      { href: '/pricing', label: 'How I charge', text: 'A one-off setup fee, then commission. The amounts are to be confirmed.' },
+      { href: '/pricing', label: 'How I charge', text: 'No upfront fee. I am paid 10% of the cash I help collect.' },
       { href: '/compare/outsourced-vs-in-house-sales-team', label: 'Versus in house', text: 'The wider comparison, if a freelancer is not the alternative.' },
     ],
   },

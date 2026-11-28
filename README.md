@@ -67,7 +67,7 @@ Both routes are safe to call more often than their schedule. A partial-lead remi
 | `NEXT_PUBLIC_POSTHOG_HOST` | No | Defaults to `https://us.i.posthog.com`. |
 | `POSTHOG_API_KEY` | No | Server events. Falls back to the public key. |
 
-Site settings in the admin (guarantee, notice, timeline, setup fee, commission, Calendly URLs, notification email) override the matching env values when filled in. The setup fee and commission stay “to be confirmed” until you turn those checkboxes off. Nurture email stays off until `nurtureEnabled` is on. See `docs/sequences.md`.
+Site settings in the admin (guarantee, notice, timeline, setup fee, commission, Calendly URLs, notification email) override the matching env values when filled in. The live offer is a free audit, a free setup, and 10% of cash collected; those figures live in `src/content/offer.ts` and are used if the Site settings placeholder flags are still on. Nurture email stays off until `nurtureEnabled` is on. See `docs/sequences.md`.
 
 ## What is intentionally not invented
 

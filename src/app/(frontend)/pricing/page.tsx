@@ -1,7 +1,7 @@
 import { ApplyLink } from '@/components/site/ApplyLink'
 import { Breadcrumbs, FaqList } from '@/components/site/ui'
 import { pricingFaqs } from '@/content/faqs'
-import { auditCreditSentence, auditFeeLabel, pilotLengthLabel } from '@/content/offer'
+import { auditFeeLabel, pilotLengthLabel } from '@/content/offer'
 import { pricingIsIndexable } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
 import { SEO } from '@/lib/seo-titles'
@@ -33,32 +33,31 @@ export default async function PricingPage() {
   const questions = faqs.length ? faqs : pricingFaqs
   const setup = confirmedOrPending(settings.setupFeeLabel, settings.setupFeeIsPlaceholder)
   const commission = confirmedOrPending(settings.commissionLabel, settings.commissionIsPlaceholder)
-  const credit = auditCreditSentence()
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
       <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Pricing', path: '/pricing' }]} />
       <h1 className="mt-8 font-serif text-5xl">How I charge</h1>
       <p className="mt-4 text-lg leading-8 text-muted">
-        Two steps, and you can stop after the first. A paid sales audit if you want a diagnosis. Then a pilot: a one-off setup fee and commission on cash collected. There is no monthly retainer. You see the shape here, and the numbers are confirmed in writing before you pay.
+        There is no upfront fee. You can start with a free sales audit if you want a diagnosis, and stop there. A pilot has no setup fee either. I am paid 10% of the cash I help collect. There is no monthly retainer. Pilot length and notice are confirmed in the written agreement before we start.
       </p>
 
       <h2 className="mt-10 font-serif text-3xl">1. Sales audit</h2>
       <dl className="mt-4 grid gap-4 sm:grid-cols-2">
-        <Figure label="Audit fee, one-off" value={auditFeeLabel()} />
+        <Figure label="Audit fee" value={auditFeeLabel()} />
       </dl>
       <p className="mt-4 leading-7 text-muted">
-        I read your offer, at least five real calls (losses included) and your follow-up. You get a short written brief and a call to talk it through. The brief says what is working, what is costing you deals, and whether a pilot would pay for itself. If the honest answer is “not yet”, it says that. {credit}
+        I read your offer, at least five real calls (losses included) and your follow-up. You get a short written brief and a call to talk it through. The brief says what is working, what is costing you deals, and whether a pilot would be a good next step. If the honest answer is “not yet”, it says that. The audit is free, and you do not have to continue after it.
       </p>
 
       <h2 className="mt-10 font-serif text-3xl">2. Pilot</h2>
       <dl className="mt-4 grid gap-4 sm:grid-cols-3">
-        <Figure label="Setup fee, one-off" value={setup} />
+        <Figure label="Setup fee" value={setup} />
         <Figure label="Then commission" value={commission} />
         <Figure label="Pilot length" value={pilotLengthLabel()} />
       </dl>
-      <p className="mt-4 text-sm text-muted">No figure here is a quote while it reads “To be confirmed”.</p>
+      <p className="mt-4 text-sm text-muted">Pilot length is not a quote while it reads “To be confirmed”.</p>
       <p className="mt-4 leading-7 text-muted">
-        The setup fee covers the first weeks: reading the offer and the calls, writing the call shape and qualifying rules, and setting up the follow-up in your CRM. Commission alone would pay me nothing for that work. After that I take your booked calls, and commission is a percentage of cash you have actually collected from the buyers I close. Payment plans pay commission as the money arrives. How refunds are handled is written in the agreement before we start.
+        I install the process and take your booked calls. There is no setup fee and no retainer. Commission is 10% of cash you have actually collected from the buyers I close. Payment plans pay commission as the money arrives. How refunds are handled is written in the agreement before we start.
       </p>
 
       <h2 className="mt-10 font-serif text-3xl">What is not included</h2>

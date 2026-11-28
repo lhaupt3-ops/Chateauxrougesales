@@ -256,7 +256,7 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
               {[
                 ['Who manages', 'You', 'You', 'Me, with a weekly review with you'],
                 ['Who owns the data', 'You', 'Often unclear', 'You'],
-                ['How you pay', 'Salary and commission', 'Mostly commission', 'Setup fee, then commission'],
+                ['How you pay', 'Salary and commission', 'Mostly commission', 'No upfront fee. 10% of cash collected'],
                 ['Capacity', 'As many as you hire', 'One person', 'One person. A handful of clients at a time'],
                 ['Best when', 'Sales is the company', 'You can coach', 'Calls are booked and you want the process built and the calls taken'],
               ].map((row) => (
@@ -281,10 +281,10 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
           <SectionHeading title={copy.chargeTitle} body={copy.chargeBody} />
           <ol className="mt-6 space-y-3 text-sm leading-6 text-muted">
             <li>
-              <span className="font-medium text-ink">Sales audit.</span> A paid read of your offer, calls and follow-up. Optional, and a fair place to start.
+              <span className="font-medium text-ink">Sales audit.</span> A free read of your offer, calls and follow-up. Optional, and a fair place to start.
             </li>
             <li>
-              <span className="font-medium text-ink">Pilot.</span> I install the process and take your booked calls. A setup fee, then commission on cash collected.
+              <span className="font-medium text-ink">Pilot.</span> I install the process and take your booked calls. No upfront fee. I am paid 10% of the cash I help collect.
             </li>
             <li>
               <span className="font-medium text-ink">A team, later.</span> Not available yet. I will say here when it is.

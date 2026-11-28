@@ -60,7 +60,7 @@ const FOOTER = [
     title: 'Company',
     links: [
       ['/how-it-works', 'How it works'],
-      ['/pricing', 'How we charge'],
+      ['/pricing', 'How I charge'],
       ['/compare', 'Comparisons'],
       ['/results', 'Results'],
       ['/about', 'About'],

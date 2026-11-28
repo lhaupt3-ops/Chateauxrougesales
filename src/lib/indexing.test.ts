@@ -9,10 +9,10 @@ const priced = {
   commissionLabel: '10%',
 }
 
-test('pricing stays out of the index while the amounts are placeholders', () => {
-  assert.equal(pricingIsIndexable({ ...priced, setupFeeIsPlaceholder: true }), false)
-  assert.equal(pricingIsIndexable({ ...priced, setupFeeLabel: '' }), false)
-  assert.equal(pricingIsIndexable({ ...priced, commissionLabel: 'Placeholder: later' }), false)
+test('pricing is indexable once the offer numbers are confirmed, even if Site settings flags are still on', () => {
+  assert.equal(pricingIsIndexable({ ...priced, setupFeeIsPlaceholder: true }), true)
+  assert.equal(pricingIsIndexable({ ...priced, setupFeeLabel: '' }), true)
+  assert.equal(pricingIsIndexable({ ...priced, commissionLabel: 'Placeholder: later', commissionIsPlaceholder: true }), true)
   assert.equal(pricingIsIndexable(priced), true)
 })
 

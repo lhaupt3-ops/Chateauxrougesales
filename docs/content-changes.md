@@ -37,9 +37,17 @@ These stay editable in Site settings, or as empty proof blocks. Do not publish t
 
 The site now describes what exists today: one founder who installs the call process and takes the calls himself. A team is described as later, not as a product.
 
-- Offer shape: optional paid sales audit, then a pilot (one-off setup fee, then commission on cash collected, no retainer). Setting, lead generation and a staffed team are named as not offered yet.
-- Numbers: the setup fee and commission still come from Site settings and read “To be confirmed” while their placeholder flags are on. The audit fee, the audit credit window and the pilot length live in `src/content/offer.ts` and render as “To be confirmed” while empty. Filling them in needs a code change and no database change.
+- Offer shape (later confirmed): optional free sales audit, then a pilot with no setup fee and 10% of cash collected, no retainer. Setting, lead generation and a staffed team are named as not offered yet.
 - Homepage, pricing, services (index and the four pages), about, how it works, FAQs, funnel defaults, SEO titles, JSON-LD, llms.txt, footer and the apply next-steps/book pages are first person and no longer mention setters, a sales lead or a staffed team as existing.
 - Services pages for a full team and for appointment setting are marked `status: 'later'`, are `noindex`, and hide the apply prompts.
 - The hero card no longer shows invented sample figures. It shows a blank weekly report.
 - Copy stored in the database (Funnel global, Faqs collection, Site settings) overrides these defaults when present. Check the admin after deploy.
+
+## v1 prices confirmed (branch `v1-honest-offer`)
+
+Lasse confirmed the numbers on 28 Nov 2026: the audit is free, the setup is free, and commission is 10% of cash collected. There is no retainer and no audit credit.
+
+- Canonical figures live in `src/content/offer.ts`. Site settings can still override the setup and commission labels when their placeholder flags are off. If the flags are still on in the production database, the site falls back to these figures so a preview (and a later production merge) show the right numbers without a database edit.
+- Funnel scoring is version 4. The setup-fee question is no longer asked. Thresholds are qualified at 11 or more, review at 7 to 10. An older “cannot pay a setup fee” answer is not a hard stop. See `docs/scoring.md`.
+- Copy on pricing, home, services, FAQs, the apply confirmation and next-steps pages, the scorecard, and the switched-off nurture defaults now says there is no upfront fee.
+- Pilot length and notice stay “To be confirmed”.

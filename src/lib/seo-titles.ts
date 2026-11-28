@@ -7,7 +7,7 @@ export const SEO = {
   },
   services: {
     title: 'Sales audit and founder-led closing | Chateaux Rouge',
-    description: 'A paid sales audit, and a pilot where I install your call process and take the calls. A team and appointment setting come later.',
+    description: 'A free sales audit, and a pilot where I install your call process and take the calls. No upfront fee. A team and appointment setting come later.',
   },
   who: {
     title: 'Founders we install a sales team for | Chateaux Rouge',
@@ -19,7 +19,7 @@ export const SEO = {
   },
   pricing: {
     title: 'What founders pay to outsource closing | Chateaux Rouge',
-    description: 'An optional paid sales audit, then a pilot: a one-off setup fee and commission on cash collected. No retainer. Figures are confirmed in writing.',
+    description: 'A free sales audit, then a pilot with no upfront fee. I am paid 10% of the cash I help collect. No retainer. Pilot length is confirmed in writing.',
   },
   results: {
     title: 'Results for founders who outsource sales | Chateaux Rouge',
@@ -55,7 +55,7 @@ export const SEO = {
   },
   terms: {
     title: 'Terms for founders using this site | Chateaux Rouge',
-    description: 'Terms for founders using the Chateaux Rouge website. The price of a sales team is confirmed only in a written agreement, not on these pages.',
+    description: 'Terms for founders using the Chateaux Rouge website. There is no upfront fee. Commission is confirmed in the written agreement, not only on these pages.',
   },
   apply: {
     title: 'See if a sales team fits your offer | Chateaux Rouge',

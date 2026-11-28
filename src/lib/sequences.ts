@@ -78,8 +78,8 @@ export const SEQUENCE_STEPS: SequenceStep[] = [
     subject: 'When outsourced closing is worth another look',
     heading: 'Reapply when the process can hold a person',
     paragraphs: [
-      'Outsourced closing is a fit when conversations are already happening, the offer price can carry a closer, and you can pay a one-off setup fee. After that, the model is commission on cash collected. There is no monthly retainer.',
-      'The setup amount and the commission percentage are still to be confirmed in writing. Nothing on the site is a quote.',
+      'Outsourced closing is a fit when conversations are already happening and the offer price can carry a closer. There is no upfront fee and no monthly retainer. I am paid 10% of the cash I help collect.',
+      'Pilot length and notice are confirmed in the written agreement. Nothing on the site is a close-rate promise.',
       'If that describes you now, the application is open. If it does not, keep the guide and come back when it does.',
     ],
   },
@@ -90,16 +90,16 @@ export const SEQUENCE_STEPS: SequenceStep[] = [
     heading: 'You can finish it in a few minutes',
     paragraphs: [
       'You started an application and stopped before the end. The answers you already gave are saved.',
-      'The questions left are about your offer, your lead flow, and whether a one-off setup fee is possible. There is no monthly retainer to estimate.',
+      'The questions left are about your offer and your lead flow. There is no setup fee and no monthly retainer to estimate.',
     ],
   },
   {
     key: 'partial-2',
     delayHours: 24,
     subject: 'The part of the application that decides the path',
-    heading: 'Price, conversations, and the setup fee',
+    heading: 'Price and conversations',
     paragraphs: [
-      'Three answers do most of the sorting. What the offer costs. Whether conversations are already happening. Whether you can pay a setup fee.',
+      'Two answers do most of the sorting. What the offer costs. Whether conversations are already happening.',
       'If the price is still moving, or there are no conversations yet, the honest result is usually “not yet”. That is a useful result. It is not a rejection of the offer.',
     ],
   },
@@ -120,7 +120,7 @@ export const SEQUENCE_STEPS: SequenceStep[] = [
     heading: 'A time is the next step',
     paragraphs: [
       'The application came back as a fit for a strategy call. Nothing starts until that conversation, and a no is a fine outcome.',
-      'Bring the person who can approve a setup fee. The amount and the commission percentage are confirmed in writing, not on the call alone.',
+      'Bring the person who can say yes. Commission is 10% of cash collected, and there is no upfront fee. The rest is confirmed in writing, not on the call alone.',
     ],
   },
   {
@@ -140,7 +140,7 @@ export const SEQUENCE_STEPS: SequenceStep[] = [
     heading: 'Book, or reapply when the timing is real',
     paragraphs: [
       'This is the last note about the unbooked strategy call. The link stays on your confirmation page until you book or start a new application.',
-      'If the timing moved, leave it. Reapply when the conversations and the setup fee are both real.',
+      'If the timing moved, leave it. Reapply when the conversations are real.',
     ],
   },
 ]

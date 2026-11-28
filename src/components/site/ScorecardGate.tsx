@@ -59,7 +59,7 @@ export function ScorecardGate({
     scoreHeading: 'Your score',
     progressHint: 'Answer every row. Seven or eight yeses means a closer can be the next look. Two or more nos means fix those first.',
     passHeading: 'A closer can be the next look',
-    passBody: 'One no, or none. The process is mostly in place. A closer is a reasonable next conversation if delivery can take the work and a setup fee is possible.',
+    passBody: 'One no, or none. The process is mostly in place. A closer is a reasonable next conversation if delivery can take the work.',
     failHeading: 'Fix the nos first',
     failBody: 'Two or more nos means a closer will not fix the week. Write the price, the people it is not for, and where a maybe goes. Then look at a setter if the gap is conversations, or a closer if the gap is the decision.',
     passMaxNos: 1,

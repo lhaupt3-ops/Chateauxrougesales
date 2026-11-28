@@ -1,9 +1,10 @@
 import { INVESTMENT_VALUES } from './options'
 
-// Version 3. New applications are scored on whether they can pay a setup fee.
+// Version 4. There is no setup fee and no retainer. New applications are not
+// asked about a setup fee, and a "no" on an older setup-fee answer is not a hard stop.
 // Older monthly-band answers still score, and under_3k still routes to not yet.
 // Rules: docs/scoring.md
-export const SCORING_VERSION = '3'
+export const SCORING_VERSION = '4'
 
 export type ApplicationAnswers = {
   offerType?: string | null
@@ -59,13 +60,6 @@ const TIMELINE_POINTS: Record<string, number> = {
   researching: 0,
 }
 
-const SETUP_FEE_POINTS: Record<string, number> = {
-  yes: 3,
-  not_yet: 1,
-  not_sure: 1,
-  no: 0,
-}
-
 const INVESTMENT_POINTS: Record<string, number> = {
   [INVESTMENT_VALUES.under3k]: 0,
   [INVESTMENT_VALUES.band1]: 2,
@@ -113,9 +107,9 @@ export function isFlaggedOffer(text: string | null | undefined): boolean {
 export function scoreApplication(answers: ApplicationAnswers): ScoreResult {
   const reasons: string[] = []
   const tags: string[] = []
-  const commercial = answers.setupFee
-    ? points(SETUP_FEE_POINTS, answers.setupFee, reasons, 'setup')
-    : points(INVESTMENT_POINTS, answers.investment, reasons, 'investment')
+  const commercial = !answers.setupFee && answers.investment
+    ? points(INVESTMENT_POINTS, answers.investment, reasons, 'investment')
+    : 0
   const score =
     points(PRICE_POINTS, answers.pricePoint, reasons, 'price') +
     points(REVENUE_POINTS, answers.monthlyRevenue, reasons, 'revenue') +
@@ -123,7 +117,7 @@ export function scoreApplication(answers: ApplicationAnswers): ScoreResult {
     points(TIMELINE_POINTS, answers.timeline, reasons, 'timeline') +
     commercial
 
-  let tier: Tier = score >= 13 ? 'qualified' : score >= 8 ? 'review' : 'not_yet'
+  let tier: Tier = score >= 11 ? 'qualified' : score >= 7 ? 'review' : 'not_yet'
 
   const priceTooLow = answers.pricePoint === 'under_1000'
   const noMotion = answers.monthlyRevenue === 'pre_revenue' && answers.monthlyConversations === 'none'
@@ -144,11 +138,6 @@ export function scoreApplication(answers: ApplicationAnswers): ScoreResult {
   if (!answers.setupFee && answers.investment === INVESTMENT_VALUES.under3k) {
     tier = 'not_yet'
     reasons.push('hard:investment_under_3000')
-  }
-
-  if (answers.setupFee === 'no') {
-    tier = 'not_yet'
-    reasons.push('hard:cannot_pay_setup')
   }
 
   const flagged = answers.offerType === 'other' && isFlaggedOffer(answers.offerOther)

@@ -115,11 +115,11 @@ export default function ReadyForClosersPage() {
           <section>
             <h2 className="font-serif text-3xl">If the score says wait</h2>
             <p className="mt-3 leading-7 text-muted">
-              Sell the offer yourself until the price, the objections and the delivery load are written down. Then look at a setter if the gap is conversations, or a closer if the gap is the decision. A managed team is the later step, when both conversations exist and a setup fee is possible.
+              Sell the offer yourself until the price, the objections and the delivery load are written down. Then look at a setter if the gap is conversations, or a closer if the gap is the decision. A team is the later step, when both conversations exist.
             </p>
             <p className="mt-4 text-sm">
               <Link href={SCORECARD_PATH} className="underline">Get the scorecard</Link>
-              <span className="text-muted">. The setup amount and the commission percentage are still to be confirmed in writing. Nothing in this guide is a quote.</span>
+              <span className="text-muted">. There is no upfront fee. I am paid 10% of the cash I help collect. Nothing in this guide is a promise of results.</span>
             </p>
           </section>
         </div>

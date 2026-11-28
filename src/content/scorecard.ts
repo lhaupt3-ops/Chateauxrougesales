@@ -10,7 +10,7 @@ export const SCORECARD_QUESTIONS: [string, string][] = [
   ['You know where a maybe goes.', 'A maybe without a date and an owner is not a pipeline. Name the place those notes live before you hire.'],
   ['You can listen to a call you would let a new hire copy.', 'If you would not play one recording to a stranger, the process is still in your head. Hiring freezes that confusion into someone else’s week.'],
   ['Delivery can absorb more yeses.', 'A full calendar that you cannot fulfil is a worse problem than a quiet one. Count the seats, the calls, or the client hours you can actually take.'],
-  ['A one-off setup fee is possible.', 'Commission on future cash does not pay for the weeks spent building the call, the handoff and the review. If the only acceptable model is “pay us when we close”, wait.'],
+  ['You are willing to pay 10% of cash collected from the calls I take.', 'There is no setup fee and no retainer. If a share of collected cash is not acceptable, this is not a fit.'],
 ]
 
 export function interpretYesCount(yesCount: number): { heading: string; body: string } {
@@ -18,7 +18,7 @@ export function interpretYesCount(yesCount: number): { heading: string; body: st
   if (nos <= 1) {
     return {
       heading: 'A closer can be the next look',
-      body: 'One no, or none. The process is mostly in place. A closer is a reasonable next conversation if delivery can take the work and a setup fee is possible.',
+      body: 'One no, or none. The process is mostly in place. A closer is a reasonable next conversation if delivery can take the work.',
     }
   }
   return {

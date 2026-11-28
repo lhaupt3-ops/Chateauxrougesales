@@ -11,7 +11,6 @@ import {
   DIAL_CODES,
   NEED_OPTIONS,
   DECISION_OPTIONS,
-  SETUP_FEE_OPTIONS,
   OFFER_OPTIONS,
   PRICE_OPTIONS,
   REVENUE_OPTIONS,
@@ -20,7 +19,7 @@ import {
   type Option,
 } from '@/lib/options'
 
-const STEPS = ['email', 'offer', 'price', 'revenue', 'conversations', 'setup', 'needs', 'timeline', 'setupFee', 'decisionMakers', 'contact'] as const
+const STEPS = ['email', 'offer', 'price', 'revenue', 'conversations', 'setup', 'needs', 'timeline', 'decisionMakers', 'contact'] as const
 
 type Answers = Record<string, string | string[]>
 
@@ -58,7 +57,6 @@ export function ApplyWizard({
     if (identifyApplication(applicationId, email)) identified.current = true
   }, [])
 
-  const setupFeeOptions: Option[] = SETUP_FEE_OPTIONS
 
   useEffect(() => {
     if (viewed.current) return
@@ -177,7 +175,7 @@ export function ApplyWizard({
     function onKey(event: KeyboardEvent) {
       const target = event.target as HTMLElement | null
       if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return
-      const options = optionsFor(STEPS[index], setupFeeOptions)
+      const options = optionsFor(STEPS[index])
       const number = Number(event.key)
       if (!options || number < 1 || number > options.length) return
       event.preventDefault()
@@ -315,7 +313,7 @@ export function ApplyWizard({
   }
 
   const step = STEPS[index]
-  const options = optionsFor(step, setupFeeOptions)
+  const options = optionsFor(step)
 
   return (
     <div>
@@ -438,15 +436,6 @@ export function ApplyWizard({
         </div>
       )}
       {step === 'timeline' && <Step title="When would you want this in place?" hint="Researching is an honest answer. It changes the route, not the respect." options={TIMELINE_OPTIONS} selected={String(answers.timeline || '')} onChoose={choose} />}
-      {step === 'setupFee' && (
-        <div>
-          <h1 className="font-serif text-4xl">Can you pay a one-off setup fee?</h1>
-          <p className="mt-3 max-w-xl leading-7 text-muted">
-            After that, the model is commission on cash collected. There is no monthly retainer. The setup amount and the commission percentage are still to be confirmed, in writing, before you pay.
-          </p>
-          <OptionList options={setupFeeOptions} selected={String(answers.setupFee || '')} onChoose={choose} />
-        </div>
-      )}
       {step === 'decisionMakers' && (
         <Step
           title="Who else would be part of a decision like this?"
@@ -505,7 +494,7 @@ export function ApplyWizard({
         </form>
       )}
 
-      {options && step !== 'offer' && step !== 'needs' && step !== 'setupFee' ? null : null}
+      {options && step !== 'offer' && step !== 'needs' ? null : null}
       {error && <p className="mt-4 text-sm text-wine">{error}</p>}
       <p className="mt-10 text-xs leading-5 text-muted">Your answers are private. No spam.</p>
     </div>
@@ -582,12 +571,11 @@ function keyFor(step: (typeof STEPS)[number]): string {
   if (step === 'conversations') return 'monthlyConversations'
   if (step === 'setup') return 'salesSetup'
   if (step === 'timeline') return 'timeline'
-  if (step === 'setupFee') return 'setupFee'
   if (step === 'decisionMakers') return 'decisionMakers'
   return step
 }
 
-function optionsFor(step: (typeof STEPS)[number], setupFee: Option[]): Option[] | null {
+function optionsFor(step: (typeof STEPS)[number]): Option[] | null {
   if (step === 'offer') return OFFER_OPTIONS
   if (step === 'price') return PRICE_OPTIONS
   if (step === 'revenue') return REVENUE_OPTIONS
@@ -595,7 +583,6 @@ function optionsFor(step: (typeof STEPS)[number], setupFee: Option[]): Option[] 
   if (step === 'setup') return SETUP_OPTIONS
   if (step === 'needs') return NEED_OPTIONS
   if (step === 'timeline') return TIMELINE_OPTIONS
-  if (step === 'setupFee') return setupFee
   if (step === 'decisionMakers') return DECISION_OPTIONS
   return null
 }
