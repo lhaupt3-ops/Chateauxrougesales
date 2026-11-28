@@ -25,7 +25,7 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'How fast can this be live?',
       answer:
-        'To be confirmed. After I have seen your offer and a few calls I will give you a date in writing, and only one I can keep.',
+        'After I have seen your offer and a few calls I will give you a date in writing, and only one I can keep.',
     },
     {
       question: 'What does it cost?',
@@ -50,7 +50,7 @@ export const fallbackFaqs: Record<string, Faq[]> = {
     {
       question: 'Is this a long contract?',
       answer:
-        'The pilot length and the notice period are in the written agreement. Until that agreement exists, both are to be confirmed.',
+        'The pilot length and the notice period are in the written agreement.',
     },
     {
       question: 'Who is this not for?',

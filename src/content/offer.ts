@@ -41,5 +41,5 @@ export function auditFeeLabel(): string {
 }
 
 export function pilotLengthLabel(): string {
-  return OFFER.pilotLength.trim() || 'To be confirmed'
+  return OFFER.pilotLength.trim() || 'Set in the agreement'
 }

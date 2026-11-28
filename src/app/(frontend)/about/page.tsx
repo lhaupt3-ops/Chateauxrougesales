@@ -113,7 +113,7 @@ export default function AboutPage() {
         <li>No invented scarcity, countdowns, or a price that “disappears when we hang up”.</li>
         <li>
           No “no refunds” line. A change-of-mind policy, once it exists, sits beside legal consumer rights. It does
-          not replace them. A lawyer should review the wording for each market.
+          not replace them.
         </li>
         <li>No payment before the buyer has seen the agreement.</li>
         <li>No pushing credit, and no use of someone’s hardship to force a yes.</li>

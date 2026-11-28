@@ -55,7 +55,6 @@ export default async function PricingPage() {
         <Figure label="Then commission" value={commission} />
         <Figure label="Pilot length" value={pilotLengthLabel()} />
       </dl>
-      <p className="mt-4 text-sm text-muted">Pilot length is not a quote while it reads “To be confirmed”.</p>
       <p className="mt-4 leading-7 text-muted">
         I install the process and take your booked calls. There is no setup fee and no retainer. Commission is 10% of cash you have actually collected from the buyers I close. Payment plans pay commission as the money arrives. How refunds are handled is written in the agreement before we start.
       </p>
