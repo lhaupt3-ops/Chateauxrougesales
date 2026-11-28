@@ -4,7 +4,7 @@ import { Breadcrumbs, FaqList } from '@/components/site/ui'
 import { publicCopy } from '@/lib/indexing'
 import { pageMetadata } from '@/lib/metadata'
 import { SEO } from '@/lib/seo-titles'
-import { isOperatorPlaceholder, getSettings } from '@/lib/settings'
+import { getSettings, publishedSettingsText } from '@/lib/settings'
 
 export const metadata = pageMetadata({
   title: SEO.how.title,
@@ -28,13 +28,13 @@ const CALL = [
 
 export default async function HowItWorksPage() {
   const settings = await getSettings()
-  const timeline = isOperatorPlaceholder(settings.timelineText) ? '' : settings.timelineText
+  const timeline = publishedSettingsText(publicCopy(settings.timelineText))
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
       <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'How it works', path: '/how-it-works' }]} />
       <h1 className="mt-8 font-serif text-5xl">How the work actually runs</h1>
       <p className="mt-4 text-lg leading-8 text-muted">
-        First I install a process around your offer. Then I run your buyers’ calls to a written standard, myself. There is no team behind me yet. {publicCopy(timeline) || 'A start date appears here only after it is confirmed.'}
+        First I install a process around your offer. Then I run your buyers’ calls to a written standard, myself. There is no team behind me yet.{timeline ? ` ${timeline}` : ''}
       </p>
       <h2 className="mt-10 font-serif text-3xl">What I do with you</h2>
       {INSTALL.map(([title, body]) => (

@@ -25,8 +25,8 @@ test('careers and authors become indexable only when the page is real', () => {
 })
 
 test('public copy drops internal notes', () => {
-  assert.equal(publicCopy('This sentence is a draft.'), 'To be confirmed.')
-  assert.equal(publicCopy('Lawyer review is still pending.'), 'To be confirmed.')
+  assert.equal(publicCopy('This sentence is a draft.'), '')
+  assert.equal(publicCopy('Lawyer review is still pending.'), '')
   assert.match(publicCopy('The wording lives in Site settings.'), /the agreement/)
   assert.doesNotMatch(publicCopy('Lawyer review pending in Site settings. This sentence is a draft.'), /Site settings|draft|Lawyer review/i)
 })

@@ -1,6 +1,6 @@
 import { pageMetadata } from '@/lib/metadata'
 import { SEO } from '@/lib/seo-titles'
-import { confirmedOrPending, getSettings } from '@/lib/settings'
+import { confirmedOrPending, getSettings, isOperatorPlaceholder } from '@/lib/settings'
 
 export const metadata = pageMetadata({
   title: SEO.terms.title,
@@ -15,7 +15,7 @@ export default async function TermsPage() {
   const country = settings.legalCountry || 'Australia'
   const setup = confirmedOrPending(settings.setupFeeLabel, settings.setupFeeIsPlaceholder)
   const commission = confirmedOrPending(settings.commissionLabel, settings.commissionIsPlaceholder)
-  const law = settings.governingLawIsPlaceholder || !settings.governingLaw.trim()
+  const law = settings.governingLawIsPlaceholder || isOperatorPlaceholder(settings.governingLaw)
     ? 'Until a written agreement names the governing law, do not treat this page as choosing a court.'
     : `The governing law named for the website terms is ${settings.governingLaw}.`
   return (

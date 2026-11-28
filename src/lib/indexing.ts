@@ -52,9 +52,9 @@ export async function countRealResults(): Promise<number> {
 
 export function publicCopy(value: string): string {
   return value
-    .replace(/this sentence is a draft\.?/gi, 'To be confirmed.')
-    .replace(/lawyer review is still pending\.?/gi, 'To be confirmed.')
-    .replace(/lawyer review pending\.?/gi, 'To be confirmed.')
+    .replace(/this sentence is a draft\.?/gi, '')
+    .replace(/lawyer review is still pending\.?/gi, '')
+    .replace(/lawyer review pending\.?/gi, '')
     .replace(/\bSite settings\b/g, 'the agreement')
     .replace(/[ ]{2,}/g, ' ')
     .replace(/\s+\./g, '.')

@@ -7,7 +7,7 @@ import type { ProofStudy } from '@/lib/content'
 import { publicCopy } from '@/lib/indexing'
 import type { FunnelCopy } from '@/lib/funnel-copy'
 import { FUNNEL_DEFAULTS } from '@/lib/funnel-copy'
-import { isOperatorPlaceholder, type SiteSettings } from '@/lib/settings'
+import { publishedSettingsText, type SiteSettings } from '@/lib/settings'
 
 const PAINS = [
   {
@@ -35,8 +35,13 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
   const copy = funnel || { ...FUNNEL_DEFAULTS, questions: [] }
   const quotes = proof.filter((study) => study.quote)
   const results = proof.flatMap((study) => study.results.map((result) => ({ ...result, slug: study.slug, illustrative: study.illustrative })))
-  const guarantee = settings.guaranteeIsPlaceholder || isOperatorPlaceholder(settings.guaranteeText) ? '' : publicCopy(settings.guaranteeText)
-  const notice = settings.noticeIsPlaceholder || isOperatorPlaceholder(settings.noticeText) ? '' : publicCopy(settings.noticeText)
+  const guarantee = settings.guaranteeIsPlaceholder
+    ? ''
+    : publishedSettingsText(publicCopy(settings.guaranteeText))
+  const notice = settings.noticeIsPlaceholder ? '' : publishedSettingsText(publicCopy(settings.noticeText))
+  const timeline =
+    publishedSettingsText(publicCopy(settings.timelineText)) ||
+    'I do each step myself, then we look at the calls together each week.'
   const termsAreDraft = settings.guaranteeIsPlaceholder || settings.noticeIsPlaceholder
   return (
     <>
@@ -128,7 +133,7 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
           <SectionHeading
             eyebrow={copy.systemEyebrow}
             title={copy.systemTitle}
-            body={publicCopy(settings.timelineText)}
+            body={timeline}
             tone="light"
           />
           <ol className="mt-8 grid gap-4 md:grid-cols-4">
