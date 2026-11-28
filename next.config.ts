@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
     localPatterns: [
       { pathname: '/api/media/file/**' },
       { pathname: '/brand/**' },
+      { pathname: '/images/**' },
     ],
     remotePatterns: [
       { protocol: 'https', hostname: '**.public.blob.vercel-storage.com' },
