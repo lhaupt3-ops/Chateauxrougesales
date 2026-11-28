@@ -23,7 +23,7 @@ export const OFFER = {
 
 export function isUnsetLabel(value: string | null | undefined): boolean {
   if (!value || !value.trim()) return true
-  return /^\s*placeholder\b/i.test(value) || /^\s*to be confirmed\s*$/i.test(value)
+  return /^\s*placeholder\b/i.test(value) || /^\s*to be confirmed\b/i.test(value)
 }
 
 export function publishedLabel(stored: string, isPlaceholder: boolean, fallback: string): string {

@@ -68,7 +68,7 @@ export const defaultSettings: SiteSettings = {
   noticeText:
     'To be confirmed. The term and the notice period are set in the written agreement.',
   noticeIsPlaceholder: true,
-  timelineText: 'To be confirmed.',
+  timelineText: '',
   bandLowLabel: '$3,000–$5,000/mo',
   bandMidLabel: '$5,000–$10,000/mo',
   bandHighLabel: '$10,000–$20,000/mo',
@@ -170,7 +170,7 @@ export const getSettings = unstable_cache(async function getSettings(): Promise<
 
 export function confirmedOrPending(value: string, isPlaceholder: boolean): string {
   const trimmed = value.trim()
-  if (isPlaceholder || !trimmed || isOperatorPlaceholder(trimmed)) return 'To be confirmed'
+  if (isPlaceholder || isOperatorPlaceholder(trimmed)) return ''
   return trimmed
 }
 
@@ -188,7 +188,7 @@ const DEFAULT_STRATEGIST_NAME = 'Your strategist'
 
 export function configuredStrategistName(settings: SiteSettings): string {
   const name = settings.closerName.trim()
-  if (!name || name === DEFAULT_STRATEGIST_NAME) return ''
+  if (!name || name === DEFAULT_STRATEGIST_NAME || isOperatorPlaceholder(name)) return ''
   return name
 }
 
@@ -206,5 +206,12 @@ export function calendarConfirmationCopy(settings: SiteSettings): string {
 
 export function isOperatorPlaceholder(value: string | null | undefined): boolean {
   if (!value || !value.trim()) return true
-  return /^\s*placeholder\b/i.test(value)
+  const text = value.trim()
+  return /^placeholder\b/i.test(text) || /^to be confirmed\b/i.test(text)
+}
+
+/** Public-ready Site settings copy. Empty when the stored value is still a placeholder. */
+export function publishedSettingsText(value: string | null | undefined): string {
+  const trimmed = (value || '').trim()
+  return isOperatorPlaceholder(trimmed) ? '' : trimmed
 }
