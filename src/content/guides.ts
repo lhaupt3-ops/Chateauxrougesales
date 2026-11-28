@@ -10,6 +10,8 @@ export type Guide = {
   slug: string
   path: string
   kind: 'service' | 'vertical' | 'compare'
+  /** Services only. 'later' means planned, not available today. */
+  status?: 'available' | 'later'
   metaTitle: string
   metaDescription: string
   eyebrow: string
@@ -22,231 +24,224 @@ export type Guide = {
 
 export const services: Guide[] = [
   {
-    slug: 'done-for-you-sales-team',
-    path: '/services/done-for-you-sales-team',
+    slug: 'sales-audit',
+    path: '/services/sales-audit',
     kind: 'service',
-    metaTitle: 'Done-for-you sales team',
-    metaDescription: 'A sales team as a service: setters, closers and a sales lead who run your high-ticket pipeline. You keep the offer, the data and the recordings.',
-    eyebrow: 'Sales team as a service',
-    h1: 'A done-for-you sales team, for founders who are still the closer.',
-    dek: 'A setter, a closer and a sales lead run the pipeline from the first reply to cash collected. You keep the offer, the clients and the data. The calls look for an honest decision, including a no.',
+    status: 'available',
+    metaTitle: 'Sales audit for founder-led sales',
+    metaDescription: 'A free sales audit of your offer, your calls and your follow-up, done by the founder. A smaller first step than outsourcing the calls.',
+    eyebrow: 'Start here',
+    h1: 'A sales audit before you hand over the calls.',
+    dek: 'A free, structured read of your offer, your live calls and your follow-up. You get a short written brief on what to fix, and a plain answer on whether a pilot would be a good next step. I do it myself.',
     sections: [
       {
-        heading: 'What is a sales team as a service?',
+        heading: 'What I review',
         paragraphs: [
-          'It is not a freelancer you still have to manage, and it is not an SDR pod that books meetings and hands them back. It is one accountable unit. Setters qualify and book. Closers run the conversation. A sales lead coaches the calls and reports the week.',
-          'Founders usually arrive here because they are the only person who can sell. Delivery waits while the calendar fills. Hiring a closer alone does not fix that, because someone still has to manage the closer.',
+          'The offer page and the price. At least five real calls, including losses. How fast the first reply goes out. The show rate. The notes in your CRM. The step between a booking and the person who takes the call. I am looking for leaks you can verify, not a new slogan.',
         ],
       },
       {
-        heading: 'What you get, and what you keep',
-        paragraphs: ['The split is the point of the model. We take the selling. You keep the company.'],
-        bullets: [
-          'You keep the offer, the delivery and the relationship with the buyer.',
-          'You keep the CRM, the accounts, the notes and the recordings.',
-          'We take first response, booking, the sales call, the follow-up and the weekly report.',
-          'We work in English with founders in Australia, the UK and the US. We do not publish city pages.',
+        heading: 'What you get back',
+        paragraphs: [
+          'A short written brief: what is working, what is costing you deals, and whether the next step is a pilot, a different fix, or nothing yet. We then talk it through on a call. If the honest answer is “not yet”, I say that. The audit is not a way into a retainer, because there is no retainer.',
         ],
       },
       {
-        heading: 'Who it is for',
+        heading: 'When to start here',
         paragraphs: [
-          'A working picture, not a confirmed client list: coaches, consultants, course creators and B2B firms who have already sold the offer, can deliver if more people say yes, and will share recordings. If nothing has sold, a team is the wrong next step. The application asks the price instead of pretending one number fits every firm.',
-        ],
-      },
-      {
-        heading: 'How the first weeks run',
-        paragraphs: [
-          'We read the offer and a handful of real calls. We put the call shape, the routing and the follow-up inside your CRM. Then we staff the seats and review calls in the open. Any start date on the site is a draft until operations confirms it.',
+          'Start with the audit if you are unsure the offer is ready, if a previous closer lost you trust or money, or if you want a second set of ears before changing anything. If you already know you want the calls taken, you can apply for a pilot directly.',
         ],
       },
     ],
     faqs: [
       {
-        question: 'Is this the same as outsourced SDRs?',
-        answer: 'No. Outsourced SDRs book meetings. This team also closes and is managed as one function. If you only need meetings, start with appointment setting.',
+        question: 'What does the audit cost?',
+        answer: 'Nothing. The audit is free. You get a written brief and a call to talk it through, and you do not have to continue after it.',
       },
       {
-        question: 'Can I keep my current closer?',
-        answer: 'Sometimes. If they are good and they will work inside the review rhythm, the sales lead can manage them. If they will not, we staff the seat.',
+        question: 'Do you need recordings?',
+        answer: 'Yes, if they exist. An audit without calls is a guess. If you have never recorded a call, that is one of the findings.',
       },
       {
-        question: 'Do you promise a close rate?',
-        answer: 'No. We publish the process. Named results appear only with the client’s permission, a metric, and a time window. A percentage on a homepage is not a plan.',
+        question: 'Do I have to continue after the audit?',
+        answer: 'No. The brief is yours to keep and use however you like, including with someone else.',
       },
     ],
     related: [
-      { href: '/compare/outsourced-vs-in-house-sales-team', label: 'Outsourced vs in-house', text: 'The 12-month difference, without fake math.' },
-      { href: '/pricing', label: 'How we charge', text: 'Setup, management and commission, in plain words.' },
-      { href: '/who-we-help/coaches-and-consultants', label: 'For coaches', text: 'How the voice of the brand survives.' },
-      { href: '/blog', label: 'Go deeper', text: 'Essays on the model, once they are published.' },
+      { href: '/apply', label: "See if we're a fit", text: 'Say you want the audit first. The form has that option.' },
+      { href: '/services/high-ticket-closers', label: 'Founder-led closing', text: 'What a pilot looks like if the audit points that way.' },
+      { href: '/pricing', label: 'How I charge', text: 'No upfront fee. I am paid 10% of the cash I help collect.' },
     ],
   },
   {
     slug: 'high-ticket-closers',
     path: '/services/high-ticket-closers',
     kind: 'service',
-    metaTitle: 'High-ticket closers for founders',
-    metaDescription: 'Outsourced high-ticket closers, managed inside your brand. For founders who need the calls run, not a marketplace of freelancers.',
-    eyebrow: 'Outsourced closers',
-    h1: 'High-ticket closers, hired and managed for you.',
-    dek: 'High-ticket closers for hire, in this model, are not a list of freelancers. They are closers we staff, coach and replace, selling an offer you have already proved, at a price that can pay for the work.',
+    status: 'available',
+    metaTitle: 'Founder-led closing for high-ticket offers',
+    metaDescription: 'I install your sales call process and take your booked calls myself, on commission. For founders selling $2k to $15k offers on calls.',
+    eyebrow: 'The pilot',
+    h1: 'Founder-led closing: I set up the process, then take the calls.',
+    dek: 'You have an offer that sells on a call and calls that are already booked. I write down how the call should run, put the follow-up into your CRM, and take the calls myself. There is no upfront fee. I am paid 10% of the cash I help collect.',
     sections: [
       {
-        heading: 'What “closer for hire” should mean',
+        heading: 'What “closer for hire” means here',
         paragraphs: [
-          'Most pages that rank for this phrase are marketplaces or commission-only boards. You still interview, you still manage, and you still own the bad week. A managed closer is different. We choose them against your offer, we review the calls, and we replace them if the fit is wrong.',
-          'The buyer intent matters. If you are looking for a remote closer job, the careers page is the only place that conversation belongs.',
+          'Most pages for this phrase are marketplaces or commission-only boards. You still interview, still manage, and still own the bad week. Here it is one person, and you know who: me. I have run businesses and teams and have owned client conversations, and I take your calls the same way.',
+          'If you are looking for a remote closer job, the careers page is the only place that conversation belongs.',
+        ],
+      },
+      {
+        heading: 'How the pilot runs',
+        paragraphs: ['Four steps, and you see each of them.'],
+        bullets: [
+          'Read: your offer and a set of real calls, including the losses.',
+          'Install: the call shape, qualifying rules and follow-up, inside the CRM you already own.',
+          'Run: I take your booked calls. You get the recording and a short note after each.',
+          'Review: weekly numbers (calls held, close rate, cash collected) and the calls themselves.',
         ],
       },
       {
         heading: 'Commission only is not the same as free',
         paragraphs: [
-          'A commission-only closer lowers payroll and raises the management load. Someone still writes the script, still checks the calls, and still follows the maybes. If that someone is you, you did not buy back your calendar. Our model is a one-off setup fee, then commission, with no monthly retainer. The amounts stay unpublished until the agreement.',
+          'A commission-only closer lowers payroll and raises the management load. Someone still has to write the script, check the calls and follow up the maybes. In this model that work is part of the pilot, and I am paid 10% of the cash I help collect. There is no setup fee and no monthly retainer.',
         ],
       },
       {
-        heading: 'How we judge a closer',
-        paragraphs: ['Charisma is a weak test. The useful test is a live role play on your offer.'],
+        heading: 'How I run a call',
+        paragraphs: ['Charisma is a weak test. These are the things I hold myself to, and you can check them on the recordings.'],
         bullets: [
-          'They diagnose before they present.',
-          'They can sit with “I need to think about it” without getting sharp.',
-          'They follow the written follow-up, not a private side process.',
-          'They will work inside your CRM, not a tool you cannot see.',
+          'I ask questions before I present anything.',
+          'I can sit with “I need to think about it” without getting sharp.',
+          'I follow the written follow-up, not a private side process.',
+          'I work inside your CRM, not a tool you cannot see.',
         ],
       },
       {
-        heading: 'When a closer is the wrong hire',
+        heading: 'When this is the wrong step',
         paragraphs: [
-          'If the offer has never sold, a closer cannot invent the proof. If the price is too small to carry a professional, the application says so and does not book a strategy call. If there are no conversations, you need lead flow before you need another person on the phone. Those thresholds are working rules, confirmed in the product, not a published rate card.',
+          'If the offer has never sold, a closer cannot invent the proof. If the price is too small to pay for the work, the application says so. If there are no booked calls, you need lead flow before you need another person on the phone, and I do not offer that today. Those thresholds are working rules, not a published rate card.',
         ],
       },
     ],
     faqs: [
       {
-        question: 'Do you place closers I then employ?',
-        answer: 'No. We staff and manage them. Placement marketplaces are a different product, and a different kind of risk.',
+        question: 'Is it just you on the calls?',
+        answer: 'Yes. If I add closers later, I would talk to you first and you could say no.',
       },
       {
-        question: 'Can closers work remotely?',
-        answer: 'Yes. The work is calls, notes and follow-up. Location matters less than the review rhythm and the CRM.',
+        question: 'Will buyers know I did not take the call?',
+        answer: 'I tell buyers I work with you on sales. I do not impersonate you or invent a job title.',
+      },
+      {
+        question: 'Can this work remotely, and in my time zone?',
+        answer: 'The work is calls, notes and follow-up, so it is remote. Which hours I can cover is something we agree before the start.',
       },
       {
         question: 'What do I listen to before we start?',
-        answer: 'Your own calls, if you have them. We would rather coach from the real conversation than from a theory.',
+        answer: 'Your own calls, if you have them. I would rather work from the real conversation than from a theory.',
       },
     ],
     related: [
-      { href: '/pricing', label: 'Closer pay, in our model', text: 'A one-off setup fee, then commission on cash collected.' },
-      { href: '/compare/agency-vs-freelance-closer', label: 'Agency vs freelance', text: 'Who actually manages the person.' },
-      { href: '/services/appointment-setting', label: 'Setters', text: 'If the calendar is empty, start here.' },
-      { href: '/blog', label: 'Hiring essays', text: 'Vetting and cost guides, published when they are ready.' },
+      { href: '/pricing', label: 'How I charge', text: 'No upfront fee. I am paid 10% of the cash I help collect.' },
+      { href: '/services/sales-audit', label: 'Audit first', text: 'If you want a diagnosis before a pilot.' },
+      { href: '/compare/agency-vs-freelance-closer', label: 'Agency vs freelance', text: 'Who actually manages the person on the call.' },
+    ],
+  },
+  {
+    slug: 'done-for-you-sales-team',
+    path: '/services/done-for-you-sales-team',
+    kind: 'service',
+    status: 'later',
+    metaTitle: 'A full sales team: planned, not available yet',
+    metaDescription: 'A fuller sales team, with setters, closers and a lead, is where this could go. It is not available today. Right now it is one founder.',
+    eyebrow: 'Later, not available yet',
+    h1: 'A full sales team is where this could go. It is not what I offer today.',
+    dek: 'Today it is me, installing the process and running the calls. If the pilot works and the volume is there, I may add closers, setters and someone to run them. This page exists so you know what is planned and what is not.',
+    sections: [
+      {
+        heading: 'What exists today',
+        paragraphs: [
+          'One person: me. I set up the process and take the calls. There is no staffed team, no sales lead, and no setters. Anything on this site that suggests otherwise is out of date and I would like to know.',
+        ],
+      },
+      {
+        heading: 'What a team would add',
+        paragraphs: [
+          'More call capacity, cover when I am away, and setters who reply to new leads fast and book the calls. That is a different product with different pricing, and I am not selling it yet.',
+        ],
+      },
+      {
+        heading: 'What would have to be true first',
+        paragraphs: [
+          'The pilot has to work for real clients, with results I can show and are theirs to approve. The process has to be written down well enough that someone else can follow it. And a client has to want it, so I can build it around a real need and not a guess.',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'Can I join a waitlist?',
+        answer: 'Say on the application that a team is what you are after. I note it, and I do not chase.',
+      },
+      {
+        question: 'Can I keep my current closer?',
+        answer: 'Sometimes. If you already have a closer who is good, the audit can show whether the process around them is the problem.',
+      },
+    ],
+    related: [
+      { href: '/services/high-ticket-closers', label: 'Founder-led closing', text: 'What is available today.' },
+      { href: '/services/sales-audit', label: 'Sales audit', text: 'A written read on your calls and follow-up.' },
+      { href: '/pricing', label: 'How I charge', text: 'No upfront fee. 10% of cash collected. No retainer.' },
     ],
   },
   {
     slug: 'appointment-setting',
     path: '/services/appointment-setting',
     kind: 'service',
-    metaTitle: 'Appointment setting for high-ticket offers',
-    metaDescription: 'Appointment setters who book and qualify high-ticket conversations, then hand them to closers on the same team. Speed to lead is the job.',
-    eyebrow: 'Appointment setting',
-    h1: 'Appointment setters for high-ticket offers.',
-    dek: 'An appointment setting agency, in our version, books qualified conversations for offers that can support a real sales process. The setter and the closer sit on the same team, so the handoff does not go cold.',
+    status: 'later',
+    metaTitle: 'Appointment setting: not offered yet',
+    metaDescription: 'Appointment setting is not part of what Chateaux Rouge offers today. What it would involve, and what to do if your calendar is empty.',
+    eyebrow: 'Later, not available yet',
+    h1: 'Appointment setting is not part of what I offer today.',
+    dek: 'Setting needs people replying and dialling every day. I am one person taking calls. I would rather say that than sell you something I cannot staff.',
     sections: [
       {
-        heading: 'What an appointment setter does here',
+        heading: 'Why I am not offering it yet',
         paragraphs: [
-          'They reply fast, they qualify against your rules, and they book a conversation with the right person. They do not pitch the whole offer on the first touch, and they do not stuff the calendar with people who cannot buy.',
-          'A public study from Harvard Business Review found that firms who contacted online leads within an hour were far more likely to qualify them. We treat that as a reason to staff the first reply, not as a statistic about us.',
+          'A setter has to reply fast, qualify against your rules and book the right people. That is a daily job for someone, and it deserves its own person. A published study from Harvard Business Review links a reply inside the first hour with a much higher chance of qualifying a lead. I cite it as their finding, not a result of mine.',
         ],
       },
       {
-        heading: 'Setters without closers is a half system',
+        heading: 'If your calendar is empty',
         paragraphs: [
-          'A booked call still has to be held, run and followed up. If you are the one taking every appointment, the setter just made you busier. The useful version is a setter who books and a closer who runs the call, with one lead watching show rate and close rate together.',
+          'A closer cannot invent demand. Get a small, steady set of conversations going first, from referrals, content, ads or your own outreach. Take the calls yourself for a while. The objections, the price and the delivery load you learn are what any closer, including me, needs. The free guide on this site goes through it.',
         ],
       },
       {
-        heading: 'What “qualified” has to mean in writing',
-        paragraphs: ['We agree the rules before the first dial or the first reply. If it is not written, it will drift.'],
+        heading: 'What “qualified” should mean in writing',
+        paragraphs: ['This is true whoever books your calls. Agree the rules before the first booking, or it will drift.'],
         bullets: [
           'The buyer matches the offer.',
           'The budget or the price has been named.',
-          'The decision maker is on the call, or we know who is missing.',
+          'The decision maker is on the call, or you know who is missing.',
           'There is a real reason to talk this month, not a vague interest.',
-        ],
-      },
-      {
-        heading: 'Show rate is part of setting',
-        paragraphs: [
-          'A meeting that nobody attends was not set. Confirmation, a clear agenda and a reschedule path are part of the setter’s work. The journal will cover the playbook. Until those essays are published, the confirmation page on this site is the pattern we use ourselves.',
         ],
       },
     ],
     faqs: [
       {
         question: 'Is this pay per appointment?',
-        answer: 'Not by default. The model is a one-off setup fee, then commission on cash collected. A pure pay-per-meeting offer is a different contract.',
+        answer: 'No, and it is not offered. There is no upfront fee. I am paid 10% of the cash I help collect.',
       },
       {
         question: 'Can you set appointments if I have no leads?',
-        answer: 'Only if outbound is in scope and the offer can support it. Say so on the application. We tag those files so the call talks about lead flow, not just closing.',
-      },
-      {
-        question: 'Do you work B2B and B2C?',
-        answer: 'Both, when the offer is high ticket and the buyer can be reached. The vertical pages spell out the differences.',
+        answer: 'Not today. Say so on the application and I will tell you plainly what I think the next step is.',
       },
     ],
     related: [
-      { href: '/compare/setter-vs-closer', label: 'Setter vs closer', text: 'Who you need first.' },
-      { href: '/services/done-for-you-sales-team', label: 'The full team', text: 'When setting and closing should be one unit.' },
-      { href: '/how-it-works', label: 'The weekly numbers', text: 'Show rate sits next to close rate.' },
-      { href: '/resources/show-rate-playbook', label: 'Show-rate playbook', text: 'A short draft you can read after the application.' },
-    ],
-  },
-  {
-    slug: 'sales-audit',
-    path: '/services/sales-audit',
-    kind: 'service',
-    metaTitle: 'Sales audit for high-ticket teams',
-    metaDescription: 'A sales audit of your offer, your calls and your follow-up before you hire a team. A smaller first step than a full sales function.',
-    eyebrow: 'Entry offer',
-    h1: 'A sales audit before you hand over the calls.',
-    dek: 'A sales audit is a structured review of the offer, the live calls and the follow-up. You leave with a written read on what to fix, and a clear yes or no on whether a team would pay for itself.',
-    sections: [
-      {
-        heading: 'What we review',
-        paragraphs: [
-          'The offer page and the price. Five or more real calls, including losses. The speed of the first reply. The show rate. The notes in the CRM. The handoff between whoever books and whoever closes. We are looking for leaks you can verify, not a new slogan.',
-        ],
-      },
-      {
-        heading: 'What you get back',
-        paragraphs: [
-          'A short written brief: what is working, what is costing you deals, and whether the next step is a setter, a closer, a full team, or none of those. If the honest answer is “not yet”, we say that. The audit is not a trapdoor into a retainer.',
-        ],
-      },
-      {
-        heading: 'When to start here',
-        paragraphs: [
-          'Start with the audit if you are unsure the offer is ready, if a previous closer burned trust, or if you want a second set of ears before you change the team. If you already know you want the function run, skip ahead and apply for the team.',
-        ],
-      },
-    ],
-    faqs: [
-      {
-        question: 'Is the audit priced?',
-        answer: 'The fee is to be confirmed until it is in the agreement. Ask on the call and you will get the number in writing.',
-      },
-      {
-        question: 'Do you need recordings?',
-        answer: 'Yes, if they exist. An audit without calls is a guess. If you have never recorded a call, that itself is one of the findings.',
-      },
-    ],
-    related: [
-      { href: '/apply', label: "See if we're a fit", text: 'Say you want the audit first. The form has that option.' },
-      { href: '/how-it-works', label: 'How a team runs', text: 'So you can see what the audit is comparing you with.' },
-      { href: '/pricing', label: 'The commercial model', text: 'What a full engagement costs, in shape if not yet in final numbers.' },
+      { href: '/resources/are-you-ready-for-closers', label: 'Free guide', text: 'Are you actually ready for closers?' },
+      { href: '/services/high-ticket-closers', label: 'Founder-led closing', text: 'If the calls already exist and you only need them run.' },
+      { href: '/compare/setter-vs-closer', label: 'Setter vs closer', text: 'Which gap you actually have.' },
     ],
   },
 ]
@@ -256,44 +251,44 @@ export const verticals: Guide[] = [
     slug: 'coaches-and-consultants',
     path: '/who-we-help/coaches-and-consultants',
     kind: 'vertical',
-    metaTitle: 'Sales team for coaches and consultants',
-    metaDescription: 'An outsourced sales team for coaches and consultants with high-ticket programs. Keep your voice. Stop taking every call yourself.',
-    eyebrow: 'Who we help',
-    h1: 'A sales team for coaches and consultants.',
-    dek: 'An outsourced sales team for a coaching or consulting business sells the way you sell, from your stories and your standards. The goal is that a buyer cannot tell the care went missing just because you left the chair.',
+    metaTitle: 'Sales calls for coaches and consultants',
+    metaDescription: 'Founder-led closing for coaches and consultants with high-ticket programs. Keep your voice. Stop taking every call yourself.',
+    eyebrow: 'Who I help',
+    h1: 'Sales calls for coaches and consultants.',
+    dek: 'When I take the calls for a coaching or consulting business, I work from your stories and your standards. The goal is that a buyer does not feel the care go missing just because you left the chair.',
     sections: [
       {
         heading: 'Why coaches get stuck on the calendar',
         paragraphs: [
-          'The person who is best at the work is often the only person the market trusts. That does not scale, and hiring a loud closer usually makes it worse. The fix is a written offer, recorded calls the team can study, and a lead who will pull anyone who starts performing instead of listening.',
+          'The person who is best at the work is often the only person the market trusts. That does not scale, and hiring a loud closer usually makes it worse. The fix is a written offer, recorded calls that someone else can study, and a standard that pulls anyone who starts performing instead of listening.',
         ],
       },
       {
         heading: 'How the voice stays yours',
         paragraphs: [
-          'We start from your calls, not from a template. Phrases you would never say get struck. Claims you cannot prove get struck. The closer’s job is to diagnose and to offer a fit, including the fit that is a no.',
+          'I start from your calls, not from a template. Phrases you would never say get struck. Claims you cannot prove get struck. My job on a call is to ask good questions and to offer a fit, including the fit that is a no.',
         ],
       },
       {
         heading: 'What has to be true first',
         paragraphs: [
-          'You have sold the program yourself, and you can deliver if more people say yes. Whether the price can carry a team is a question on the application, not a number we pretend is universal. If enrollment is still a theory, we will tell you to wait.',
+          'You have sold the program yourself, and you can deliver if more people say yes. Whether the price can pay for the work is a question on the application, not a number I pretend is universal. If enrollment is still a theory, I will tell you to wait.',
         ],
       },
     ],
     faqs: [
       {
         question: 'Will they pretend to be me?',
-        answer: 'No. They represent the company and they say so. Impersonating the founder is a short path to a refund and a complaint.',
+        answer: 'No. I tell buyers I work with you. Impersonating the founder is a short path to a refund and a complaint.',
       },
       {
         question: 'Can you sell a certification or a group program?',
-        answer: 'Yes, if the call is how you sell it today and the economics work. The application asks for the price and the lead flow so we can tell.',
+        answer: 'Yes, if the call is how you sell it today and the economics work. The application asks for the price and the lead flow so I can tell.',
       },
     ],
     related: [
-      { href: '/services/done-for-you-sales-team', label: 'The team', text: 'Setters, closers and a sales lead.' },
-      { href: '/services/high-ticket-closers', label: 'Closers', text: 'If the calls exist and you only need them run.' },
+      { href: '/services/sales-audit', label: 'Sales audit', text: 'A free read of your calls and follow-up, before anything else.' },
+      { href: '/services/high-ticket-closers', label: 'Founder-led closing', text: 'If the calls exist and you only need them run.' },
       { href: '/compare/outsourced-vs-in-house-sales-team', label: 'In-house or outsourced', text: 'A practical comparison for a small firm.' },
     ],
   },
@@ -301,22 +296,22 @@ export const verticals: Guide[] = [
     slug: 'course-creators-and-info-products',
     path: '/who-we-help/course-creators-and-info-products',
     kind: 'vertical',
-    metaTitle: 'Closers for course creators',
-    metaDescription: 'Closers and setters for course creators selling a high-ticket program. The call has to match the promise, and a no has to be allowed.',
-    eyebrow: 'Who we help',
-    h1: 'Closers for course creators and info products.',
-    dek: 'Course creators lose deals between a warm lead and a clear conversation. The closer’s job is to help the right buyer decide, and to let the wrong buyer leave, without theatre.',
+    metaTitle: 'Sales calls for course creators',
+    metaDescription: 'Founder-led closing for course creators selling a high-ticket program. The call has to match the promise, and a no has to be allowed.',
+    eyebrow: 'Who I help',
+    h1: 'Sales calls for course creators and info products.',
+    dek: 'Course creators lose deals between a warm lead and a clear conversation. My job on the call is to help the right buyer decide, and to let the wrong buyer leave, without theatre.',
     sections: [
       {
         heading: 'The call is the product’s front door',
         paragraphs: [
-          'On a high-ticket program the sales call is the first experience of how you teach. If it is slippery, the program feels slippery. We build the call around the student’s actual situation, the outcome you can support, and the reasons it might not be a fit.',
+          'On a high-ticket program the sales call is the first experience of how you teach. If it is slippery, the program feels slippery. I build the call around the student’s actual situation, the outcome you can support, and the reasons it might not be a fit.',
         ],
       },
       {
         heading: 'Follow-up is where most revenue sits',
         paragraphs: [
-          'People say they need to think about it because the decision is real. A good follow-up names the open question and the date. It does not send seven “just checking in” notes. Setters and closers share that queue so nobody assumes the other person did it.',
+          'People say they need to think about it because the decision is real. A good follow-up names the open question and the date. It does not send seven “just checking in” notes. One person owns that queue, so nobody assumes someone else did it.',
         ],
       },
       {
@@ -329,16 +324,16 @@ export const verticals: Guide[] = [
     faqs: [
       {
         question: 'Do you run ads too?',
-        answer: 'No. We run the sales conversations. If the leads come from ads, content or partners, we can work them. We do not sell media buying as part of this offer.',
+        answer: 'No. I take the sales conversations. If the leads come from ads, content or partners, I can work them. I do not sell media buying or lead generation as part of this offer.',
       },
       {
         question: 'What if my course is under $1,000?',
-        answer: 'The application treats a price under $1,000 as too small for this team and sends that answer to a plain next step, not a strategy call. That cutoff is a working rule, not a comment on your business.',
+        answer: 'The application treats a price under $1,000 as too small for outsourced closing and sends that answer to a plain next step, not a strategy call. That cutoff is a working rule, not a comment on your business.',
       },
     ],
     related: [
-      { href: '/services/high-ticket-closers', label: 'High-ticket closers', text: 'The seat most course businesses ask for first.' },
-      { href: '/services/appointment-setting', label: 'Setting', text: 'When the applications are coming in faster than you can reply.' },
+      { href: '/services/high-ticket-closers', label: 'Founder-led closing', text: 'The step most course businesses ask for first.' },
+      { href: '/services/appointment-setting', label: 'Setting', text: 'Not offered yet, and what to do in the meantime.' },
       { href: '/resources/show-rate-playbook', label: 'Show-rate playbook', text: 'Booked calls only count if people arrive.' },
     ],
   },
@@ -346,14 +341,14 @@ export const verticals: Guide[] = [
     slug: 'agencies-and-b2b-services',
     path: '/who-we-help/agencies-and-b2b-services',
     kind: 'vertical',
-    metaTitle: 'Outsourced sales for agencies and B2B',
-    metaDescription: 'A sales team for agencies and B2B service firms. Pipeline, qualification and closing, without turning the founder into the sales department.',
-    eyebrow: 'Who we help',
-    h1: 'Outsourced sales for agencies and B2B services.',
-    dek: 'Agencies and B2B firms often have a real offer and a messy pipeline. A sales team as a service qualifies the inbound, runs the sales conversations, and gives the founder a weekly view of show rate, close rate and cash collected.',
+    metaTitle: 'Sales calls for agencies and B2B',
+    metaDescription: 'Founder-led closing for agencies and B2B service firms: a process for the sales call and someone to run it, so the founder is not the sales department.',
+    eyebrow: 'Who I help',
+    h1: 'Sales calls for agencies and B2B services.',
+    dek: 'Agencies and B2B firms often have a real offer and a messy pipeline. I set up how the inbound is qualified, take the sales conversations, and give the founder a weekly view of calls held, close rate and cash collected.',
     sections: [
       {
-        heading: 'The founder is usually the sales team',
+        heading: 'The founder is usually the whole sales team',
         paragraphs: [
           'Proposals go out at midnight. Follow-up depends on memory. New business pauses every time delivery gets loud. The fix is not a motivational hire. It is a rhythm: who replies, who meets, who writes the next step, and which number gets read on Monday.',
         ],
@@ -361,13 +356,13 @@ export const verticals: Guide[] = [
       {
         heading: 'B2B is slower, and that is fine',
         paragraphs: [
-          'More than one person decides. Procurement may appear. The cycle is longer than a coaching enrollment. The team has to be patient and precise, and the CRM has to show the truth. We will not pretend a B2B services firm closes like a webinar.',
+          'More than one person decides. Procurement may appear. The cycle is longer than a coaching enrollment. It takes patience and precision, and the CRM has to show the truth. I will not pretend a B2B services firm closes like a webinar.',
         ],
       },
       {
-        heading: 'What we will not take',
+        heading: 'What I will not take',
         paragraphs: [
-          'We are not an enterprise SDR factory, and we do not sell lists. If you need a hundred dials a day into cold accounts with a $15k product, say so. We will tell you if that is outside the work we do well.',
+          'I am not an enterprise SDR factory, and I do not sell lists. If you need a hundred dials a day into cold accounts with a $15k product, say so. I will tell you if that is outside the work I do well.',
         ],
       },
     ],
@@ -378,11 +373,11 @@ export const verticals: Guide[] = [
       },
       {
         question: 'Do you replace a sales manager?',
-        answer: 'The sales lead runs the people we staff. If you already have a manager, we can sit beside them. We do not quietly take their job.',
+        answer: 'No. I take calls and follow-up. If you already have a sales manager, I work beside them and do not quietly take their job.',
       },
     ],
     related: [
-      { href: '/services/done-for-you-sales-team', label: 'Done-for-you team', text: 'The full function, not a single freelancer.' },
+      { href: '/services/high-ticket-closers', label: 'Founder-led closing', text: 'How the pilot runs, step by step.' },
       { href: '/services/sales-audit', label: 'Audit first', text: 'A written read on the pipeline before you change it.' },
       { href: '/compare/outsourced-vs-in-house-sales-team', label: 'In-house comparison', text: 'What you still have to manage either way.' },
     ],
@@ -394,18 +389,18 @@ export const comparisons: Guide[] = [
     slug: 'outsourced-vs-in-house-sales-team',
     path: '/compare/outsourced-vs-in-house-sales-team',
     kind: 'compare',
-    metaTitle: 'Outsourced vs in-house sales team',
-    metaDescription: 'Outsourced versus in-house sales teams for high-ticket offers. Who manages, who owns the data, and when each one is the expensive mistake.',
+    metaTitle: 'Outsourced closing vs in-house sales',
+    metaDescription: 'Outsourced closing versus an in-house sales hire for high-ticket offers. Who manages, who owns the data, and when each one is the expensive mistake.',
     eyebrow: 'Comparison',
-    h1: 'Outsourced vs in-house sales team.',
-    dek: 'An in-house sales team is employees you manage. An outsourced sales team is a unit you buy, with setters, closers and a lead. The right one depends on whether you want to build a department or rent a function.',
+    h1: 'Outsourced closing vs an in-house sales hire.',
+    dek: 'An in-house sales team is employees you manage. Outsourced closing, in my version, is one person who installs the process and takes the calls. The right one depends on whether you want to build a department or rent a function for now.',
     sections: [
       {
         heading: 'What actually changes',
         paragraphs: ['Ignore the slogans. These are the differences that show up in a Tuesday afternoon.'],
         bullets: [
           'In house, you recruit, coach, pay payroll and replace. You also own the culture.',
-          'Outsourced, you buy the management as well as the people. You still own the offer and the data.',
+          'Outsourced, you buy the process and the calls. You still own the offer and the data.',
           'In house wins when sales is the core of the company and you have a leader.',
           'Outsourced wins when you are the bottleneck and you do not want a department yet.',
         ],
@@ -413,14 +408,14 @@ export const comparisons: Guide[] = [
       {
         heading: 'A year from now',
         paragraphs: [
-          'An in-house hire that works is a compounding asset. An in-house hire that does not work is a quiet year. An outsourced team can be ended on the notice in the contract, which is also its limit: the skill walks unless you kept the recordings, the scripts and the CRM. That is why data ownership is not a footnote.',
-          'We will not invent a savings figure. Run your own payroll, your own management hours and your own ramp against the fee. If the outsourced number is not obviously better, stay in house.',
+          'An in-house hire that works is a compounding asset. An in-house hire that does not work is a quiet year. An outsourced arrangement can be ended on the notice in the agreement, which is also its limit: the skill walks unless you kept the recordings, the scripts and the CRM. That is why data ownership is not a footnote.',
+          'I will not invent a savings figure. Run your own payroll, your own management hours and your own ramp against the fee. If the outsourced number is not obviously better, stay in house.',
         ],
       },
       {
         heading: 'Where Chateaux Rouge sits',
         paragraphs: [
-          'We are the outsourced column, and only for high-ticket offers. We are not cheaper than a single commission-only freelancer, because we include the lead. We are usually simpler than building a three-person department from scratch.',
+          'I am the outsourced column, and only for high-ticket offers, and I am one person. That is a limit: I can work with a handful of clients at a time, and there is no cover if I am unavailable beyond what we agree up front. In return you get a process written down and someone accountable for the calls, without building a department.',
         ],
       },
     ],
@@ -435,7 +430,7 @@ export const comparisons: Guide[] = [
       },
     ],
     related: [
-      { href: '/services/done-for-you-sales-team', label: 'Our version of outsourced', text: 'The actual offer, not the category.' },
+      { href: '/services/high-ticket-closers', label: 'My version of outsourced', text: 'The actual offer, not the category.' },
       { href: '/compare/agency-vs-freelance-closer', label: 'Agency vs freelance', text: 'A narrower choice, if you only need one closer.' },
       { href: '/pricing', label: 'How the money works', text: 'So the comparison is not only about salary.' },
     ],
@@ -462,14 +457,14 @@ export const comparisons: Guide[] = [
         bullets: [
           'Plenty of qualified conversations, and you take them all: closer first.',
           'Leads arrive and go quiet before anyone replies: setter first.',
-          'Both are true, and you are also the delivery team: the full unit.',
+          'Both are true, and you are also the delivery team: you need both roles, and I only cover the closer side today.',
           'Neither is true, because nothing has sold: do not hire either yet.',
         ],
       },
       {
-        heading: 'Why we staff them together',
+        heading: 'Why the handoff matters',
         paragraphs: [
-          'The handoff is where show rate dies. A setter who never hears how the call went will keep booking the wrong people. A closer who never sees the first touch will walk into a cold room. One lead, one board, one weekly review.',
+          'The handoff is where show rate dies. A setter who never hears how the call went will keep booking the wrong people. A closer who never sees the first touch will walk into a cold room. One board and one weekly review help, whoever fills the roles. Today I cover the closer side only.',
         ],
       },
     ],
@@ -480,24 +475,24 @@ export const comparisons: Guide[] = [
       },
       {
         question: 'Is this page for people who want the job?',
-        answer: 'No. It is for founders deciding what to buy. Roles, when we have them, are on the careers page.',
+        answer: 'No. It is for founders deciding what to buy. If I ever have roles, they are on the careers page.',
       },
     ],
     related: [
-      { href: '/services/appointment-setting', label: 'Appointment setting', text: 'The setter offer.' },
-      { href: '/services/high-ticket-closers', label: 'Closers', text: 'The closer offer.' },
-      { href: '/services/done-for-you-sales-team', label: 'Both', text: 'When the split should be our problem, not yours.' },
+      { href: '/services/appointment-setting', label: 'Appointment setting', text: 'Not offered yet.' },
+      { href: '/services/high-ticket-closers', label: 'Founder-led closing', text: 'What I offer today.' },
+      { href: '/services/done-for-you-sales-team', label: 'A team, later', text: 'Where this could go.' },
     ],
   },
   {
     slug: 'agency-vs-freelance-closer',
     path: '/compare/agency-vs-freelance-closer',
     kind: 'compare',
-    metaTitle: 'Sales agency vs freelance closer',
-    metaDescription: 'A managed sales agency versus a freelance closer. Who coaches, who replaces, and who owns the pipeline if it goes quiet.',
+    metaTitle: 'Founder-led closing vs freelance closer',
+    metaDescription: 'A founder-led sales service versus a freelance closer. Who sets up the process, who is accountable, and who owns the pipeline if it goes quiet.',
     eyebrow: 'Comparison',
-    h1: 'Sales agency vs a freelance closer.',
-    dek: 'A freelance closer is a person you manage. A sales agency is a system with a lead, a backup and a review rhythm. Freelancers are right when you can coach. An agency is right when you are done being the manager.',
+    h1: 'Founder-led closing vs a freelance closer.',
+    dek: 'A freelance closer is a person you manage. Founder-led closing is also one person, but the process is written down first and there is a weekly review. Freelancers are right when you can coach. This is right when you want the process built and the calls taken.',
     sections: [
       {
         heading: 'The freelance promise',
@@ -506,31 +501,31 @@ export const comparisons: Guide[] = [
         ],
       },
       {
-        heading: 'What the agency is actually selling',
+        heading: 'What I am actually selling',
         paragraphs: [
-          'Not a heroic closer. A standard, and someone whose job is the Monday report. You pay more than a pure commission seat because management is not free. Who replaces a closer that does not fit belongs in the agreement. We will not advertise a promise we have not locked.',
+          'Not a heroic closer. A written standard, the calls, and a Monday report. You pay more than a pure commission seat because the setup work is not free. There is no backup closer today. If I cannot take your calls for a stretch, that is covered in the agreement, not in a promise on this page.',
         ],
       },
       {
         heading: 'How to choose',
         paragraphs: [
-          'If you enjoy sales management and you have the hours, hire the freelancer and keep the margin. If sales management is the thing you are trying to escape, the freelancer recreates the problem with a new face. That is the only honest dividing line.',
+          'If you enjoy sales management and you have the hours, hire the freelancer and keep the margin. If sales management is the thing you are trying to escape, a freelancer recreates the problem with a new face. That is the only honest dividing line.',
         ],
       },
     ],
     faqs: [
       {
-        question: 'Are your closers employees or freelancers?',
-        answer: 'They are staffed and managed by us. Your contract is with Chateaux Rouge, not with a rotating cast you have to chase.',
+        question: 'Who is the closer?',
+        answer: 'Me. Your agreement is with me, through Chateaux Rouge. There is no rotating cast, and also no bench behind me yet.',
       },
       {
-        question: 'Can I meet the closer before we start?',
-        answer: 'Yes. You should. A hidden team is not a premium service.',
+        question: 'Can I meet you before we start?',
+        answer: 'Yes. You should. The first call is with me, and I would be the one taking your calls.',
       },
     ],
     related: [
-      { href: '/services/high-ticket-closers', label: 'Managed closers', text: 'What the agency column looks like here.' },
-      { href: '/pricing', label: 'How the fee is set', text: 'A one-off setup fee, then commission. The amounts are to be confirmed.' },
+      { href: '/services/high-ticket-closers', label: 'Founder-led closing', text: 'What the pilot looks like.' },
+      { href: '/pricing', label: 'How I charge', text: 'No upfront fee. I am paid 10% of the cash I help collect.' },
       { href: '/compare/outsourced-vs-in-house-sales-team', label: 'Versus in house', text: 'The wider comparison, if a freelancer is not the alternative.' },
     ],
   },

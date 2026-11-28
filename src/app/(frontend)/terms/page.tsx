@@ -16,12 +16,12 @@ export default async function TermsPage() {
   const setup = confirmedOrPending(settings.setupFeeLabel, settings.setupFeeIsPlaceholder)
   const commission = confirmedOrPending(settings.commissionLabel, settings.commissionIsPlaceholder)
   const law = settings.governingLawIsPlaceholder || !settings.governingLaw.trim()
-    ? 'The governing law is still to be confirmed. Until a written agreement names it, do not treat this page as choosing a court.'
+    ? 'Until a written agreement names the governing law, do not treat this page as choosing a court.'
     : `The governing law named for the website terms is ${settings.governingLaw}.`
   return (
     <article className="rich mx-auto max-w-3xl px-4 py-12">
       <h1>Terms</h1>
-      <p>Last updated 16 November 2026.</p>
+      <p>Last updated 28 November 2026.</p>
       <p>
         These terms cover use of this website, operated by {name}, an individual and the sole operator, in {country}. Contact {email}. There is no shopfront address. A paid engagement is a separate written agreement. If that agreement conflicts with this page, the agreement wins for that engagement.
       </p>
@@ -35,10 +35,10 @@ export default async function TermsPage() {
       </p>
       <h2>Commercial terms</h2>
       <p>
-        The model described on the site is a one-off setup fee, then commission on cash collected. There is no monthly retainer. The setup fee is currently {setup}. The commission is currently {commission}. Where either line says “to be confirmed”, it is a placeholder, not a price. The figures you can rely on are the ones in your written agreement.
+        The model described on the site is no upfront fee, then commission on cash collected. There is no monthly retainer. The setup fee is currently {setup}. The commission is currently {commission}. The figures you can rely on are the ones in your written agreement.
       </p>
       <p>
-        <strong>Draft, pending lawyer review.</strong> Any guarantee, initial term or notice period you may have seen is not in force. Nothing on the site is a guarantee until a lawyer has reviewed it and the written agreement includes it.
+        Any guarantee, initial term or notice period is only in force if the written agreement includes it.
       </p>
       <h2>Intellectual property</h2>
       <p>

@@ -19,7 +19,7 @@ const drafts: { slug: string; excerpt: string; body: Block[] }[] = [
       { kind: 'h2', text: 'Two conversations' },
       { kind: 'p', text: 'We sell the managed team to founders. The team then sells the founder’s offer to the founder’s buyers. The standard is the same. The meetings are not. Listen first. Qualify before price. No invented urgency. A no is allowed.' },
       { kind: 'h2', text: 'What you pay' },
-      { kind: 'p', text: 'The shape is a one-off setup fee, then commission on cash collected. There is no monthly retainer. The setup amount and the commission percentage are still to be confirmed. The agreement is the price.' },
+      { kind: 'p', text: 'The shape is no upfront fee, then 10% of cash collected. There is no monthly retainer. Pilot length and notice are confirmed in the written agreement.' },
     ],
   },
   {

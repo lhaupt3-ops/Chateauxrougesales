@@ -157,7 +157,7 @@ export async function seed(payload: Payload) {
         { kind: 'h2' as const, text: 'When does it beat hiring?' },
         { kind: 'p' as const, text: 'Hiring wins if you want a long-term culture and you have a manager who can coach. A managed team wins if you are the one taking the calls, you have already sold the offer, and you would rather buy the function than build the management layer. If you are pre-revenue, neither is the next step. Validate the offer first.' },
         { kind: 'h2' as const, text: 'What should you expect to pay?' },
-        { kind: 'p' as const, text: 'A serious engagement is a one-off setup fee, then commission on cash collected. There is no monthly retainer. Our setup amount and commission percentage stay unpublished until they are written into an agreement. Treat any round number you see in a competitor ad as a claim, not a fact, unless they show the contract.' },
+        { kind: 'p' as const, text: 'A serious engagement has no upfront fee. I am paid 10% of the cash I help collect. There is no monthly retainer. Treat any close-rate promise you see in a competitor ad as a claim, not a fact, unless they show the contract.' },
       ],
       faq: [
         { question: 'Is this the same as an outsourced SDR team?', answer: 'No. An SDR team books meetings and hands them back. A sales team as a service also closes, follows up, and has a lead who owns the number.' },
@@ -185,11 +185,11 @@ export async function seed(payload: Payload) {
         { kind: 'h2' as const, text: 'Base plus commission' },
         { kind: 'p' as const, text: 'A base keeps someone who will follow up on a quiet Tuesday. It also means you carry payroll before the first deal. This is usually the right shape once you have steady lead flow and a manager. It is a painful shape if lead flow is still a hope.' },
         { kind: 'h2' as const, text: 'Agency model' },
-        { kind: 'p' as const, text: 'You pay a one-off setup fee, then commission on cash collected. There is no monthly retainer. In return the agency recruits, replaces and reviews. Ask who owns the CRM, the recordings and the data if you leave. If the answer is unclear, do not sign. Our setup amount and commission percentage are still to be confirmed.' },
+        { kind: 'p' as const, text: 'There is no upfront fee, and I am paid 10% of the cash I help collect. There is no monthly retainer. Ask who owns the CRM, the recordings and the data if you leave. If the answer is unclear, do not sign. Pilot length and notice are confirmed in the written agreement.' },
       ],
       faq: [
         { question: 'Should I hire commission only to reduce risk?', answer: 'It reduces payroll risk and increases management risk. If you cannot review calls, commission only does not protect you.' },
-        { question: 'Where do I see Chateaux Rouge pricing?', answer: 'The model is on the pricing page: a one-off setup fee, then commission, and no monthly retainer. The setup amount and the commission percentage stay marked as to be confirmed until they are in the agreement.' },
+        { question: 'Where do I see Chateaux Rouge pricing?', answer: 'The model is on the pricing page: no upfront fee, then 10% of cash collected, and no monthly retainer. Pilot length and notice are confirmed in the written agreement.' },
       ],
     },
     {

@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const guide = services.find((item) => item.slug === slug)
   if (!guide) return {}
-  return pageMetadata({ title: brandTitle(guide.metaTitle), description: guide.metaDescription.slice(0, 155), path: guide.path })
+  return pageMetadata({ title: brandTitle(guide.metaTitle), description: guide.metaDescription.slice(0, 155), path: guide.path, noindex: guide.status === 'later' })
 }
 
 export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ApplyLink } from '@/components/site/ApplyLink'
 import { EmailCapture } from '@/components/site/EmailCapture'
-import { FaqList, Placeholder, SectionHeading } from '@/components/site/ui'
+import { FaqList, SectionHeading } from '@/components/site/ui'
 import type { Faq } from '@/content/faqs'
 import type { ProofStudy } from '@/lib/content'
 import { publicCopy } from '@/lib/indexing'
@@ -12,23 +12,23 @@ import { isOperatorPlaceholder, type SiteSettings } from '@/lib/settings'
 const PAINS = [
   {
     title: 'You are the bottleneck',
-    body: 'Delivery waits because you are the only person who can take the sales call.',
+    body: 'Delivery waits because you are the only person who takes the sales call.',
   },
   {
-    title: 'A freelance closer still needs a manager',
-    body: 'If that manager is you, you bought another job. The useful purchase is the management as well as the seat.',
+    title: 'A new closer needs a process first',
+    body: 'Hiring someone into a sales process that lives in your head usually ends in a restart. The call shape, the qualifying rules and the follow-up need to be written down before anyone else takes a call.',
   },
   {
     title: 'Leads go quiet while you deliver',
-    body: 'Published research links a reply inside the first hour with a much higher chance of qualifying a lead. That is a staffing problem, and it is their finding, not a result of ours.',
+    body: 'Published research links a reply inside the first hour with a much higher chance of qualifying a lead. That is a capacity problem, and it is their finding, not a result of mine.',
   },
 ]
 
 const STAGES = [
-  ['01 Read', 'We read the offer and a set of real calls, including losses, before anyone new gets on the phone.'],
-  ['02 Install', 'The call shape, the routing and the follow-up go into the CRM you already own.'],
-  ['03 Staff', 'Setters, closers and a sales lead. One unit, not a pile of freelancers for you to herd.'],
-  ['04 Review', 'A weekly look at show rate, close rate and cash collected, plus the calls themselves.'],
+  ['01 Read', 'I read the offer and a set of real calls, including the losses, before I speak to a single buyer.'],
+  ['02 Install', 'The call shape, the qualifying rules and the follow-up go into the CRM you already own.'],
+  ['03 Run', 'I take your booked calls. You get the recording and a short note after each one.'],
+  ['04 Review', 'Each week: calls held, close rate, cash collected, and the calls themselves.'],
 ]
 
 export function HomePage({ settings, faqs, proof = [], funnel }: { settings: SiteSettings; faqs: Faq[]; proof?: ProofStudy[]; funnel?: FunnelCopy }) {
@@ -56,14 +56,14 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
         </div>
         <figure className="rounded-3xl border border-stone bg-white p-5 shadow-[0_8px_24px_rgba(28,28,28,0.06)]">
           <figcaption className="flex items-center justify-between gap-3">
-            <span className="kicker text-muted">This week</span>
-            <span className="kicker">Illustrative</span>
+            <span className="kicker text-muted">The weekly report</span>
+            <span className="kicker">Blank until there are real calls</span>
           </figcaption>
           <div className="mt-5 grid grid-cols-3 gap-3">
             {[
-              ['Show rate', '71%', false],
-              ['Close rate', '24%', true],
-              ['Collected', '$41k', false],
+              ['Calls held', '–', false],
+              ['Closed', '–', true],
+              ['Collected', '–', false],
             ].map(([label, value, accent]) => (
               <div key={String(label)} className="rounded-2xl bg-ivory px-3 py-3">
                 <p className="kicker text-muted">{label}</p>
@@ -73,18 +73,18 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
           </div>
           <div className="mt-4 space-y-2">
             {[
-              ['New conversation', 'setter'],
-              ['No-show, rescheduled', 'closer'],
-              ['Proposal, waiting', 'closer'],
-            ].map(([row, role]) => (
+              ['Call booked: prep from your notes', 'before the call'],
+              ['No-show: one rebook, then stop', 'after the call'],
+              ['Maybe: a dated follow-up', 'after the call'],
+            ].map(([row, when]) => (
               <div key={row} className="flex items-center gap-3 rounded-xl border border-stone px-3 py-3 text-sm">
                 <span className="h-2 w-2 shrink-0 rounded-xl bg-rouge" />
                 <span className="flex-1">{row}</span>
-                <span className="font-mono text-xs text-muted">{role}</span>
+                <span className="font-mono text-xs text-muted">{when}</span>
               </div>
             ))}
           </div>
-          <p className="mt-4 text-xs leading-5 text-muted">A picture of the board, not a claim. The figures are sample only.</p>
+          <p className="mt-4 text-xs leading-5 text-muted">What you would see each week. There are no figures here because there are no client results to show yet.</p>
         </figure>
       </section>
 
@@ -145,20 +145,20 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
       <section className="mx-auto max-w-6xl px-4 py-16">
         <SectionHeading
           eyebrow="Two different conversations"
-          title="How we sell to you, and how the team sells for you."
-          body="They use the same standard. They are not the same call."
+          title="How I talk to you, and how I talk to your buyers."
+          body="Same standard. Different calls."
         />
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           <article className="rounded-2xl border border-stone bg-white/70 p-6">
             <h3 className="font-serif text-2xl">With you, the founder</h3>
             <p className="mt-3 leading-7 text-muted">
-              A short application, then a call whose job is clarity. We look at the offer, the calls you already have, and whether a managed team would help. Not a fit is a fine outcome. The commercial shape is on the pricing page before you book.
+              A short application, then a call whose job is clarity. We look at the offer, the calls you already have, and whether I can help. Not a fit is a fine outcome. The commercial shape is on the pricing page before you book.
             </p>
           </article>
           <article className="rounded-2xl border border-stone bg-white/70 p-6">
             <h3 className="font-serif text-2xl">With your buyers</h3>
             <p className="mt-3 leading-7 text-muted">
-              The closer’s job is to find what is actually true for the buyer and help them decide. Yes, not yet, or no. They listen more than they talk, they qualify before they mention price, and they do not invent urgency.
+              On a buyer call I listen first and ask what the problem is costing them. Then I help them reach a decision they are comfortable with: yes, not yet, or no. I qualify before I mention price, and I do not invent urgency.
             </p>
           </article>
         </div>
@@ -172,14 +172,14 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
               <tr>
                 <th className="p-4 font-medium"> </th>
                 <th className="p-4 font-medium">You keep</th>
-                <th className="bg-wine p-4 font-medium text-ivory">We take on</th>
+                <th className="bg-wine p-4 font-medium text-ivory">I take on</th>
               </tr>
             </thead>
             <tbody>
               {[
-                ['The company', 'Offer, delivery, client relationship', 'First reply, booking, the call, follow-up'],
-                ['The system', 'CRM, accounts, data, recordings', 'Scripts, routing, call review, the weekly report'],
-                ['The standard', 'The right to leave on the written notice', 'Call review against a written standard'],
+                ['The company', 'Offer, delivery, client relationship', 'The booked sales call and the follow-up after it'],
+                ['The system', 'CRM, accounts, data, recordings', 'Call shape, qualifying rules, call notes, the weekly report'],
+                ['The standard', 'The right to stop, on the notice in the agreement', 'Calls held to a written standard, with the recordings shared'],
               ].map((row) => (
                 <tr key={row[0]} className="border-t border-stone">
                   {row.map((cell) => (
@@ -221,9 +221,9 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
         <div className="rounded-2xl border border-stone bg-white/70 p-6">
           <h2 className="font-serif text-3xl">Built for</h2>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-muted">
-            <li>You have already sold the offer yourself.</li>
-            <li>The price can carry a professional team. The application asks, and says so if it cannot.</li>
-            <li>Conversations already exist, or you want setters in the same team.</li>
+            <li>You have already sold the offer, and you know what it is and who it is for.</li>
+            <li>It sells for roughly $2,000 to $15,000, and the sale happens on a call.</li>
+            <li>Booked calls already arrive from ads, referrals, content or your own outreach.</li>
             <li>You can deliver if more people say yes, and you will share the recordings.</li>
           </ul>
         </div>
@@ -231,8 +231,8 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
           <h2 className="font-serif text-3xl">Not for</h2>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-muted">
             <li>An offer that has never sold, or a price too small to pay for the work.</li>
+            <li>Lead generation or cold outreach done for you. That is not part of what I offer today.</li>
             <li>A promised close rate, a fake countdown, or pressure you would not want on your buyers.</li>
-            <li>No capacity to deliver if more people say yes.</li>
             <li>
               Job seekers. <Link href="/careers" className="underline">Careers</Link> is the right door.
             </li>
@@ -241,7 +241,7 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-16">
-        <SectionHeading title="In house, freelance, or a managed team." />
+        <SectionHeading title="In house, a freelance closer, or founder-led." />
         <div className="mt-6 overflow-x-auto rounded-2xl border border-stone">
           <table className="w-full min-w-[720px] text-left text-sm">
             <thead>
@@ -249,15 +249,16 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
                 <th className="p-4"> </th>
                 <th className="p-4">In house</th>
                 <th className="p-4">Freelancer</th>
-                <th className="bg-wine p-4 text-ivory">Chateaux Rouge</th>
+                <th className="bg-wine p-4 text-ivory">Chateaux Rouge, today</th>
               </tr>
             </thead>
             <tbody>
               {[
-                ['Who manages', 'You', 'You', 'A sales lead'],
+                ['Who manages', 'You', 'You', 'Me, with a weekly review with you'],
                 ['Who owns the data', 'You', 'Often unclear', 'You'],
-                ['How you pay', 'Salary and commission', 'Mostly commission', 'Setup fee, then commission'],
-                ['Best when', 'Sales is the company', 'You can coach', 'You want the function run'],
+                ['How you pay', 'Salary and commission', 'Mostly commission', 'No upfront fee. 10% of cash collected'],
+                ['Capacity', 'As many as you hire', 'One person', 'One person. A handful of clients at a time'],
+                ['Best when', 'Sales is the company', 'You can coach', 'Calls are booked and you want the process built and the calls taken'],
               ].map((row) => (
                 <tr key={row[0]} className="border-b border-stone">
                   {row.map((cell, index) => (
@@ -278,6 +279,17 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
       <section className={`mx-auto grid max-w-6xl gap-8 px-4 pb-16 ${guarantee || notice || termsAreDraft ? 'md:grid-cols-2' : ''}`}>
         <div>
           <SectionHeading title={copy.chargeTitle} body={copy.chargeBody} />
+          <ol className="mt-6 space-y-3 text-sm leading-6 text-muted">
+            <li>
+              <span className="font-medium text-ink">Sales audit.</span> A free read of your offer, calls and follow-up. Optional, and a fair place to start.
+            </li>
+            <li>
+              <span className="font-medium text-ink">Pilot.</span> I install the process and take your booked calls. No upfront fee. I am paid 10% of the cash I help collect.
+            </li>
+            <li>
+              <span className="font-medium text-ink">A team, later.</span> Not available yet. I will say here when it is.
+            </li>
+          </ol>
           <Link href="/pricing" className="mt-4 inline-block text-sm underline">
             Read the pricing page
           </Link>
@@ -315,13 +327,23 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-8">
-        <SectionHeading title="The people, when we can show them." />
+        <SectionHeading title="Who you would be working with." />
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <Placeholder title="Founder" body="Portrait, name and a short bio go here. We will not invent a face or a résumé." />
-          <Placeholder title="How we sell" body="No fake scarcity, no borrowed logos, no close rate we cannot show. The standards page says the same thing at more length." />
+          <article className="rounded-2xl border border-stone bg-white/70 p-6">
+            <h3 className="font-serif text-2xl">Lasse Haupt, founder</h3>
+            <p className="mt-3 leading-7 text-muted">
+              I have run businesses and teams, and I have owned the conversations with clients. Chateaux Rouge is me for now. I set up how your calls run and take them myself. If there is enough work to justify more people, I will add them and say so here.
+            </p>
+          </article>
+          <article className="rounded-2xl border border-stone bg-white/70 p-6">
+            <h3 className="font-serif text-2xl">How I sell</h3>
+            <p className="mt-3 leading-7 text-muted">
+              I listen first, qualify before I mention price, and say the price once. A no is a fine answer. No invented urgency, no scarcity, no close rate promised. The standards page says the same thing at more length.
+            </p>
+          </article>
         </div>
         <Link href="/about" className="mt-4 inline-block text-sm underline">
-          About the standard
+          About me and the standard
         </Link>
       </section>
 
@@ -332,7 +354,7 @@ export function HomePage({ settings, faqs, proof = [], funnel }: { settings: Sit
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="rounded-3xl border border-stone bg-white/80 p-8 md:p-12">
           <h2 className="font-serif text-4xl">See if we&apos;re a fit</h2>
-          <p className="mt-3 max-w-xl text-muted">Same two minutes as the top of the page. If you would rather read first, the free guide is open on the site. The one-page scorecard is the piece we email.</p>
+          <p className="mt-3 max-w-xl text-muted">Same two minutes as the top of the page. If you would rather read first, the free guide is open on the site. The one-page scorecard is the piece I email.</p>
           <div className="mt-6 max-w-xl">
             <EmailCapture location="footer" entry="footer_inline" />
           </div>

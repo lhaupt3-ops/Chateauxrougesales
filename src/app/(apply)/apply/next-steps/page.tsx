@@ -34,28 +34,23 @@ export default async function NextStepsPage({ searchParams }: { searchParams: Pr
       }
     : doc.pricePoint === 'under_1000'
       ? {
-          title: 'The price is too small for this team',
-          body: 'A sub-$1,000 offer does not carry setters and closers. Raise the price, or bundle the work so one yes can pay for the seat. Then come back. This threshold is a working rule, not a published promise.',
+          title: 'The price is too small for outsourced closing',
+          body: 'A sub-$1,000 offer does not pay for a closer’s time. Raise the price, or bundle the work so one yes can pay for it. Then come back. This threshold is a working rule, not a published promise.',
         }
-      : doc.setupFee === 'no'
+      : doc.investment === 'under_3k'
         ? {
-            title: 'Commission only is not enough to start',
-            body: 'The model is a one-off setup fee, then commission. There is no monthly retainer, and there is also no path that starts on commission alone. Reapply when a setup fee is possible. The amount is still to be confirmed in writing.',
+            title: 'That older budget answer does not fit the current model',
+            body: 'This application was scored against a monthly budget. There is no monthly retainer and no setup fee now. I am paid 10% of the cash I help collect. Reapply and we will look at the offer and the conversations.',
           }
-        : doc.investment === 'under_3k'
-          ? {
-              title: 'That older budget answer does not fit the current model',
-              body: 'This application was scored against a monthly budget. The model is now a one-off setup fee, then commission, with no monthly retainer. Reapply and answer the setup-fee question.',
-            }
-          : doc.monthlyConversations === 'none'
+        : doc.monthlyConversations === 'none'
             ? {
                 title: 'There is nothing to close yet',
-                body: 'A closer cannot invent demand. Get a small, steady set of conversations first. Setters can join a later team. They still need a real offer to talk about.',
+                body: 'A closer cannot invent demand. Get a small, steady set of conversations first. I do not offer lead generation or setting today, and either would still need a real offer to talk about.',
               }
             : doc.monthlyRevenue === 'pre_revenue'
               ? {
                   title: 'Sell it yourself a few times first',
-                  body: 'You will learn the objections, the price and the delivery load. Those notes are what a team needs. Without them, we would be guessing on your calls.',
+                  body: 'You will learn the objections, the price and the delivery load. Those notes are what a closer needs. Without them, anyone taking your calls would be guessing.',
                 }
               : {
                   title: funnel.resultTitle,

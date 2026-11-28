@@ -141,7 +141,7 @@ test('missing answers score zero and land in not yet', () => {
   const result = scoreApplication({})
   assert.equal(result.score, 0)
   assert.equal(result.tier, 'not_yet')
-  assert.equal(result.scoringVersion, '3')
+  assert.equal(result.scoringVersion, '4')
 })
 
 test('an investment under $3,000 a month is always not yet', () => {
@@ -172,7 +172,7 @@ test('the $3,000–$5,000 band can still qualify', () => {
   assert.equal(result.tier, 'qualified')
 })
 
-test('a lead who cannot pay a setup fee is not yet', () => {
+test('an older cannot-pay-setup answer is not a hard stop', () => {
   const result = scoreApplication({
     offerType: 'coaching',
     pricePoint: '10000_24999',
@@ -181,24 +181,24 @@ test('a lead who cannot pay a setup fee is not yet', () => {
     timeline: 'asap',
     setupFee: 'no',
   })
-  assert.equal(result.tier, 'not_yet')
-  assert.ok(result.reasons.includes('hard:cannot_pay_setup'))
+  assert.equal(result.score, 17)
+  assert.equal(result.tier, 'qualified')
+  assert.ok(!result.reasons.includes('hard:cannot_pay_setup'))
 })
 
-test('a lead who can pay a setup fee can still qualify', () => {
+test('a strong application with no setup-fee or investment answer still qualifies', () => {
   const result = scoreApplication({
     offerType: 'coaching',
     pricePoint: '10000_24999',
     monthlyRevenue: '100k_250k',
     monthlyConversations: '31_80',
     timeline: 'asap',
-    setupFee: 'yes',
   })
-  assert.equal(result.score, 20)
+  assert.equal(result.score, 17)
   assert.equal(result.tier, 'qualified')
 })
 
-test('not yet on the setup fee can still land in review', () => {
+test('a mid fit with an older setup-fee answer still lands in review', () => {
   const result = scoreApplication({
     offerType: 'course',
     pricePoint: '3000_9999',
@@ -207,11 +207,11 @@ test('not yet on the setup fee can still land in review', () => {
     timeline: '1_3_months',
     setupFee: 'not_yet',
   })
-  assert.equal(result.score, 10)
+  assert.equal(result.score, 9)
   assert.equal(result.tier, 'review')
 })
 
-test('the $3,000–$5,000 band can still land in review', () => {
+test('the $3,000-$5,000 band on an older application can still qualify under the v4 threshold', () => {
   const result = scoreApplication({
     offerType: 'course',
     pricePoint: '3000_9999',
@@ -221,5 +221,5 @@ test('the $3,000–$5,000 band can still land in review', () => {
     investment: '3k_5k',
   })
   assert.equal(result.score, 11)
-  assert.equal(result.tier, 'review')
+  assert.equal(result.tier, 'qualified')
 })

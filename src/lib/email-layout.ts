@@ -23,7 +23,7 @@ export type BrandedEmail = {
 
 const FOOTER_LINKS: EmailLink[] = [
   { label: 'Home', href: absoluteUrl('/') },
-  { label: 'How we charge', href: absoluteUrl('/pricing') },
+  { label: 'How I charge', href: absoluteUrl('/pricing') },
   { label: 'Privacy', href: absoluteUrl('/privacy') },
   { label: 'Terms', href: absoluteUrl('/terms') },
 ]

@@ -5,7 +5,7 @@ export function GET() {
   const lines = [
     '# Chateaux Rouge',
     '',
-    '> Chateaux Rouge installs and runs a high-ticket sales team: setters, closers and a sales lead.',
+    '> Chateaux Rouge is a founder-led sales service. One founder installs a sales call process for a high-ticket offer and takes the calls on commission. A team is planned for later and is not available today.',
     '',
     '## Pages',
     `- [Home](${absoluteUrl('/')})`,

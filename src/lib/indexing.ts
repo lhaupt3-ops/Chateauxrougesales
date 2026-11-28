@@ -1,13 +1,12 @@
 import { getPayloadClient } from './payload'
-import { isOperatorPlaceholder, type SiteSettings } from './settings'
+import { OFFER, labelIsPublished } from '@/content/offer'
+import { type SiteSettings } from './settings'
 
 export function pricingIsIndexable(settings: Pick<SiteSettings, 'setupFeeIsPlaceholder' | 'commissionIsPlaceholder' | 'setupFeeLabel' | 'commissionLabel'>): boolean {
-  if (settings.setupFeeIsPlaceholder || settings.commissionIsPlaceholder) return false
-  const setup = settings.setupFeeLabel.trim()
-  const commission = settings.commissionLabel.trim()
-  if (!setup || !commission) return false
-  if (isOperatorPlaceholder(setup) || isOperatorPlaceholder(commission)) return false
-  return true
+  return (
+    labelIsPublished(settings.setupFeeLabel, settings.setupFeeIsPlaceholder, OFFER.setupFee) &&
+    labelIsPublished(settings.commissionLabel, settings.commissionIsPlaceholder, OFFER.commission)
+  )
 }
 
 export function careersIsIndexable(settings: Pick<SiteSettings, 'careersIsPlaceholder'>): boolean {
